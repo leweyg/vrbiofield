@@ -39,7 +39,7 @@ public class MainEnergyApp : MonoBehaviour {
 		}
 		if (Input.GetKeyUp(KeyCode.P)) {
 			var shotName = "screenshot_" + (imageIndex++) + ".png";
-			Application.CaptureScreenshot(shotName, 4);
+			Application.CaptureScreenshot(shotName, 2);
 			Debug.Log("Saved image to " + shotName);
 		}
 	}

@@ -176,7 +176,7 @@ Shader "Volume Rendering / Per-Pixel Random Sampler" {
 				curStart -= stepDelta;
 			}
 			
-			curColor = customAuraTune(curColor);
+			//curColor = customAuraTune(curColor);
 
 			return curColor;
 
