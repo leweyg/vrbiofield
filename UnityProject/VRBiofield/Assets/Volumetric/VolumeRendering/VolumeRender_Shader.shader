@@ -155,6 +155,11 @@ Shader "Volume Rendering / Per-Pixel Random Sampler" {
     	//c.a = max(max(c.r,c.g),c.b);
     	return saturate( float4( c.rgb, a ) );
     }
+    
+    float4 customAuraTune(float4 c) {
+    	c.a = saturate( c.a * 1.6f );
+    	return c;
+    }
 
     float4 volTraceMultiple(vertexOutput input, float traceLerpFactor) {
 
@@ -165,11 +170,13 @@ Shader "Volume Rendering / Per-Pixel Random Sampler" {
 			float4 curColor = float4(_BackgroundColor); // NOTE: DEFAULT CLEAR COLOR!!!
 			for (int i=0; i<maxLoops; ++i) {
 				float4 c = volTrace( input, curStart - ( stepDelta * traceLerpFactor ) );
-				c = customMagneticFieldAlpha(c);
+				//c = customMagneticFieldAlpha(c);
 				curColor = blendOver( curColor, c );
 
 				curStart -= stepDelta;
 			}
+			
+			curColor = customAuraTune(curColor);
 
 			return curColor;
 

@@ -10,7 +10,7 @@ public class VolumeTextureBehavior : MonoBehaviour {
 	VolumeBuffer<Color> mColorBuffer;
 	VolumeSourceBehavior mVolumeSource;
 	int mFrameTest = 1;
-	public bool IsLEWFlowField = true;
+	public bool IsLEWFlowField = false;
 	public bool RefreshCache = false;
 
     public bool IsMultiChakras = false;
