@@ -275,6 +275,10 @@ public struct Int3 {
 	public Cubic<int> AsCubic() {
 		return new Cubic<int> (X, Y, Z);
 	}
+
+	public Vector3 AsVector3() {
+		return new Vector3 (X, Y, Z);
+	}
 }
 
 public class VolumeBufferMip<T> 
