@@ -7,6 +7,8 @@ public class FieldSpaceSolverScript : MonoBehaviour {
 	public ElectromagneticFieldControllerScript Controller;
 	public float StepSize = 0.2f;
 	public int MaxCellPoints = 80;
+	public bool UpdateOnlyWhenRequested = false;
+	public bool UpdateNow = true;
 	public float InnerRadiusScaler = 0.9f;
 	public float OuterRadiusScaler = 1.1f;
 	public bool ScaleFromStartIntensity = false;
@@ -38,13 +40,21 @@ public class FieldSpaceSolverScript : MonoBehaviour {
 	}
 
 	void Update() {
-		this.UpdateSpace ();
+		if ((!UpdateOnlyWhenRequested) || (UpdateNow)) {
+			UpdateNow = false;
+			this.UpdateSpace ();
+		} else {
+			foreach (var kv in this.LineList) {
+				Debug.DrawLine (kv.Key, kv.Value, Color.black);
+			}
+		}
 	}
 	
 	// Update is called once per frame
 	void UpdateSpace() {
 		ActivePoints.Clear ();
 		NextPoints.Clear ();
+		LineList.Clear ();
 
 		Matrix4x4 startPoint;
 		Controller.MagneticFieldLocalSpaceX (this.transform.position, out startPoint, isNormalized: true);
@@ -80,6 +90,7 @@ public class FieldSpaceSolverScript : MonoBehaviour {
 
 				foreach (var npos in LineNeighbors) {
 					Debug.DrawLine (curPnt, npos, Color.black);
+					LineList.Add (new KeyValuePair<Vector3, Vector3> (curPnt, npos));
 				}
 
 				Matrix4x4 actualMtx;
