@@ -5,18 +5,37 @@ public class VolumeSourceBehavior : MonoBehaviour {
 
 	public Texture3D VolumeTexture {get; set;}
 	public Material mMaterial {get; set;}
+	private MeshRenderer mRenderer = null;
 
 	public int DefaultVoxelWidth = 16;
+
+	public bool IsSlowerPlatform() {
+		//return true; // HACK, CONSIDER ALL PLATFORMS SLOW
+		if (Application.platform == RuntimePlatform.Android) {
+			return true;
+		}
+		return false;
+	}
 
 	[HideInInspector]
 	public Cubic<int> VolumeSize;
 
 		// Use this for initialization
-		void Start () {
+	void Start () {
 		this.EnsureSetup ();
-		}
+	}
+
 
 	public void EnsureSetup() {
+
+		if (this.mRenderer == null) {
+			this.mRenderer = this.GetComponent<MeshRenderer> ();
+		}
+
+		if (this.IsSlowerPlatform ()) {
+			this.mRenderer.enabled = false;
+			return;
+		}
 
 		if (this.VolumeTexture != null)
 			return;
@@ -90,6 +109,14 @@ public class VolumeSourceBehavior : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (this.IsSlowerPlatform ()) {
+			if (this.mRenderer != null) {
+				this.mRenderer.enabled = false;
+			}
+			//this.gameObject.SetActive (false);
+			return;
+		}
+		
 		this.UpdateMaterial (this.mMaterial);
 	}
 }

@@ -456,13 +456,13 @@ public class ElectromagneticFieldControllerScript : MonoBehaviour {
         }
     }
 
-	private static Vector4 V3to4N(Vector3 v, bool isNormalized) {
+	private static Vector4 V3to4N(Vector3 v, bool isNormalized, float normScale) {
 		if (isNormalized)
-			v = v.normalized;
+			v = v.normalized * normScale;
 		return new Vector4 (v.x, v.y, v.z, 0.0f);
 	}
 
-	public void MagneticFieldLocalSpaceX(Vector3 pos, out Matrix4x4 flowMatrix, bool isNormalized=false) {
+	public void MagneticFieldLocalSpaceX(Vector3 pos, out Matrix4x4 flowMatrix, bool isNormalized=false, float normScale=1.0f) {
 		Vector3 curl, ddx, ddy, ddz;
 
 		Vector3 rawmf = this.MagneticField (pos);
@@ -476,9 +476,9 @@ public class ElectromagneticFieldControllerScript : MonoBehaviour {
 
 		flowMatrix = Matrix4x4.identity;
 		flowMatrix.SetTRS (pos, Quaternion.identity, Vector3.one);
-		flowMatrix.SetColumn (0, V3to4N (rawmf, isNormalized));
-		flowMatrix.SetColumn (1, V3to4N (upDir, isNormalized));
-		flowMatrix.SetColumn (2, V3to4N (sideDir, isNormalized));
+		flowMatrix.SetColumn (0, V3to4N (rawmf, isNormalized, normScale));
+		flowMatrix.SetColumn (1, V3to4N (upDir, isNormalized, normScale));
+		flowMatrix.SetColumn (2, V3to4N (sideDir, isNormalized, normScale));
 	}
 
     // MagnetizableMaterials call this function in their FixedUpdate() to get forces applied to them.  (No torques because their induced magnetism is collinear with the direction of the applied field.)

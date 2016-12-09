@@ -26,18 +26,11 @@ public class FieldSpaceSolverScript : MonoBehaviour {
 
 	}
 
-	void AddFieldAtPoint(Vector3 pos) {
-		Matrix4x4 data;
-		Controller.MagneticFieldLocalSpaceX (pos, out data, isNormalized: true);
-		Debug.DrawLine (data.MultiplyPoint (Vector3.zero), data.MultiplyPoint (new Vector3 (StepSize, 0, 0)), Color.black);
-		Debug.DrawLine (data.MultiplyPoint (Vector3.zero), data.MultiplyPoint (new Vector3 (0, StepSize, 0)), Color.black);
-		Debug.DrawLine (data.MultiplyPoint (Vector3.zero), data.MultiplyPoint (new Vector3 (0, 0, StepSize)), Color.black);
-	}
-
 	Matrix4x4 NeighborMatrix(Matrix4x4 space, Vector3 v) {
 		// ideally: space.translation += v;
 		return Matrix4x4.TRS(space.MultiplyPoint(v), Quaternion.identity, Vector3.one);
 	}
+
 
 	void Update() {
 		if ((!UpdateOnlyWhenRequested) || (UpdateNow)) {
@@ -47,9 +40,26 @@ public class FieldSpaceSolverScript : MonoBehaviour {
 			foreach (var kv in this.LineList) {
 				Debug.DrawLine (kv.Key, kv.Value, Color.black);
 			}
+			foreach (var m in this.ActivePoints) {
+				Debug.DrawLine (m.MultiplyPoint (Vector3.zero), m.MultiplyPoint (Vector3.forward));
+			}
 		}
 	}
-	
+
+	private float StartingPointIntensity = 1.0f;
+	void EnqueNeighbor(Matrix4x4 fromSpace, Vector3 neighOffset) {
+		var pnt = fromSpace.MultiplyPoint (neighOffset);
+		//Debug.DrawLine (fromSpace.MultiplyPoint (Vector3.zero), pnt, Color.red);
+		var curStepSize = this.StepSize;
+		if (this.ScaleFromStartIntensity) {
+			float pntIntensity = Controller.MagneticField (this.transform.position).magnitude;
+			curStepSize = (this.StepSize * (StartingPointIntensity / pntIntensity));
+		}
+		Matrix4x4 mat;
+		this.Controller.MagneticFieldLocalSpaceX (pnt, out mat, true, curStepSize);
+		NextPoints.Enqueue (mat);
+	}
+
 	// Update is called once per frame
 	void UpdateSpace() {
 		ActivePoints.Clear ();
@@ -57,9 +67,11 @@ public class FieldSpaceSolverScript : MonoBehaviour {
 		LineList.Clear ();
 
 		Matrix4x4 startPoint;
-		Controller.MagneticFieldLocalSpaceX (this.transform.position, out startPoint, isNormalized: true);
+		Controller.MagneticFieldLocalSpaceX (this.transform.position, out startPoint, 
+			isNormalized: true,normScale: StepSize);
 		NextPoints.Enqueue (startPoint);
 		float startIntensity = Controller.MagneticField (this.transform.position).magnitude;
+		StartingPointIntensity = startIntensity;
 
 
 		while ((ActivePoints.Count < MaxCellPoints) && (NextPoints.Count > 0)) {
@@ -68,15 +80,15 @@ public class FieldSpaceSolverScript : MonoBehaviour {
 			bool isTooClose = false;
 			LineNeighbors.Clear ();
 
-			var curStepSize = StepSize;
-			if (ScaleFromStartIntensity) {
-				var curIntensity = Controller.MagneticField (curPnt).magnitude;
-				curStepSize = StepSize * (startIntensity / curIntensity);
-			}
-
 			foreach (var otherMtx in ActivePoints) {
+
 				var otherPnt = otherMtx.MultiplyPoint (Vector3.zero);
-				var dist = ((curPnt - otherPnt).magnitude) / curStepSize;
+				var dist1 = otherMtx.inverse.MultiplyPoint (curPnt).magnitude;
+				var dist2 = curMtx.inverse.MultiplyPoint (otherPnt).magnitude;
+				var dist = Mathf.Min (dist1, dist2);
+				//var otherPnt = otherMtx.MultiplyPoint (Vector3.zero);
+				//var dist = ((curPnt - otherPnt).magnitude) / curStepSize;
+
 				if (dist < InnerRadiusScaler) {
 					isTooClose = true;
 				}
@@ -89,21 +101,24 @@ public class FieldSpaceSolverScript : MonoBehaviour {
 				this.ActivePoints.Add (curMtx);
 
 				foreach (var npos in LineNeighbors) {
-					Debug.DrawLine (curPnt, npos, Color.black);
+					//Debug.DrawLine (curPnt, npos, Color.black);
 					LineList.Add (new KeyValuePair<Vector3, Vector3> (curPnt, npos));
 				}
 
-				Matrix4x4 actualMtx;
-				this.Controller.MagneticFieldLocalSpaceX (curPnt, out actualMtx, isNormalized: true);
+				Matrix4x4 actualMtx = curMtx;
+				//this.Controller.MagneticFieldLocalSpaceX (curPnt, out actualMtx, isNormalized: true);
 
-				NextPoints.Enqueue (NeighborMatrix(actualMtx, new Vector3 (curStepSize, 0, 0)));
-				NextPoints.Enqueue (NeighborMatrix(actualMtx, new Vector3 (0, curStepSize, 0)));
-				NextPoints.Enqueue (NeighborMatrix(actualMtx, new Vector3 (0, 0, curStepSize)));
-				NextPoints.Enqueue (NeighborMatrix(actualMtx, new Vector3 (-curStepSize, 0, 0)));
-				NextPoints.Enqueue (NeighborMatrix(actualMtx, new Vector3 (0, -curStepSize, 0)));
-				NextPoints.Enqueue (NeighborMatrix(actualMtx, new Vector3 (0, 0, -curStepSize)));
+				var curStepSize = 1.0f;
+				EnqueNeighbor(actualMtx, new Vector3 (curStepSize, 0, 0));
+				EnqueNeighbor(actualMtx, new Vector3 (0, curStepSize, 0));
+				EnqueNeighbor(actualMtx, new Vector3 (0, 0, curStepSize));
+				EnqueNeighbor(actualMtx, new Vector3 (-curStepSize, 0, 0));
+				EnqueNeighbor(actualMtx, new Vector3 (0, -curStepSize, 0));
+				EnqueNeighbor(actualMtx, new Vector3 (0, 0, -curStepSize));
 
 			}
 		}
+
+		Debug.Log ("Added " + this.LineList.Count + " lines with " + this.NextPoints.Count + " extra points");
 	}
 }

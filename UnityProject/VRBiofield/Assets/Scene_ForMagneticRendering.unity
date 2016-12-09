@@ -4042,7 +4042,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 103792744}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.498, y: 2.324, z: -2.531}
+  m_LocalPosition: {x: -11.466, y: 2.462, z: -2.478}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -4059,14 +4059,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ff6d122bf68c0c4c9cb821177326c8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Controller: {fileID: 0}
-  StepSize: 0.2
-  MaxCellPoints: 80
+  Controller: {fileID: 1744600766}
+  StepSize: 0.05
+  MaxCellPoints: 20
   UpdateOnlyWhenRequested: 1
-  UpdateNow: 1
-  InnerRadiusScaler: 0.9
+  UpdateNow: 0
+  InnerRadiusScaler: 0.6
   OuterRadiusScaler: 1.1
-  ScaleFromStartIntensity: 0
+  ScaleFromStartIntensity: 1
 --- !u!43 &109558398
 Mesh:
   m_ObjectHideFlags: 0
@@ -47171,7 +47171,7 @@ MonoBehaviour:
   Controller: {fileID: 0}
   CubeSize: 8
   UseDebugLine: 1
-  UseDebugMesh: 1
+  UseDebugMesh: 0
   UpdateEveryFrame: 0
   SharedScale: 0.25
   FrameMaxField: 0.15
@@ -47232,7 +47232,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1336630596}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -9.927, y: 2.383, z: -2.354}
+  m_LocalPosition: {x: -11.584, y: 2.383, z: -2.354}
   m_LocalScale: {x: 0.65181506, y: 0.6518146, z: 0.6518146}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -61440,6 +61440,12 @@ Mesh:
   m_BakedConvexCollisionMesh: 
   m_BakedTriangleCollisionMesh: 
   m_MeshOptimized: 0
+--- !u!114 &1744600766 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11400000, guid: 04284aa5e6ec8408f90c03944fbe1eee,
+    type: 2}
+  m_PrefabInternal: {fileID: 678257167}
+  m_Script: {fileID: 11500000, guid: 2c22f57256ae746599a3f004dabca323, type: 3}
 --- !u!43 &1745821838
 Mesh:
   m_ObjectHideFlags: 0

@@ -45,6 +45,9 @@ public class VolumeTextureBehavior : MonoBehaviour {
 			this.mVolumeSource.EnsureSetup();
 		}
 
+		if (mVolumeSource.IsSlowerPlatform ())
+			return;
+
 		var fullsize = this.mVolumeSource.VolumeSize;
 
 
