@@ -6,6 +6,7 @@ public class ChakraControl : MonoBehaviour {
 
     public int VoxelResolution = 16;
     public VolumeTextureBehavior MultiChakras = null;
+	public bool IsHideAll = false;
     public bool EnableMultiChakra = true;
     public VolumeTextureBehavior EnableOnlyThisChakra = null;
     private VolumeTextureBehavior PreviousEnableOnly = null;
@@ -29,17 +30,18 @@ public class ChakraControl : MonoBehaviour {
 	// Use this for initialization
     void EnableCorrectChakras()
     {
-        this.PreviousEnableOnly = this.EnableOnlyThisChakra;
-        this.PreviousEnableMulti = this.EnableMultiChakra;
+		bool allowActive = !IsHideAll;
+		this.PreviousEnableOnly = this.EnableOnlyThisChakra;
+		this.PreviousEnableMulti = this.EnableMultiChakra && allowActive;
         if (this.EnableOnlyThisChakra != null)
         {
             this.AllPoints.ForeachDo(k => k.gameObject.SetActive(false));
-            this.EnableOnlyThisChakra.gameObject.SetActive(true);
+			this.EnableOnlyThisChakra.gameObject.SetActive(true && allowActive);
         }
         else
         {
-            this.AllPoints.ForeachDo(k => k.gameObject.SetActive(true));
-            this.MultiChakras.gameObject.SetActive(this.EnableMultiChakra);
+			this.AllPoints.ForeachDo(k => k.gameObject.SetActive(true && allowActive));
+			this.MultiChakras.gameObject.SetActive(this.EnableMultiChakra && allowActive);
         }
     }
 	
