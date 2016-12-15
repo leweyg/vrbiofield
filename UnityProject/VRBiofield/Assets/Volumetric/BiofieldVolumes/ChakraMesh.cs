@@ -56,6 +56,7 @@ public class ChakraMesh : MonoBehaviour {
 		public float CurrentPetalArc;
 		public float CurrentPetalStart;
 		public float CurrentAuricSlope;
+		public float CurrentWidthScalar = 1.0f;
 
 		public ChakraMeshBuilder(ChakraMesh cm) {
 			this.FullObj = cm;
@@ -72,8 +73,9 @@ public class ChakraMesh : MonoBehaviour {
 			float extraHeight = 2.0f;
 			float r = this.CurrentPetalStart + ((0.5f-petalX) * (this.CurrentPetalArc * extraScaleWidth));
 			float y = (petalY * this.CurrentAuricSlope * extraHeight);
-			float x = Mathf.Sin (r) * y;
-			float z = Mathf.Cos (r) * y;
+			float w = y * CurrentWidthScalar;
+			float x = Mathf.Sin (r) * w;
+			float z = Mathf.Cos (r) * w;
 			return new Vector3 (x, y, z);
 		}
 
@@ -111,10 +113,11 @@ public class ChakraMesh : MonoBehaviour {
 			this.FullObj.SetMesh (this.ResultMesh);
 		}
 
-		public void BuildSingleLevel(int petals) {
+		public void BuildSingleLevel(int petals, float width = 1.0f) {
 			if (this.ResultMesh == null)
 				this.ResultMesh = new Mesh ();
 			this.ClearCache ();
+			this.CurrentWidthScalar = width;
 			this.BuildChakraLevel (petals, 1.0f);
 		}
 

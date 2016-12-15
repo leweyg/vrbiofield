@@ -11,6 +11,8 @@ public class ChakraGazeSelector : MonoBehaviour {
 	private ChakraType CurrentChakra = null;
 	public bool IsShowBreathing = false;
 	private Dictionary<ChakraType,Mesh> CachedMeshes = new Dictionary<ChakraType, Mesh>();
+	private Dictionary<ChakraType,Mesh> CachedMeshesBack = new Dictionary<ChakraType, Mesh>();
+	private Vector3 MesherLocalScaleOrig;
 
 	// Use this for initialization
 	void Start () {
@@ -21,6 +23,7 @@ public class ChakraGazeSelector : MonoBehaviour {
 		if (Mesher == null) {
 			Mesher = GameObject.FindObjectOfType<ChakraMesh> ();
 		}
+		this.MesherLocalScaleOrig = this.Mesher.transform.localScale;
 	}
 
 	private List<ChakraType> CommonChakras = new List<ChakraType>();
@@ -65,15 +68,15 @@ public class ChakraGazeSelector : MonoBehaviour {
 			}
 			//then
 			if (CommonChakras.Count > 0) {
-				float timePerBreath = 8.0f;
+				float timePerBreath = 9.0f;
 				float ftime = (Time.time / timePerBreath);
 				float timeFrac = ((ftime - ((int)ftime)));
 				var curLevel = ((int)ftime) % this.CommonChakras.Count;
 				cur = this.CommonChakras [curLevel];
 
 
-				//var alpha = 1.0f - Mathf.Clamp01( Mathf.Abs((timeFrac - 0.5f) * 2.0f) );
-				var alpha = Mathf.Min( Mathf.Min(timeFrac * 4.0f, 1.0f), Mathf.Clamp01(((1.0f-timeFrac) * 4.0f) - 0.25f));
+				var alpha = 1.0f - Mathf.Clamp01( Mathf.Abs((timeFrac - 0.5f) * 2.0f) );
+				//var alpha = Mathf.Min( Mathf.Min(timeFrac * 4.0f, 1.0f), Mathf.Clamp01(((1.0f-timeFrac) * 4.0f) - 0.25f));
 				this.Mesher.SetChakraAlpha (alpha);
 				if (this.BackMesher != null) {
 					this.BackMesher.SetChakraAlpha (alpha);
@@ -97,11 +100,19 @@ public class ChakraGazeSelector : MonoBehaviour {
 					this.Mesher.SetMesh (this.CachedMeshes [cur]);
 				} else {
 					this.Mesher.MeshController.ResultMesh = null;
-					this.Mesher.MeshController.BuildSingleLevel (Mathf.Min (20, cur.ChakraPetals));
+					this.Mesher.MeshController.BuildSingleLevel (Mathf.Min (30, cur.ChakraPetals));
 					this.CachedMeshes.Add (cur, this.Mesher.MeshController.ResultMesh);
 				}
 				if (this.BackMesher != null) {
 					this.BackMesher.SetMesh (this.CachedMeshes [cur]);
+					if (cur.ChakraOneWay) {
+						var lc = this.MesherLocalScaleOrig;
+						float sc = 0.2f;
+						var lcs = new Vector3 (lc.x * sc, lc.y, lc.z * sc);
+						this.BackMesher.transform.localScale = lcs;
+					} else {
+						this.BackMesher.transform.localScale = this.MesherLocalScaleOrig;
+					}
 				}
 			}
 		}

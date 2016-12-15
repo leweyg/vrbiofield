@@ -33,6 +33,9 @@ public class VolumeTextureBehavior : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         this.EnsureSetup();
+		if (this.mVolumeSource.IsSlowerPlatform ()) {
+			this.GetComponent<MeshRenderer> ().enabled = false;
+		}
     }
 
     public void EnsureSetup() {

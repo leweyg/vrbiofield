@@ -19,12 +19,11 @@ Shader "Biofield / Chakra Mesh Shader" {
 
 #pragma vertex vert  
 #pragma fragment frag 
-#pragma target 4.0
+#pragma target 3.0
 
 #include "UnityCG.cginc"
 
     sampler2D _MainTex;
-    sampler3D _MainVol;
     fixed4 _RandomSeedColor;
 	fixed4 _ScrollOffset;
     fixed4 _ScrollScale;
@@ -77,7 +76,7 @@ Shader "Biofield / Chakra Mesh Shader" {
         float al = length(input.tex.xy);
         float rt = _Time.y + (al * 24.0f);
         float c = remap( (cos(rt)), -1, 1, 0.0, 1.0 );
-        float3 clr = lerp(float3(1,1,1),_CustomColor.rgb,al*al); 
+        float3 clr = lerp(float3(1,1,1),_CustomColor.rgb,al); 
         float alpha = saturate(1.0 - (al*2.1)) * _CustomAlpha;
         return float4(clr.rgb,alpha * c);
 
