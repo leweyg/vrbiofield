@@ -105,11 +105,14 @@ public class ChakraGazeSelector : MonoBehaviour {
 					this.Mesher.SetMesh (this.CachedMeshes [cur]);
 				} else {
 					this.Mesher.MeshController.ResultMesh = null;
-					this.Mesher.MeshController.BuildSingleLevel (Mathf.Min (30, cur.ChakraPetals));
+					this.Mesher.MeshController.CurrentSpinOpposite = cur.ChakraOneWay;
+					this.Mesher.MeshController.BuildSingleLevel (Mathf.Min (33, cur.ChakraPetals));
 					this.CachedMeshes.Add (cur, this.Mesher.MeshController.ResultMesh);
 				}
+				this.Mesher.SpinOpposite = cur.ChakraOneWay;
 				if (this.BackMesher != null) {
 					this.BackMesher.SetMesh (this.CachedMeshes [cur]);
+					this.BackMesher.SpinOpposite = cur.ChakraOneWay;
 					if (cur.ChakraOneWay) {
 						var lc = this.BackMesher.InitialLocalScale;
 						float sc = 0.2f;

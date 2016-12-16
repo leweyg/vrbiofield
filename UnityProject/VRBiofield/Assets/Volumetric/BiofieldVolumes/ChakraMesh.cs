@@ -11,6 +11,7 @@ public class ChakraMesh : MonoBehaviour {
 	public Color LatestColor { get; set; }
 	public Vector3 InitialLocalScale {get;set;}
 	public Vector3 CurrentLocalScaleBase { get; set; }
+	public bool SpinOpposite {get;set;}
 
 
 	// Use this for initialization
@@ -47,7 +48,7 @@ public class ChakraMesh : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		this.transform.RotateAround (this.transform.position,
-			this.transform.up, Time.deltaTime * -3.0f);
+			this.transform.up, Time.deltaTime * -3.0f * (SpinOpposite?-1.0f:1.0f));
 	}
 
 	public ChakraMeshBuilder MeshController {get {return this.Builder;}}
@@ -63,6 +64,7 @@ public class ChakraMesh : MonoBehaviour {
 		public float CurrentPetalStart;
 		public float CurrentAuricSlope;
 		public float CurrentWidthScalar = 1.0f;
+		public bool CurrentSpinOpposite = false;
 
 		public ChakraMeshBuilder(ChakraMesh cm) {
 			this.FullObj = cm;
@@ -77,7 +79,8 @@ public class ChakraMesh : MonoBehaviour {
 		public Vector3 PetalVertex(float petalX, float petalY) {
 			float extraScaleWidth = 3.8f;
 			float extraHeight = 2.0f;
-			float r = this.CurrentPetalStart + ((0.5f-petalX) * (this.CurrentPetalArc * extraScaleWidth));
+			float px = (CurrentSpinOpposite ? petalX : (0.5f - petalX));
+			float r = this.CurrentPetalStart + ((px) * (this.CurrentPetalArc * extraScaleWidth));
 			float y = (petalY * this.CurrentAuricSlope * extraHeight);
 			float w = y * CurrentWidthScalar;
 			float x = Mathf.Sin (r) * w;
