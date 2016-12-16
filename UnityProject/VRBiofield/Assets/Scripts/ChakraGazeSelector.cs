@@ -12,7 +12,6 @@ public class ChakraGazeSelector : MonoBehaviour {
 	public bool IsShowBreathing = false;
 	private Dictionary<ChakraType,Mesh> CachedMeshes = new Dictionary<ChakraType, Mesh>();
 	private Dictionary<ChakraType,Mesh> CachedMeshesBack = new Dictionary<ChakraType, Mesh>();
-	private Vector3 MesherLocalScaleOrig;
 
 	// Use this for initialization
 	void Start () {
@@ -23,7 +22,6 @@ public class ChakraGazeSelector : MonoBehaviour {
 		if (Mesher == null) {
 			Mesher = GameObject.FindObjectOfType<ChakraMesh> ();
 		}
-		this.MesherLocalScaleOrig = this.Mesher.transform.localScale;
 	}
 
 	private List<ChakraType> CommonChakras = new List<ChakraType>();
@@ -35,11 +33,12 @@ public class ChakraGazeSelector : MonoBehaviour {
 	ChakraType FindClosestChakra() {
 		var ray = new Ray (Camera.main.transform.position, Camera.main.transform.forward.normalized);
 		var bestDot = -100.0f;
-		var bestChakra = this.CurrentChakra;
+		ChakraType bestChakra = null;//this.CurrentChakra;
 		foreach (var c in this.MainControls.AllPoints) {
 			if (IsCommonChakra(c)) {
 				var d = Vector3.Dot (ray.direction, (c.transform.position - ray.origin).normalized);
-				if ((d > bestDot) && (d > 0.98)) {
+				float minAngle = 0.95f; // 0.98f;
+				if ((d > bestDot) && (d > minAngle)) {
 					bestChakra = c;
 					bestDot = d;
 				}
@@ -48,41 +47,47 @@ public class ChakraGazeSelector : MonoBehaviour {
 		return bestChakra;
 	}
 
+	float CurrentBreathAlpha(ref ChakraType cur) {
+		if (CommonChakras.Count < 1) {
+			foreach (var c in this.MainControls.AllPoints) {
+				if (IsCommonChakra (c)) {
+					this.CommonChakras.Add (c);
+				}
+			}
+			this.CommonChakras.Sort ((a, b) => (a.transform.position.y > b.transform.position.y) ? 1 : -1);
+			int n = this.CommonChakras.Count;
+			for (int i = n - 1; i >= 0; i--) {
+				this.CommonChakras.Add (this.CommonChakras [i]);
+			}
+		}
+		//then
+		if (CommonChakras.Count > 0) {
+			float timePerBreath = 9.0f;
+			float ftime = (Time.time / timePerBreath);
+			float timeFrac = ((ftime - ((int)ftime)));
+			var curLevel = ((int)ftime) % this.CommonChakras.Count;
+			if (this.IsShowBreathing) {
+				cur = this.CommonChakras [curLevel];
+			}
+
+
+			var alpha = 1.0f - Mathf.Clamp01 (Mathf.Abs ((timeFrac - 0.5f) * 2.0f));
+			return alpha;
+		}
+
+		// else
+		return 1.0f;
+	}
+
 	
 	// Update is called once per frame
 	void Update () {
 		var cur = this.FindClosestChakra ();
-		if (this.IsShowBreathing) {
 
-			if (CommonChakras.Count < 1) {
-				foreach (var c in this.MainControls.AllPoints) {
-					if (IsCommonChakra (c)) {
-						this.CommonChakras.Add (c);
-					}
-				}
-				this.CommonChakras.Sort ((a, b) => (a.transform.position.y > b.transform.position.y) ? 1 : -1);
-				int n = this.CommonChakras.Count;
-				for (int i = n - 2; i > 0; i--) {
-					this.CommonChakras.Add (this.CommonChakras [i]);
-				}
-			}
-			//then
-			if (CommonChakras.Count > 0) {
-				float timePerBreath = 9.0f;
-				float ftime = (Time.time / timePerBreath);
-				float timeFrac = ((ftime - ((int)ftime)));
-				var curLevel = ((int)ftime) % this.CommonChakras.Count;
-				cur = this.CommonChakras [curLevel];
+		// update breath:
+		var breathAlpha = this.CurrentBreathAlpha (ref cur);
 
-
-				var alpha = 1.0f - Mathf.Clamp01( Mathf.Abs((timeFrac - 0.5f) * 2.0f) );
-				//var alpha = Mathf.Min( Mathf.Min(timeFrac * 4.0f, 1.0f), Mathf.Clamp01(((1.0f-timeFrac) * 4.0f) - 0.25f));
-				this.Mesher.SetChakraAlpha (alpha);
-				if (this.BackMesher != null) {
-					this.BackMesher.SetChakraAlpha (alpha);
-				}
-			}
-		}
+		// update mesh:
 		if (cur != this.CurrentChakra) {
 			this.CurrentChakra = cur;
 			if (cur != null) {
@@ -106,15 +111,32 @@ public class ChakraGazeSelector : MonoBehaviour {
 				if (this.BackMesher != null) {
 					this.BackMesher.SetMesh (this.CachedMeshes [cur]);
 					if (cur.ChakraOneWay) {
-						var lc = this.MesherLocalScaleOrig;
+						var lc = this.BackMesher.InitialLocalScale;
 						float sc = 0.2f;
-						var lcs = new Vector3 (lc.x * sc, lc.y, lc.z * sc);
-						this.BackMesher.transform.localScale = lcs;
+						var lcs = new Vector3 (lc.x * sc, lc.y * 2.0f, lc.z * sc);
+						this.BackMesher.CurrentLocalScaleBase = lcs;
 					} else {
-						this.BackMesher.transform.localScale = this.MesherLocalScaleOrig;
+						this.BackMesher.CurrentLocalScaleBase = this.BackMesher.InitialLocalScale;
 					}
+					this.BackMesher.transform.localScale = this.BackMesher.CurrentLocalScaleBase;
 				}
+			} 
+		}
+
+		// use breath state:
+		if ((cur != null) || (this.IsShowBreathing)) {
+			var alpha = breathAlpha;
+			var sclAlpha = Mathf.Lerp (IsShowBreathing ? 0.61f : 0.71f, 1.0f, alpha);
+			var displayAlpha = Mathf.Lerp (IsShowBreathing ? 0.0f : 0.3f, 1.0f, alpha);
+			this.Mesher.SetChakraAlpha (displayAlpha);
+			this.Mesher.transform.localScale = this.Mesher.CurrentLocalScaleBase * sclAlpha;
+			if (this.BackMesher != null) {
+				this.BackMesher.SetChakraAlpha (displayAlpha);
+				this.BackMesher.transform.localScale = this.BackMesher.CurrentLocalScaleBase * sclAlpha;
 			}
+		} else {
+			this.Mesher.SetChakraAlpha (0.0f);
+			this.BackMesher.SetChakraAlpha (0.0f);
 		}
 	}
 }

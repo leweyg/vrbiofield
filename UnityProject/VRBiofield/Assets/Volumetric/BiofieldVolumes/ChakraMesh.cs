@@ -9,6 +9,9 @@ public class ChakraMesh : MonoBehaviour {
 	private ChakraMeshBuilder Builder;
 	private Material Mat = null;
 	public Color LatestColor { get; set; }
+	public Vector3 InitialLocalScale {get;set;}
+	public Vector3 CurrentLocalScaleBase { get; set; }
+
 
 	// Use this for initialization
 	void Start () {
@@ -22,6 +25,9 @@ public class ChakraMesh : MonoBehaviour {
 		this.Mat = renderer.material;
 		this.Mat.SetFloat ("_CustomAlpha", 1.0f);
 		renderer.material = this.Mat;
+
+		this.InitialLocalScale = this.transform.localScale;
+		this.CurrentLocalScaleBase = this.transform.localScale;
 	}
 
 	public void SetMesh(Mesh m) {
