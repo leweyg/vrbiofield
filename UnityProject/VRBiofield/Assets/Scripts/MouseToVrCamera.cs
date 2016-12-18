@@ -20,10 +20,12 @@ public class MouseToVrCamera : MonoBehaviour {
 			var curPos = Input.mousePosition;
 			if (HasPrevious) {
 				var delta = (curPos - PreviousMouse);
-				this.RotateX += delta.x * RotateSpeed;
-				this.RotateY += delta.y * RotateSpeed * -1.0f;
-				this.transform.rotation = Quaternion.identity;
-				this.transform.RotateAround (this.transform.position, Vector3.right, this.RotateY);
+				this.RotateX = delta.x * RotateSpeed * -1.0f;
+				this.RotateY = delta.y * RotateSpeed;
+				//this.transform.rotation = Quaternion.identity;
+				//this.transform.RotateAround (this.transform.position, Vector3.right, this.RotateY);
+				//this.transform.RotateAround (this.transform.position, Vector3.up, this.RotateX);
+				this.transform.RotateAround (this.transform.position, this.transform.right, this.RotateY);
 				this.transform.RotateAround (this.transform.position, Vector3.up, this.RotateX);
 			}
 			PreviousMouse = curPos;
