@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.IO;
 
 public class MainEnergyApp : MonoBehaviour {
 
@@ -19,6 +20,22 @@ public class MainEnergyApp : MonoBehaviour {
 		if (gm != null) {
 			gm.SetActive (true);
 		}
+	}
+
+	[ContextMenu("Export Flow Arrows to CSV")]
+	void ExportVectorsToCSV() {
+		var w2l = this.Meshes.GetComponentInChildren<MeshFilter>().transform.worldToLocalMatrix;
+		var arrows = this.Arrows.gameObject.GetComponentsInChildren<FlowVertexNode> ();
+		StreamWriter sw = new StreamWriter ("hand_flow_points.csv");
+		sw.WriteLine ("X,Y,Z,dx,dy,dz");
+		foreach (var a in arrows) {
+			var lpos = w2l.MultiplyPoint (a.transform.position);
+			var lfwd = w2l.MultiplyVector (a.transform.up).normalized;
+			sw.WriteLine (
+				"" + lpos.x + "," + lpos.y + "," + lpos.z + ","
+				+ lfwd.x + "," + lfwd.y + "," + lfwd.z);
+		}
+		sw.Close ();
 	}
 
 	private int imageIndex = 0;

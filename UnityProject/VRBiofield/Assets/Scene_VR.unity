@@ -121,7 +121,7 @@ Light:
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 2
+    m_Type: 0
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -2053,6 +2053,7 @@ MonoBehaviour:
   Arrows: {fileID: 0}
   Meshes: {fileID: 0}
   Volume: {fileID: 0}
+  HandMesh: {fileID: 0}
 --- !u!4 &491389494
 Transform:
   m_ObjectHideFlags: 0
@@ -4489,7 +4490,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 160950, guid: 7762d2c69ea148d4fbc1bc36eeacd4a6, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 163454, guid: 7762d2c69ea148d4fbc1bc36eeacd4a6, type: 2}
       propertyPath: m_IsActive
@@ -4503,9 +4504,17 @@ Prefab:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 11434676, guid: 7762d2c69ea148d4fbc1bc36eeacd4a6, type: 2}
+      propertyPath: HandMesh
+      value: 
+      objectReference: {fileID: 922812332}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7762d2c69ea148d4fbc1bc36eeacd4a6, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &922812332 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 183742, guid: 7762d2c69ea148d4fbc1bc36eeacd4a6, type: 2}
+  m_PrefabInternal: {fileID: 922812331}
 --- !u!1 &932744301
 GameObject:
   m_ObjectHideFlags: 0
