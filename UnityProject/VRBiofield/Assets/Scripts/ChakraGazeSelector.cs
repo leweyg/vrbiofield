@@ -10,6 +10,7 @@ public class ChakraGazeSelector : MonoBehaviour {
 	public ChakraControl MainControls = null;
 	private ChakraType CurrentChakra = null;
 	public bool IsShowBreathing = false;
+	public bool ForceFull = false;
 	private Dictionary<ChakraType,Mesh> CachedMeshes = new Dictionary<ChakraType, Mesh>();
 	private Dictionary<ChakraType,Mesh> CachedMeshesBack = new Dictionary<ChakraType, Mesh>();
 
@@ -131,6 +132,10 @@ public class ChakraGazeSelector : MonoBehaviour {
 			var alpha = breathAlpha;
 			var sclAlpha = Mathf.Lerp (IsShowBreathing ? 0.61f : 0.71f, 1.0f, alpha);
 			var displayAlpha = Mathf.Lerp (IsShowBreathing ? 0.0f : 0.3f, 1.0f, alpha);
+			if (ForceFull) {
+				sclAlpha = 1.0f;
+				displayAlpha = 1.0f;
+			}
 			this.Mesher.SetChakraAlpha (displayAlpha);
 			this.Mesher.transform.localScale = this.Mesher.CurrentLocalScaleBase * sclAlpha;
 			if (this.BackMesher != null) {

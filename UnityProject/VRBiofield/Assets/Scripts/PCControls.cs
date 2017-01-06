@@ -6,9 +6,11 @@ using System.Linq;
 public class PCControls : MonoBehaviour {
 
 	public bool UseInEditor = false;
-	public PCView ViewRight;
-	public PCView ViewCenter;
 	public PCView ViewLeft;
+	public PCView ViewCenter;
+	public PCView ViewRight;
+	public PCView ViewFarRight;
+
 	private PCView[] AllViews;
 	private PCView LatestView = null;
 	private float MouseDownTime = 0.0f;
@@ -26,7 +28,9 @@ public class PCControls : MonoBehaviour {
 
 		UseView (this.ViewRight);
 		this.AllViews = new PCView[] {
-			this.ViewLeft, this.ViewCenter, this.ViewRight
+			this.ViewLeft, 
+			this.ViewCenter, 
+			this.ViewRight, this.ViewFarRight
 		};
 	}
 
@@ -76,6 +80,24 @@ public class PCControls : MonoBehaviour {
 		}
 	}
 
+	void PossibleTapClick() {
+
+		RaycastHit hitInfo;
+		if (Physics.Raycast (Camera.main.ScreenPointToRay (Input.mousePosition), out hitInfo)) {
+			if ((hitInfo.collider != null) && (hitInfo.collider.gameObject.GetComponent<IsInputConsumer> () != null)) {
+				return; // tapped on input system
+			}
+		}
+
+		float mx = Input.mousePosition.x;
+		bool isLeft = ((mx < (Screen.width / 2)));
+
+		var curViewNdx = this.AllViews.ToList ().IndexOf (this.LatestView);
+		var nextNdx = (isLeft ? (curViewNdx - 1) : (curViewNdx + 1));
+		nextNdx = ((nextNdx + this.AllViews.Length) % this.AllViews.Length);
+		this.LatestView = this.AllViews [nextNdx];
+	}
+
 	// Update is called once per frame
 	void Update () {
 		this.UpdateLerping ();
@@ -93,13 +115,7 @@ public class PCControls : MonoBehaviour {
 			} else if ((bv != null) && (bv != this.LatestView)) {
 				this.LatestView = bv;
 			} else if ((MouseDownTime > 0) && (MouseDownTime < maxTapTime)) {
-				float mx = Input.mousePosition.x;
-				bool isLeft = ((mx < (Screen.width / 2)));
-
-				var curViewNdx = this.AllViews.ToList ().IndexOf (this.LatestView);
-				var nextNdx = (isLeft ? (curViewNdx - 1) : (curViewNdx + 1));
-				nextNdx = ((nextNdx + this.AllViews.Length) % this.AllViews.Length);
-				this.LatestView = this.AllViews [nextNdx];
+				this.PossibleTapClick ();
 			}
 
 			if (startView != this.LatestView) {
