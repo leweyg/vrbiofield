@@ -13,10 +13,12 @@ public class ChakraControl : MonoBehaviour {
     private bool PreviousEnableMulti = false;
 
 	public VolumeTextureBehavior[] AllPoints { get; private set; }
+	public ChakraPosition[] AllChakras { get; private set; }
 
 
     void Awake()
     {
+		this.AllChakras = this.gameObject.GetComponentsInChildren<ChakraPosition> ().OrderBy (k => k.ChakraIndex).ToArray ();
         this.AllPoints = this.gameObject.GetComponentsInChildren<VolumeTextureBehavior>();
         if (this.MultiChakras == null)
         {

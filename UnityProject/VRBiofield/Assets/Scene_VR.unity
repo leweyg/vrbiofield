@@ -985,6 +985,7 @@ GameObject:
   - 114: {fileID: 219264406}
   - 114: {fileID: 219264405}
   - 114: {fileID: 219264404}
+  - 114: {fileID: 219264410}
   m_Layer: 0
   m_Name: Second Chakra
   m_TagString: Untagged
@@ -999,7 +1000,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 219264402}
   m_LocalRotation: {x: 0.9998436, y: 0.0000000016837465, z: -0.00000006280604, w: 0.017686518}
-  m_LocalPosition: {x: 0.076, y: 0.01, z: -0.001}
+  m_LocalPosition: {x: 0.066, y: 0.01, z: -0.001}
   m_LocalScale: {x: 0.4683612, y: 0.6519786, z: 0.4683605}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -1012,7 +1013,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 219264402}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc4e6358fb61cf842a34e4e9036b8960, type: 3}
   m_Name: 
@@ -1024,7 +1025,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 219264402}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5d83ae2e41c3d5845892fdcfff97ceaf, type: 3}
   m_Name: 
@@ -1048,7 +1049,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 219264402}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 846879b507763e44594c81a8cc62596b, type: 3}
   m_Name: 
@@ -1063,7 +1064,7 @@ MeshRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 219264402}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_MotionVectors: 1
@@ -1095,7 +1096,7 @@ BoxCollider:
   m_GameObject: {fileID: 219264402}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -1107,6 +1108,22 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 219264402}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &219264410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 114000010861385872, guid: f06118cc70017da43ab62bb19e003730,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 219264402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35928562d0fae4b4886696ee47119bc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ChakraIndex: 2
+  ChakraPetals: 6
+  ChakraColor: {r: 1, g: 0.43448275, b: 0, a: 1}
+  ChakraOneWay: 0
 --- !u!1 &247041442
 GameObject:
   m_ObjectHideFlags: 0
@@ -1277,6 +1294,7 @@ GameObject:
   - 114: {fileID: 314715756}
   - 114: {fileID: 314715755}
   - 114: {fileID: 314715754}
+  - 114: {fileID: 314715760}
   m_Layer: 0
   m_Name: Second Chakra
   m_TagString: Untagged
@@ -1291,7 +1309,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 314715752}
   m_LocalRotation: {x: 0.9998436, y: 0.0000000016837465, z: -0.00000006280604, w: 0.017686518}
-  m_LocalPosition: {x: 0.129, y: 0.01, z: -0.001}
+  m_LocalPosition: {x: 0.066, y: 0.01, z: -0.001}
   m_LocalScale: {x: 0.4683612, y: 0.6519786, z: 0.4683605}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -1304,7 +1322,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 314715752}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc4e6358fb61cf842a34e4e9036b8960, type: 3}
   m_Name: 
@@ -1316,7 +1334,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 314715752}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5d83ae2e41c3d5845892fdcfff97ceaf, type: 3}
   m_Name: 
@@ -1340,7 +1358,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 314715752}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 846879b507763e44594c81a8cc62596b, type: 3}
   m_Name: 
@@ -1355,7 +1373,7 @@ MeshRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 314715752}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_MotionVectors: 1
@@ -1387,7 +1405,7 @@ BoxCollider:
   m_GameObject: {fileID: 314715752}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -1399,6 +1417,22 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 314715752}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &314715760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 114000010861385872, guid: f06118cc70017da43ab62bb19e003730,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 314715752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35928562d0fae4b4886696ee47119bc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ChakraIndex: 2
+  ChakraPetals: 6
+  ChakraColor: {r: 1, g: 0.43448275, b: 0, a: 1}
+  ChakraOneWay: 0
 --- !u!1 &328085534
 GameObject:
   m_ObjectHideFlags: 0
@@ -1540,6 +1574,7 @@ GameObject:
   - 114: {fileID: 338060262}
   - 114: {fileID: 338060261}
   - 114: {fileID: 338060260}
+  - 114: {fileID: 338060266}
   m_Layer: 0
   m_Name: Heart Chakra
   m_TagString: Untagged
@@ -1567,7 +1602,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 338060258}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc4e6358fb61cf842a34e4e9036b8960, type: 3}
   m_Name: 
@@ -1579,7 +1614,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 338060258}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5d83ae2e41c3d5845892fdcfff97ceaf, type: 3}
   m_Name: 
@@ -1603,7 +1638,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 338060258}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 846879b507763e44594c81a8cc62596b, type: 3}
   m_Name: 
@@ -1618,7 +1653,7 @@ MeshRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 338060258}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_MotionVectors: 1
@@ -1650,7 +1685,7 @@ BoxCollider:
   m_GameObject: {fileID: 338060258}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -1662,6 +1697,22 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 338060258}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &338060266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 114000011210441920, guid: f06118cc70017da43ab62bb19e003730,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 338060258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35928562d0fae4b4886696ee47119bc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ChakraIndex: 4
+  ChakraPetals: 12
+  ChakraColor: {r: 0, g: 1, b: 0.17241383, a: 1}
+  ChakraOneWay: 0
 --- !u!1 &344034093
 GameObject:
   m_ObjectHideFlags: 0
@@ -1716,7 +1767,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0.030416317, z: -0, w: 0.99953735}
   m_LocalPosition: {x: 1.3277044, y: 0.04, z: 0.72333145}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: -3.3850002, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 787300732}
   - {fileID: 1498196031}
@@ -1734,11 +1785,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef33b1c1efbe0f74d8e476d9a0de8fdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VoxelResolution: 32
+  VoxelResolution: 8
   MultiChakras: {fileID: 1942536992}
-  IsHideAll: 1
+  IsHideAll: 0
   EnableMultiChakra: 0
-  EnableOnlyThisChakra: {fileID: 861733631}
+  EnableOnlyThisChakra: {fileID: 0}
 --- !u!1 &385155493
 GameObject:
   m_ObjectHideFlags: 0
@@ -1901,6 +1952,7 @@ GameObject:
   - 114: {fileID: 479641059}
   - 114: {fileID: 479641058}
   - 114: {fileID: 479641057}
+  - 114: {fileID: 479641063}
   m_Layer: 0
   m_Name: Crown Chakra
   m_TagString: Untagged
@@ -1928,7 +1980,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 479641055}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc4e6358fb61cf842a34e4e9036b8960, type: 3}
   m_Name: 
@@ -1940,7 +1992,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 479641055}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5d83ae2e41c3d5845892fdcfff97ceaf, type: 3}
   m_Name: 
@@ -1964,7 +2016,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 479641055}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 846879b507763e44594c81a8cc62596b, type: 3}
   m_Name: 
@@ -1979,7 +2031,7 @@ MeshRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 479641055}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 1
   m_MotionVectors: 1
@@ -2011,7 +2063,7 @@ BoxCollider:
   m_GameObject: {fileID: 479641055}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -2023,6 +2075,22 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 479641055}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &479641063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 114000011513990056, guid: f06118cc70017da43ab62bb19e003730,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 479641055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35928562d0fae4b4886696ee47119bc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ChakraIndex: 7
+  ChakraPetals: 960
+  ChakraColor: {r: 1, g: 1, b: 1, a: 1}
+  ChakraOneWay: 1
 --- !u!1 &491389492
 GameObject:
   m_ObjectHideFlags: 0
@@ -2134,6 +2202,7 @@ GameObject:
   - 114: {fileID: 530745715}
   - 114: {fileID: 530745714}
   - 114: {fileID: 530745713}
+  - 114: {fileID: 530745719}
   m_Layer: 0
   m_Name: Throat Chakra 1
   m_TagString: Untagged
@@ -2161,7 +2230,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 530745711}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc4e6358fb61cf842a34e4e9036b8960, type: 3}
   m_Name: 
@@ -2173,7 +2242,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 530745711}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5d83ae2e41c3d5845892fdcfff97ceaf, type: 3}
   m_Name: 
@@ -2197,7 +2266,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 530745711}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 846879b507763e44594c81a8cc62596b, type: 3}
   m_Name: 
@@ -2212,7 +2281,7 @@ MeshRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 530745711}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_MotionVectors: 1
@@ -2244,7 +2313,7 @@ BoxCollider:
   m_GameObject: {fileID: 530745711}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -2256,6 +2325,22 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 530745711}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &530745719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 114000012749178320, guid: f06118cc70017da43ab62bb19e003730,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 530745711}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35928562d0fae4b4886696ee47119bc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ChakraIndex: 5
+  ChakraPetals: 16
+  ChakraColor: {r: 0, g: 0.83448267, b: 1, a: 1}
+  ChakraOneWay: 0
 --- !u!1 &532972455
 GameObject:
   m_ObjectHideFlags: 0
@@ -2761,6 +2846,7 @@ GameObject:
   - 114: {fileID: 669457060}
   - 114: {fileID: 669457059}
   - 114: {fileID: 669457058}
+  - 114: {fileID: 669457064}
   m_Layer: 0
   m_Name: Third Eye Chakra
   m_TagString: Untagged
@@ -2788,7 +2874,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 669457056}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc4e6358fb61cf842a34e4e9036b8960, type: 3}
   m_Name: 
@@ -2800,7 +2886,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 669457056}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5d83ae2e41c3d5845892fdcfff97ceaf, type: 3}
   m_Name: 
@@ -2824,7 +2910,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 669457056}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 846879b507763e44594c81a8cc62596b, type: 3}
   m_Name: 
@@ -2839,7 +2925,7 @@ MeshRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 669457056}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 1
   m_MotionVectors: 1
@@ -2871,7 +2957,7 @@ BoxCollider:
   m_GameObject: {fileID: 669457056}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -2883,6 +2969,22 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 669457056}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &669457064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 114000014274351044, guid: f06118cc70017da43ab62bb19e003730,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 669457056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35928562d0fae4b4886696ee47119bc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ChakraIndex: 6
+  ChakraPetals: 20
+  ChakraColor: {r: 0.8206897, g: 0, b: 1, a: 1}
+  ChakraOneWay: 0
 --- !u!1 &678462175
 GameObject:
   m_ObjectHideFlags: 0
@@ -2988,6 +3090,7 @@ GameObject:
   - 114: {fileID: 751725704}
   - 114: {fileID: 751725703}
   - 114: {fileID: 751725702}
+  - 114: {fileID: 751725708}
   m_Layer: 0
   m_Name: Root Chakra
   m_TagString: Untagged
@@ -3002,7 +3105,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 751725700}
   m_LocalRotation: {x: -0.6412777, y: -0.61350566, z: 0.3434478, w: -0.3072742}
-  m_LocalPosition: {x: 0.276, y: 0.006, z: -0.014}
+  m_LocalPosition: {x: 0.17800003, y: 0.0119999545, z: -0.010999979}
   m_LocalScale: {x: 0.46836147, y: 0.46836075, z: 0.46836048}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -3015,7 +3118,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 751725700}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc4e6358fb61cf842a34e4e9036b8960, type: 3}
   m_Name: 
@@ -3027,7 +3130,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 751725700}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5d83ae2e41c3d5845892fdcfff97ceaf, type: 3}
   m_Name: 
@@ -3051,7 +3154,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 751725700}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 846879b507763e44594c81a8cc62596b, type: 3}
   m_Name: 
@@ -3066,7 +3169,7 @@ MeshRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 751725700}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_MotionVectors: 1
@@ -3098,7 +3201,7 @@ BoxCollider:
   m_GameObject: {fileID: 751725700}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -3110,6 +3213,22 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 751725700}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &751725708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 114000013211364660, guid: f06118cc70017da43ab62bb19e003730,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 751725700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35928562d0fae4b4886696ee47119bc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ChakraIndex: 1
+  ChakraPetals: 4
+  ChakraColor: {r: 1, g: 0.062068976, b: 0, a: 1}
+  ChakraOneWay: 1
 --- !u!1 &754345031
 GameObject:
   m_ObjectHideFlags: 0
@@ -3810,6 +3929,7 @@ GameObject:
   - 114: {fileID: 808234254}
   - 114: {fileID: 808234253}
   - 114: {fileID: 808234252}
+  - 114: {fileID: 808234258}
   m_Layer: 0
   m_Name: Solar Plexus Chakra
   m_TagString: Untagged
@@ -3837,7 +3957,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 808234250}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc4e6358fb61cf842a34e4e9036b8960, type: 3}
   m_Name: 
@@ -3849,7 +3969,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 808234250}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5d83ae2e41c3d5845892fdcfff97ceaf, type: 3}
   m_Name: 
@@ -3873,7 +3993,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 808234250}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 846879b507763e44594c81a8cc62596b, type: 3}
   m_Name: 
@@ -3888,7 +4008,7 @@ MeshRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 808234250}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_MotionVectors: 1
@@ -3920,7 +4040,7 @@ BoxCollider:
   m_GameObject: {fileID: 808234250}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -3932,6 +4052,22 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 808234250}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &808234258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 114000013052214978, guid: f06118cc70017da43ab62bb19e003730,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 808234250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35928562d0fae4b4886696ee47119bc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ChakraIndex: 3
+  ChakraPetals: 10
+  ChakraColor: {r: 1, g: 0.93103456, b: 0, a: 1}
+  ChakraOneWay: 0
 --- !u!1 &861733629
 GameObject:
   m_ObjectHideFlags: 0
@@ -3974,7 +4110,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 861733629}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5d83ae2e41c3d5845892fdcfff97ceaf, type: 3}
   m_Name: 
@@ -4027,7 +4163,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 861733629}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc4e6358fb61cf842a34e4e9036b8960, type: 3}
   m_Name: 
@@ -4039,7 +4175,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 861733629}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 846879b507763e44594c81a8cc62596b, type: 3}
   m_Name: 
@@ -4054,7 +4190,7 @@ MeshRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 861733629}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_MotionVectors: 1
@@ -4608,11 +4744,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef33b1c1efbe0f74d8e476d9a0de8fdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VoxelResolution: 32
+  VoxelResolution: 8
   MultiChakras: {fileID: 1922779324}
-  IsHideAll: 1
+  IsHideAll: 0
   EnableMultiChakra: 0
-  EnableOnlyThisChakra: {fileID: 1982551139}
+  EnableOnlyThisChakra: {fileID: 0}
 --- !u!4 &932744303
 Transform:
   m_ObjectHideFlags: 0
@@ -4622,7 +4758,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0.9932173, z: -0, w: -0.116273}
   m_LocalPosition: {x: -1.8569556, y: -0.117, z: 3.179647}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: -193.05598, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 1266695395}
   - {fileID: 1119104097}
@@ -5061,7 +5197,7 @@ GameObject:
   - 65: {fileID: 1119104099}
   - 23: {fileID: 1119104098}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: BaseMat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5074,7 +5210,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1119104096}
   m_LocalRotation: {x: 0, y: -0.09363777, z: 0, w: 0.99560636}
-  m_LocalPosition: {x: 0.12620053, y: -1.08, z: 1.8021327}
+  m_LocalPosition: {x: 0.12620053, y: -1.125, z: 1.8021327}
   m_LocalScale: {x: 0.99294806, y: 0.9929483, z: 0.9929483}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -5094,7 +5230,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: e68aca8a19fb88e4884da4a0d0205bd8, type: 2}
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
@@ -5755,6 +5891,7 @@ GameObject:
   - 114: {fileID: 1333368837}
   - 114: {fileID: 1333368836}
   - 114: {fileID: 1333368835}
+  - 114: {fileID: 1333368841}
   m_Layer: 0
   m_Name: Throat Chakra 1
   m_TagString: Untagged
@@ -5782,7 +5919,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1333368833}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc4e6358fb61cf842a34e4e9036b8960, type: 3}
   m_Name: 
@@ -5794,7 +5931,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1333368833}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5d83ae2e41c3d5845892fdcfff97ceaf, type: 3}
   m_Name: 
@@ -5818,7 +5955,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1333368833}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 846879b507763e44594c81a8cc62596b, type: 3}
   m_Name: 
@@ -5833,7 +5970,7 @@ MeshRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1333368833}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_MotionVectors: 1
@@ -5865,7 +6002,7 @@ BoxCollider:
   m_GameObject: {fileID: 1333368833}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -5877,6 +6014,22 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1333368833}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1333368841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 114000012749178320, guid: f06118cc70017da43ab62bb19e003730,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1333368833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35928562d0fae4b4886696ee47119bc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ChakraIndex: 5
+  ChakraPetals: 16
+  ChakraColor: {r: 0, g: 0.83448267, b: 1, a: 1}
+  ChakraOneWay: 0
 --- !u!1 &1337444867
 GameObject:
   m_ObjectHideFlags: 0
@@ -5961,6 +6114,7 @@ GameObject:
   - 114: {fileID: 1346913998}
   - 114: {fileID: 1346913997}
   - 114: {fileID: 1346913996}
+  - 114: {fileID: 1346914002}
   m_Layer: 0
   m_Name: Root Chakra
   m_TagString: Untagged
@@ -5975,7 +6129,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1346913994}
   m_LocalRotation: {x: -0.6412777, y: -0.61350566, z: 0.3434478, w: -0.3072742}
-  m_LocalPosition: {x: 0.242, y: 0.008, z: -0.013}
+  m_LocalPosition: {x: 0.17800003, y: 0.0119999545, z: -0.010999979}
   m_LocalScale: {x: 0.46836147, y: 0.46836075, z: 0.46836048}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -5988,7 +6142,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1346913994}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc4e6358fb61cf842a34e4e9036b8960, type: 3}
   m_Name: 
@@ -6000,7 +6154,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1346913994}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5d83ae2e41c3d5845892fdcfff97ceaf, type: 3}
   m_Name: 
@@ -6024,7 +6178,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1346913994}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 846879b507763e44594c81a8cc62596b, type: 3}
   m_Name: 
@@ -6039,7 +6193,7 @@ MeshRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1346913994}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_MotionVectors: 1
@@ -6071,7 +6225,7 @@ BoxCollider:
   m_GameObject: {fileID: 1346913994}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -6083,6 +6237,22 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1346913994}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1346914002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 114000013211364660, guid: f06118cc70017da43ab62bb19e003730,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1346913994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35928562d0fae4b4886696ee47119bc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ChakraIndex: 1
+  ChakraPetals: 4
+  ChakraColor: {r: 1, g: 0.062068976, b: 0, a: 1}
+  ChakraOneWay: 1
 --- !u!1 &1352244725
 GameObject:
   m_ObjectHideFlags: 0
@@ -6505,7 +6675,7 @@ GameObject:
   - 65: {fileID: 1498196033}
   - 23: {fileID: 1498196032}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: BaseMat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6538,7 +6708,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: e68aca8a19fb88e4884da4a0d0205bd8, type: 2}
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
@@ -7234,6 +7404,7 @@ GameObject:
   - 114: {fileID: 1843707546}
   - 114: {fileID: 1843707545}
   - 114: {fileID: 1843707544}
+  - 114: {fileID: 1843707550}
   m_Layer: 0
   m_Name: Solar Plexus Chakra
   m_TagString: Untagged
@@ -7261,7 +7432,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1843707542}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc4e6358fb61cf842a34e4e9036b8960, type: 3}
   m_Name: 
@@ -7273,7 +7444,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1843707542}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5d83ae2e41c3d5845892fdcfff97ceaf, type: 3}
   m_Name: 
@@ -7297,7 +7468,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1843707542}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 846879b507763e44594c81a8cc62596b, type: 3}
   m_Name: 
@@ -7312,7 +7483,7 @@ MeshRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1843707542}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_MotionVectors: 1
@@ -7344,7 +7515,7 @@ BoxCollider:
   m_GameObject: {fileID: 1843707542}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -7356,6 +7527,22 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1843707542}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1843707550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 114000013052214978, guid: f06118cc70017da43ab62bb19e003730,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1843707542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35928562d0fae4b4886696ee47119bc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ChakraIndex: 3
+  ChakraPetals: 10
+  ChakraColor: {r: 1, g: 0.93103456, b: 0, a: 1}
+  ChakraOneWay: 0
 --- !u!1 &1852058140
 GameObject:
   m_ObjectHideFlags: 0
@@ -7658,7 +7845,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1922779317}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc4e6358fb61cf842a34e4e9036b8960, type: 3}
   m_Name: 
@@ -7670,7 +7857,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1922779317}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 846879b507763e44594c81a8cc62596b, type: 3}
   m_Name: 
@@ -7685,7 +7872,7 @@ MeshRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1922779317}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_MotionVectors: 1
@@ -7736,7 +7923,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1922779317}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5d83ae2e41c3d5845892fdcfff97ceaf, type: 3}
   m_Name: 
@@ -7767,6 +7954,7 @@ GameObject:
   - 114: {fileID: 1926494912}
   - 114: {fileID: 1926494911}
   - 114: {fileID: 1926494910}
+  - 114: {fileID: 1926494916}
   m_Layer: 0
   m_Name: Crown Chakra
   m_TagString: Untagged
@@ -7794,7 +7982,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1926494908}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc4e6358fb61cf842a34e4e9036b8960, type: 3}
   m_Name: 
@@ -7806,7 +7994,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1926494908}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5d83ae2e41c3d5845892fdcfff97ceaf, type: 3}
   m_Name: 
@@ -7830,7 +8018,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1926494908}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 846879b507763e44594c81a8cc62596b, type: 3}
   m_Name: 
@@ -7845,7 +8033,7 @@ MeshRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1926494908}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 1
   m_MotionVectors: 1
@@ -7877,7 +8065,7 @@ BoxCollider:
   m_GameObject: {fileID: 1926494908}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -7889,6 +8077,22 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1926494908}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1926494916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 114000011513990056, guid: f06118cc70017da43ab62bb19e003730,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1926494908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35928562d0fae4b4886696ee47119bc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ChakraIndex: 7
+  ChakraPetals: 960
+  ChakraColor: {r: 1, g: 1, b: 1, a: 1}
+  ChakraOneWay: 1
 --- !u!1 &1942536990
 GameObject:
   m_ObjectHideFlags: 0
@@ -7930,7 +8134,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1942536990}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5d83ae2e41c3d5845892fdcfff97ceaf, type: 3}
   m_Name: 
@@ -7954,7 +8158,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1942536990}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc4e6358fb61cf842a34e4e9036b8960, type: 3}
   m_Name: 
@@ -7966,7 +8170,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1942536990}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 846879b507763e44594c81a8cc62596b, type: 3}
   m_Name: 
@@ -7981,7 +8185,7 @@ MeshRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1942536990}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_MotionVectors: 1
@@ -8039,6 +8243,7 @@ GameObject:
   - 114: {fileID: 1977196412}
   - 114: {fileID: 1977196411}
   - 114: {fileID: 1977196410}
+  - 114: {fileID: 1977196416}
   m_Layer: 0
   m_Name: Heart Chakra
   m_TagString: Untagged
@@ -8066,7 +8271,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1977196408}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc4e6358fb61cf842a34e4e9036b8960, type: 3}
   m_Name: 
@@ -8078,7 +8283,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1977196408}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5d83ae2e41c3d5845892fdcfff97ceaf, type: 3}
   m_Name: 
@@ -8102,7 +8307,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1977196408}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 846879b507763e44594c81a8cc62596b, type: 3}
   m_Name: 
@@ -8117,7 +8322,7 @@ MeshRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1977196408}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_MotionVectors: 1
@@ -8149,7 +8354,7 @@ BoxCollider:
   m_GameObject: {fileID: 1977196408}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -8161,6 +8366,22 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1977196408}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1977196416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 114000011210441920, guid: f06118cc70017da43ab62bb19e003730,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1977196408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35928562d0fae4b4886696ee47119bc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ChakraIndex: 4
+  ChakraPetals: 12
+  ChakraColor: {r: 0, g: 1, b: 0.17241383, a: 1}
+  ChakraOneWay: 0
 --- !u!1 &1977783836
 GameObject:
   m_ObjectHideFlags: 0
@@ -8283,7 +8504,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1982551138}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5d83ae2e41c3d5845892fdcfff97ceaf, type: 3}
   m_Name: 
@@ -8336,7 +8557,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1982551138}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc4e6358fb61cf842a34e4e9036b8960, type: 3}
   m_Name: 
@@ -8348,7 +8569,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1982551138}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 846879b507763e44594c81a8cc62596b, type: 3}
   m_Name: 
@@ -8363,7 +8584,7 @@ MeshRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1982551138}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_MotionVectors: 1
@@ -8830,6 +9051,7 @@ GameObject:
   - 114: {fileID: 2114308490}
   - 114: {fileID: 2114308489}
   - 114: {fileID: 2114308488}
+  - 114: {fileID: 2114308494}
   m_Layer: 0
   m_Name: Third Eye Chakra
   m_TagString: Untagged
@@ -8857,7 +9079,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2114308486}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc4e6358fb61cf842a34e4e9036b8960, type: 3}
   m_Name: 
@@ -8869,7 +9091,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2114308486}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5d83ae2e41c3d5845892fdcfff97ceaf, type: 3}
   m_Name: 
@@ -8893,7 +9115,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2114308486}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 846879b507763e44594c81a8cc62596b, type: 3}
   m_Name: 
@@ -8908,7 +9130,7 @@ MeshRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2114308486}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 1
   m_MotionVectors: 1
@@ -8940,7 +9162,7 @@ BoxCollider:
   m_GameObject: {fileID: 2114308486}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -8952,6 +9174,22 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2114308486}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &2114308494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 114000014274351044, guid: f06118cc70017da43ab62bb19e003730,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2114308486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35928562d0fae4b4886696ee47119bc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ChakraIndex: 6
+  ChakraPetals: 20
+  ChakraColor: {r: 0.8206897, g: 0, b: 1, a: 1}
+  ChakraOneWay: 0
 --- !u!1 &2126223709
 GameObject:
   m_ObjectHideFlags: 0

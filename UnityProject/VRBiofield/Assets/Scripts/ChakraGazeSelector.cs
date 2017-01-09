@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using ChakraType = VolumeTextureBehavior;
+//using ChakraType = VolumeTextureBehavior;
+using ChakraType = ChakraPosition;
 
 public class ChakraGazeSelector : MonoBehaviour {
 
@@ -28,14 +29,15 @@ public class ChakraGazeSelector : MonoBehaviour {
 	private List<ChakraType> CommonChakras = new List<ChakraType>();
 
 	private bool IsCommonChakra(ChakraType c) {
-		return ((!c.IsAura) && (!c.IsMultiChakras) && (!c.IsLEWFlowField));
+		return true;
+		//return ((!c.IsAura) && (!c.IsMultiChakras) && (!c.IsLEWFlowField));
 	}
 
 	ChakraType FindClosestChakra() {
 		var ray = new Ray (Camera.main.transform.position, Camera.main.transform.forward.normalized);
 		var bestDot = -100.0f;
 		ChakraType bestChakra = null;//this.CurrentChakra;
-		foreach (var c in this.MainControls.AllPoints) {
+		foreach (var c in this.MainControls.AllChakras) {// .AllPoints) {
 			if (IsCommonChakra(c)) {
 				var d = Vector3.Dot (ray.direction, (c.transform.position - ray.origin).normalized);
 				float minAngle = 0.95f; // 0.98f;
@@ -50,7 +52,7 @@ public class ChakraGazeSelector : MonoBehaviour {
 
 	float CurrentBreathAlpha(ref ChakraType cur) {
 		if (CommonChakras.Count < 1) {
-			foreach (var c in this.MainControls.AllPoints) {
+			foreach (var c in this.MainControls.AllChakras) {
 				if (IsCommonChakra (c)) {
 					this.CommonChakras.Add (c);
 				}
