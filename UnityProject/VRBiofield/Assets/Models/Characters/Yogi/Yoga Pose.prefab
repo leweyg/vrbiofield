@@ -399,6 +399,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 446422}
   - 114: {fileID: 11462780}
+  - 114: {fileID: 114000012985353556}
   m_Layer: 0
   m_Name: Yoga Pose
   m_TagString: Untagged
@@ -3493,6 +3494,28 @@ MonoBehaviour:
   ChakraPetals: 16
   ChakraColor: {r: 0, g: 0.83448267, b: 1, a: 1}
   ChakraOneWay: 0
+--- !u!114 &114000012985353556
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 132132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 328af8608a1749f4f879b18eddc3f330, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpineStart: {fileID: 492996}
+  SpineShoulders: {fileID: 465728}
+  SpineEnd: {fileID: 443370}
+  LeftLegStart: {fileID: 489108}
+  LeftLegEnd: {fileID: 401642}
+  RightLegStart: {fileID: 413860}
+  RightLegEnd: {fileID: 487650}
+  LeftArmStart: {fileID: 445524}
+  LeftArmHand: {fileID: 408862}
+  RightArmStart: {fileID: 409790}
+  RightArmHand: {fileID: 407750}
 --- !u!114 &114000013052214978
 MonoBehaviour:
   m_ObjectHideFlags: 1
