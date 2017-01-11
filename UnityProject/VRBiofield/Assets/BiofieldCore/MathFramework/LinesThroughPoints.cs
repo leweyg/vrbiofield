@@ -26,7 +26,7 @@ public class LinesThroughPoints {
 	}
 
 	public Vector3 SampleAtLength(float len) {
-		int beforeNdx = 0;
+		//int beforeNdx = 0;
 		for (int i = 1; i < this.Count; i++) {
 			if (len <= this.LengthBefore [i]) {
 				return Vector3.Lerp (

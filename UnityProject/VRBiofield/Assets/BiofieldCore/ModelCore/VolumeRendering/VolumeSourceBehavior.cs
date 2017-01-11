@@ -56,9 +56,9 @@ public class VolumeSourceBehavior : MonoBehaviour {
 		var numColors = coreSize * coreSize * coreSize;
 		var colors = new Color[ numColors ];
 		for (int i=0; i<numColors; i++) {
-			var ix = (i % coreSize);
-			var iy = ((i / coreSize) % coreSize);
-			var iz = ((i / (coreSize * coreSize)) % coreSize);
+			//var ix = (i % coreSize);
+			//var iy = ((i / coreSize) % coreSize);
+			//var iz = ((i / (coreSize * coreSize)) % coreSize);
 
 			var c = Color.black; // (((ix + iz) < iy) ? Color.grey : Color.blue);
 
