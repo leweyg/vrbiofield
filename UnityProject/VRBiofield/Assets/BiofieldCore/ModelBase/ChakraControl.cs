@@ -15,17 +15,26 @@ public class ChakraControl : MonoBehaviour {
 	public VolumeTextureBehavior[] AllPoints { get; private set; }
 	public ChakraPosition[] AllChakras { get; private set; }
 
+	private bool isSetup = false;
+	public void EnsureSetup() {
+		if (this.isSetup)
+			return;
+		this.isSetup = true;
+
+		this.AllChakras = this.gameObject.GetComponentsInChildren<ChakraPosition> ().OrderBy (k => k.ChakraIndex).ToArray ();
+		this.AllPoints = this.gameObject.GetComponentsInChildren<VolumeTextureBehavior>();
+		if (this.MultiChakras == null)
+		{
+			this.MultiChakras = this.AllPoints.First(k => k.IsMultiChakras);
+		}
+
+		this.EnableCorrectChakras();
+	}
+
 
     void Awake()
     {
-		this.AllChakras = this.gameObject.GetComponentsInChildren<ChakraPosition> ().OrderBy (k => k.ChakraIndex).ToArray ();
-        this.AllPoints = this.gameObject.GetComponentsInChildren<VolumeTextureBehavior>();
-        if (this.MultiChakras == null)
-        {
-            this.MultiChakras = this.AllPoints.First(k => k.IsMultiChakras);
-        }
-
-        this.EnableCorrectChakras();
+		this.EnsureSetup ();
     }
 
 

@@ -19,4 +19,20 @@ public class BodyLandmarks : MonoBehaviour {
 	public Transform RightArmStart;
 	public Transform RightArmHand;
 
+
+	private ChakraControl mChakras;
+	public ChakraControl Chakras {
+		get {
+			if (this.mChakras != null) {
+				return this.mChakras;
+			} else {
+				this.mChakras = this.gameObject.GetComponent<ChakraControl> ();
+			}
+			return this.mChakras;
+		}
+	}
+
+	public void EnsureSetup() {
+		this.Chakras.EnsureSetup ();
+	}
 }

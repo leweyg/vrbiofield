@@ -79,7 +79,7 @@ Shader "Biofield / Energy Particle Shader" {
         float2 texPos = input.tex.xy;
         float4 texColor = tex2D(_MainTex, texPos).rgba;
 
-        texColor.rgb = input.vcolor.rgb;
+        texColor.rgba = input.vcolor.rgba * float4(1,1,1,texColor.a);
 
         return texColor;
 

@@ -10,6 +10,7 @@ public class ParticleTest : MonoBehaviour {
 	private ParticleSystem.Particle[] Particles;
 	private LinesThroughPoints CoreLine;
 	private float UnitAnimationSpeed = 1.0f;
+	private ExcersizeBreathController BreathTimer;
 
 
 	public enum NamedLines {
@@ -21,8 +22,11 @@ public class ParticleTest : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		this.ParRenderer = this.GetComponent<ParticleSystem> ();
+		this.BreathTimer = GameObject.FindObjectOfType<ExcersizeBreathController> ();
 
-		Particles = new ParticleSystem.Particle[8];
+		int cnt = ((LineToShow == NamedLines.SpinalBreathing) ? 1 : 8);
+
+		Particles = new ParticleSystem.Particle[cnt];
 		for (int i = 0; i < Particles.Length; i++) {
 			Particles [i].position = Vector3.one * 0.1f * ((float)i);
 			Particles [i].startColor = Color.green;
@@ -99,12 +103,13 @@ public class ParticleTest : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		float toffset = UnitAnimationSpeed * Time.time * (1.0f / this.Particles.Length);
+		float toffset = 0; //UnitAnimationSpeed * Time.time * (1.0f / this.Particles.Length);
 
 		for (int i = 0; i < this.Particles.Length; i++) {
-			float t = ((float)i) / ((float)(this.Particles.Length - 1));
+			float t = this.BreathTimer.UnitBreathInPct;
 			var pos = this.CoreLine.SampleAtUnitLength (Mathf.Repeat( t + toffset, 1.0f));
 			this.Particles [i].position = pos;
+			this.Particles [i].startColor = this.BreathTimer.UnitBreathIsIn ? Color.blue : Color.red;
 		}
 
 		this.ParRenderer.SetParticles (this.Particles, this.Particles.Length);
