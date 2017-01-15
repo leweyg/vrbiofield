@@ -49,6 +49,8 @@ public class ExcersizeSharedScheduler : MonoBehaviour {
 	private ExcersizeActivityBase cachedActivity = null;
 	public void UpdateCurrentActivity(ExcersizeActivityBase act) {
 		this.cachedActivity = act;
+		this.CurrentActivity = act;
+		//Debug.Log("Changing activity to: " + ((act!=null)?act.ActivityName : "NULL"));
 		foreach (var ob in this.Activities) {
 			if (ob != act) {
 				ob.gameObject.SetActive (false);

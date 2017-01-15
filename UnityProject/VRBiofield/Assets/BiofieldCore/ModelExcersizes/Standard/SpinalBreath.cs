@@ -104,6 +104,7 @@ public class SpinalBreath : ExcersizeActivityInst {
 
 	private ParticleSpan SpanLeftLegToDanTien;
 	private ParticleSpan SpanRightLegToDanTien;
+	private ParticleSpan SpanCrownToDanTien;
 
 	void SetupCoreLine() {
 		switch (this.LineToShow) {
@@ -124,6 +125,13 @@ public class SpinalBreath : ExcersizeActivityInst {
 					var pnts = this.LineBetweenTransforms (this.Body.RightLegEnd, this.Body.RightLegStart);
 					pnts.Add (this.Body.Chakras.AllChakras[1].transform.position);
 					this.SpanRightLegToDanTien = new ParticleSpan (this, this.ParticleCountBase, new LinesThroughPoints (pnts.ToArray ()));
+				}
+				{
+					//SpanCrownToDanTien
+					var pnts = this.LineBetweenTransforms (
+						this.Body.Chakras.AllChakras[6].transform, 
+						this.Body.Chakras.AllChakras[1].transform);
+					this.SpanCrownToDanTien = new ParticleSpan (this, (int)(0.75f * this.ParticleCountBase), new LinesThroughPoints (pnts.ToArray ()));
 				}
 			}
 			break;
@@ -158,10 +166,15 @@ public class SpinalBreath : ExcersizeActivityInst {
 			float mt = Mathf.Repeat (fi + toffset, 1.0f);
 			float a = ba * Mathf.Clamp01 (Breath.UnitTo010f (mt) * 5.1f);
 			var pos = ps.Line.SampleAtUnitLength (mt);
+			bool isSpine = (ps == SpanCrownToDanTien);
+			var clr = (isSpine) ? Color.white : Color.green;
+			if (isSpine != ((Breath.BreathIndex % 2) == 1)) {
+				a = 0.0f;
+			}
 
 			var pi = ps.IndexOf(i);
 			this.Particles [pi].position = pos;
-			this.Particles [pi].startColor = ColorWithAlpha (Color.green, a);
+			this.Particles [pi].startColor = ColorWithAlpha (clr, a);
 		}
 	}
 
@@ -169,6 +182,7 @@ public class SpinalBreath : ExcersizeActivityInst {
 		float toffset = UnitAnimationSpeed * Breath.UnitTimeSinceStart;// * (1.0f / this.Particles.Length);
 		this.UpdateParticles_GroundingSpan(this.SpanLeftLegToDanTien, toffset);
 		this.UpdateParticles_GroundingSpan(this.SpanRightLegToDanTien, toffset);
+		this.UpdateParticles_GroundingSpan (this.SpanCrownToDanTien, toffset);
 
 	}
 

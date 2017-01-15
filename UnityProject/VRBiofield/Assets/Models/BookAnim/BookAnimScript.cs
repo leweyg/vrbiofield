@@ -41,6 +41,14 @@ public class BookAnimScript : MonoBehaviour {
 		}
 	}
 
+	public bool CanChangePageInDirection(bool isForward) {
+		if (isForward) {
+			return ((this.CurrentPage + 2) < Pages.Length);
+		} else {
+			return ((this.CurrentPage - 2) >= 0);
+		}
+	}
+
 	public void ChangePageSimple(bool isForward, bool isAuto=true) {
 		if ((!isForward) && (this.CurrentPage <= 0)) {
 			return;

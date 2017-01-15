@@ -5,9 +5,20 @@ public class BiofieldAppMain : MonoBehaviour {
 
 	public bool TakeScreenshotOnS = false;
 
+	void SetupExcersizeControls() {
+		var book = GameObject.FindObjectOfType<BookAnimScript> ();
+		var sched = GameObject.FindObjectOfType<ExcersizeSharedScheduler> ();
+
+		book.OnPageChanged += ((int newPage) => {
+			var ia = ((newPage/2) % sched.Activities.Length);
+			var act = sched.Activities[ia];
+			sched.UpdateCurrentActivity(act);
+		});
+	}
+
 	// Use this for initialization
 	void Start () {
-	
+		this.SetupExcersizeControls ();
 	}
 
 	private int ScreenshotCount = 0;

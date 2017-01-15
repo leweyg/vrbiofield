@@ -28,11 +28,19 @@ public class BookButtonScript : MonoBehaviour {
 		return false;
 	}
 
+	Color cachedColor = Color.yellow;
 	private void UpdateIsHovering(bool isOver, bool fullUpdate=false) {
+		
 		if ((this.IsHovering != isOver) || (fullUpdate)) {
 			this.IsHovering = isOver;
-			this.MyRenderer.material.color = (this.IsHovering ? Book.ButtonColorActive : Book.ButtonColorPassive);
 		}
+		var clr = Book.CanChangePageInDirection(this.IsTurnForward) ? Book.ButtonColorActive : Color.black;
+		clr = (this.IsHovering ? clr : Book.ButtonColorPassive);
+		if (this.cachedColor != clr) {
+			this.cachedColor = clr;
+			this.MyRenderer.material.color = clr;
+		}
+
 		if (this.IsHovering) {
 			Book.SetIsHovering (true, this.IsTurnForward);
 		}
