@@ -33,7 +33,7 @@ public class ParticleTest : MonoBehaviour {
 			Particles [i].velocity = Vector3.zero;
 			Particles [i].startSize = 0.1f;
 			Particles [i].startSize3D = Vector3.one * 0.1f;
-			Particles [i].lifetime = (float)( 60 * 60 * 24 ); // 1 day
+			Particles [i].remainingLifetime = (float)( 60 * 60 * 24 ); // 1 day
 		}
 		this.ParRenderer.SetParticles (this.Particles, this.Particles.Length);
 		this.SetupCoreLine ();

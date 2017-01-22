@@ -29,3 +29,5 @@ sysinfo.txt
 *.apk
 *.unitypackage
 /UnityProject/VRBiofield/Library
+
+UnityProject/VRBiofield/Temp/*

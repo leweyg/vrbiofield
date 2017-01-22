@@ -16,7 +16,7 @@ Shader "Volume Rendering / Per-Pixel Random Sampler" {
 
 #pragma vertex vert  
 #pragma fragment frag 
-#pragma target 5.0
+#pragma target 4.0
 
 #include "UnityCG.cginc"
 

@@ -59,7 +59,7 @@ public class SpinalBreath : ExcersizeActivityInst {
 			Particles [i].velocity = Vector3.zero;
 			Particles [i].startSize = DefaultRadius;
 			Particles [i].startSize3D = Vector3.one * DefaultRadius;
-			Particles [i].lifetime = (float)( 60 * 60 * 24 ); // 1 day
+			Particles [i].remainingLifetime = (float)( 60 * 60 * 24 ); // 1 day
 		}
 		this.ParRenderer.SetParticles (this.Particles, this.Particles.Length);
 	}
