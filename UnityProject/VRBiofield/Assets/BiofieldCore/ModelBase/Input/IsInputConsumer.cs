@@ -3,6 +3,8 @@ using System.Collections;
 
 public class IsInputConsumer : MonoBehaviour {
 
+	public bool IsShowCursorOver = false;
+
 	// Use this for initialization
 	void Start () {
 	

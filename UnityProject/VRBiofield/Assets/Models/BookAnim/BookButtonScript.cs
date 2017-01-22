@@ -48,15 +48,16 @@ public class BookButtonScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		var ray = FocusRay.main.CurrentRay;
 		if (Input.GetMouseButtonUp (0)) {
-			var ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+			//var ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 			if (EffecientRayCheck (ray)) {
 				Book.ChangePageSimple (IsTurnForward, true);
 			}
 		}
-		var cam = Camera.main.transform;
-		var camRay = new Ray (cam.position, cam.forward);
-		if (EffecientRayCheck (camRay)) {
+		//var cam = Camera.main.transform;
+		//var camRay = new Ray (cam.position, cam.forward);
+		if (EffecientRayCheck (ray)) {
 			this.UpdateIsHovering (true);
 		} else {
 			this.UpdateIsHovering (false);
