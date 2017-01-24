@@ -243,7 +243,9 @@ PlayerSettings:
     m_Devices: []
   - m_BuildTarget: Standalone
     m_Enabled: 1
-    m_Devices: []
+    m_Devices:
+    - Oculus
+    - OpenVR
   - m_BuildTarget: Tizen
     m_Enabled: 0
     m_Devices: []
@@ -432,7 +434,7 @@ PlayerSettings:
   webGLCompressionFormat: 1
   scriptingDefineSymbols: {}
   platformArchitecture:
-    iOS: 2
+    iOS: 0
   scriptingBackend:
     Android: 0
     Metro: 2
