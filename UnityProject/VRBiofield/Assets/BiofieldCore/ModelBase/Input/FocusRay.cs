@@ -19,6 +19,14 @@ public class FocusRay : MonoBehaviour {
 		}
 	}
 
+	public bool IsMouseOrTouch {
+		get { return this.IsMouseAiming; }
+	}
+
+	public bool IsHeadGaze {
+		get { return !this.IsMouseAiming; }
+	}
+
 	public Ray CurrentRay {
 		get {
 			return new Ray (
@@ -46,7 +54,8 @@ public class FocusRay : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.mousePosition != Vector3.zero) {
+		if (UnityEngine.VR.VRSettings.enabled) {
+		} else if (Input.mousePosition != Vector3.zero) {
 			this.IsMouseAiming = true;
 			var r = Camera.main.ScreenPointToRay (Input.mousePosition);
 

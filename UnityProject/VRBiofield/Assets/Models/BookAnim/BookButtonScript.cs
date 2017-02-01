@@ -55,12 +55,13 @@ public class BookButtonScript : MonoBehaviour {
 				Book.ChangePageSimple (IsTurnForward, true);
 			}
 		}
-		//var cam = Camera.main.transform;
-		//var camRay = new Ray (cam.position, cam.forward);
-		if (EffecientRayCheck (ray)) {
-			this.UpdateIsHovering (true);
-		} else {
-			this.UpdateIsHovering (false);
+
+		if (FocusRay.main.IsHeadGaze) {
+			if (EffecientRayCheck (ray)) {
+				this.UpdateIsHovering (true);
+			} else {
+				this.UpdateIsHovering (false);
+			}
 		}
 	}
 }
