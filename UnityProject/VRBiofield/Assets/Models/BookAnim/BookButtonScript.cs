@@ -41,7 +41,7 @@ public class BookButtonScript : MonoBehaviour {
 			this.MyRenderer.material.color = clr;
 		}
 
-		if (this.IsHovering) {
+		if (this.IsHovering && FocusRay.main.IsHeadGaze) {
 			Book.SetIsHovering (true, this.IsTurnForward);
 		}
 	}
@@ -56,7 +56,8 @@ public class BookButtonScript : MonoBehaviour {
 			}
 		}
 
-		if (FocusRay.main.IsHeadGaze) {
+		//if (FocusRay.main.IsHeadGaze) 
+		{
 			if (EffecientRayCheck (ray)) {
 				this.UpdateIsHovering (true);
 			} else {

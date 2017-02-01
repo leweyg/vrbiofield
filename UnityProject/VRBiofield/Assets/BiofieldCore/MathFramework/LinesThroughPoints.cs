@@ -7,6 +7,7 @@ public class LinesThroughPoints {
 	public Vector3[] Points;
 	public float[] LengthBefore;
 	public float FullLength;
+	public Vector3 AveragePoint;
 
 	public int Count {get { return this.Points.Length; } }
 
@@ -23,6 +24,7 @@ public class LinesThroughPoints {
 		}
 		this.LengthBefore [this.Count] = runningLength;
 		this.FullLength = runningLength;
+		this.AveragePoint = this.CalcAveragePoint ();
 	}
 
 	public Vector3 SampleAtLength(float len) {
@@ -41,5 +43,15 @@ public class LinesThroughPoints {
 
 	public Vector3 SampleAtUnitLength(float unitLen) {
 		return this.SampleAtLength (unitLen * this.FullLength);
+	}
+
+	public Vector3 CalcAveragePoint() {
+		int samples = 16;
+		Vector3 sum = Vector3.zero;
+		for (int i = 0; i < samples; i++) {
+			var p = this.SampleAtUnitLength (((float)i) / ((float)(samples - 1)));
+			sum += p;
+		}
+		return (sum / ((float)samples));
 	}
 }

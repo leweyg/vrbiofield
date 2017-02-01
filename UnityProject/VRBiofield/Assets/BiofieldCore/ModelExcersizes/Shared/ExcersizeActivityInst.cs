@@ -20,6 +20,11 @@ public class ExcersizeActivityInst : MonoBehaviour {
 		}
 	}
 
+	public virtual void ApplyBodyPositioning() {
+		this.EnsureSetup ();
+		this.Body.EnsureBodyPositioning ().ResetPositioning ();
+	}
+
 	// Use this for initialization
 	void Start () {
 		this.EnsureSetup();

@@ -30,7 +30,7 @@ public class ChakraBreath : ExcersizeActivityInst {
 	}
 
 	ChakraType FindClosestChakra() {
-		var ray = new Ray (Camera.main.transform.position, Camera.main.transform.forward.normalized);
+		var ray = FocusRay.main.CurrentRay;
 		var bestDot = -100.0f;
 		ChakraType bestChakra = null;//this.CurrentChakra;
 		foreach (var c in this.Body.Chakras.AllChakras) {// .AllPoints) {

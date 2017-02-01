@@ -19,6 +19,12 @@ public class BodyLandmarks : MonoBehaviour {
 	public Transform RightArmStart;
 	public Transform RightArmHand;
 
+	public Transform EstRightHandKnuckle {
+		get { return this.RightArmHand.GetChild (1); }
+	}
+	public Transform EstLeftHandKnuckle {
+		get { return this.LeftArmHand.GetChild (1); }
+	}
 
 	private ChakraControl mChakras;
 	public ChakraControl Chakras {
@@ -34,5 +40,18 @@ public class BodyLandmarks : MonoBehaviour {
 
 	public void EnsureSetup() {
 		this.Chakras.EnsureSetup ();
+	}
+
+	private BodyPositioning mBodyPosition;
+	public BodyPositioning EnsureBodyPositioning() {
+		this.EnsureSetup ();
+		if (this.mBodyPosition == null) {
+			this.mBodyPosition = this.gameObject.GetComponent<BodyPositioning> ();
+		}
+		if (this.mBodyPosition == null) {
+			this.mBodyPosition = this.gameObject.AddComponent<BodyPositioning> ();
+		}
+		Debug.Assert (this.mBodyPosition != null);
+		return this.mBodyPosition;
 	}
 }

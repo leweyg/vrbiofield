@@ -58,6 +58,7 @@ public class ExcersizeSharedScheduler : MonoBehaviour {
 		}
 		if (act != null) {
 			act.gameObject.SetActive (true);
+			act.ApplyState ();
 		}
 	}
 

@@ -14,6 +14,9 @@ public class SpinalBreath : ExcersizeActivityInst {
 	protected int ClaimedCount = 0;
 	private float DefaultRadius = 0.2f;
 
+	private List<ParticleSpan> AllSpans = new List<ParticleSpan> ();
+	private ParticleSpan ClosestInfoSpan = null;
+
 	private class ParticleSpan {
 		public SpinalBreath Owner;
 		public LinesThroughPoints Line;
@@ -25,6 +28,7 @@ public class SpinalBreath : ExcersizeActivityInst {
 			this.First = sb.ClaimedCount;
 			this.Count = count;
 			sb.ClaimedCount += count;
+			sb.AllSpans.Add(this);
 		}
 
 		public int IndexOf(int i) {
@@ -45,6 +49,7 @@ public class SpinalBreath : ExcersizeActivityInst {
 	// Use this for initialization
 	void Start () {
 		this.EnsureSetup ();
+		this.ApplyBodyPositioning ();
 		this.ParRenderer = this.GetComponent<ParticleSystem> ();
 
 		int cnt = ((LineToShow == NamedLines.SpinalBreathing) ? 1 : this.ParticleCountBase);
@@ -168,7 +173,13 @@ public class SpinalBreath : ExcersizeActivityInst {
 			var pos = ps.Line.SampleAtUnitLength (mt);
 			bool isSpine = (ps == SpanCrownToDanTien);
 			var clr = (isSpine) ? Color.white : Color.green;
-			if (isSpine != ((Breath.BreathIndex % 2) == 1)) {
+			if (this.IsInfoAvatar) {
+				if (ps == this.ClosestInfoSpan) {
+					// leave alpha as is
+				} else {
+					a = 0.0f;
+				}
+			} else if (isSpine != ((Breath.BreathIndex % 2) == 1)) {
 				a = 0.0f;
 			}
 
@@ -189,9 +200,26 @@ public class SpinalBreath : ExcersizeActivityInst {
 	Color ColorWithAlpha(Color c, float a) {
 		return new Color (c.r, c.g, c.b, a);
 	}
+
+	void UpdateInfoModel() {
+		var ray = FocusRay.main.CurrentRay;
+		float bestScore = 0.7f;
+		ParticleSpan bestSpan = null;
+		foreach (var ps in this.AllSpans) {
+			float score = Vector3.Dot ((ps.Line.AveragePoint - ray.origin).normalized, ray.direction.normalized);
+			if (score > bestScore) {
+				bestSpan = ps;
+				bestScore = score;
+			}
+		}
+		this.ClosestInfoSpan = bestSpan;
+	}
 	
 	// Update is called once per frame
 	void Update () {
+		if (this.IsInfoAvatar) {
+			this.UpdateInfoModel ();
+		}
 
 		switch (this.LineToShow) {
 		case NamedLines.SpinalBreathing:
