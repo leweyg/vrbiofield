@@ -45,6 +45,13 @@ public class LinesThroughPoints {
 		return this.SampleAtLength (unitLen * this.FullLength);
 	}
 
+	public Vector3 NormalAtUnitLength(float unitLen) {
+		float halfStep = 0.5f / ((float)(Points.Length));
+		Vector3 before = this.SampleAtUnitLength (unitLen - halfStep);
+		Vector3 after = this.SampleAtUnitLength (unitLen + halfStep);
+		return (after - before).normalized;
+	}
+
 	public Vector3 CalcAveragePoint() {
 		int samples = 16;
 		Vector3 sum = Vector3.zero;

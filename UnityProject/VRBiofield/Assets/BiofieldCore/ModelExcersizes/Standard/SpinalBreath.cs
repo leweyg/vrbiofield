@@ -69,6 +69,12 @@ public class SpinalBreath : ExcersizeActivityInst {
 		this.ParRenderer.SetParticles (this.Particles, this.Particles.Length);
 	}
 
+	[ContextMenu("Test Energy Flow")]
+	public void TestEnergyFlow() {
+		FlowMeshAroundLine fm = this.GetComponentInChildren<FlowMeshAroundLine> ();
+		fm.SetupLine (this.SpanLeftLegToDanTien.Line);
+	}
+
 	private Transform GetCommonParent(Transform a, Transform b) {
 		var apars = new List<Transform> ();
 		var bpars = new List<Transform> ();
