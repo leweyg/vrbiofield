@@ -4,6 +4,7 @@ using System.Collections;
 public class ExcersizeBreathController : MonoBehaviour {
 
 	public float TimePerBreath = 9.0f;
+	public int CurrentBreathsPerRep = 7;
 
 	public float TimeStarted { get; private set; }
 	public float UnitTimeSinceStart { get; private set; }

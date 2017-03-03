@@ -47,6 +47,7 @@ public class ChakraBreath : ExcersizeActivityInst {
 	}
 
 	float CurrentBreathAlpha(ref ChakraType ref_cur) {
+		this.Breath.CurrentBreathsPerRep = this.CommonChakras.Count / 2;
 		if (CommonChakras.Count < 1) {
 			foreach (var c in this.Body.Chakras.AllChakras) {
 				if (IsCommonChakra (c)) {
@@ -71,7 +72,6 @@ public class ChakraBreath : ExcersizeActivityInst {
 		// else
 		return 1.0f;
 	}
-
 	
 	// Update is called once per frame
 	void Update () {

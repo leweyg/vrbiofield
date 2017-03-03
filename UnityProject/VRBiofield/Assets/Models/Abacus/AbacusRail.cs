@@ -45,6 +45,9 @@ public class AbacusRail : MonoBehaviour {
 		PosHigh.y = this.transform.position.y;
 
 		this.MyTextDisplay = this.GetComponentInChildren<TextMesh> ();
+
+		this.SetBeadCountAndNumber (0, 0);
+		this.UpdateBeads ();
 	}
 
 	// Use this for initialization
@@ -93,8 +96,12 @@ public class AbacusRail : MonoBehaviour {
 		}
 
 		// if showing, update the text display:
-		if ((this.AbacusDefaults.UseDebugText) && (this.MyTextDisplay != null) && (this.MyTextDisplay.gameObject.activeInHierarchy)) {
-			this.MyTextDisplay.text = "" + this.BeadCount + "@" + this.NumberToShow;
+		if (this.MyTextDisplay != null) {
+			if (this.AbacusDefaults.UseDebugText) {
+				this.MyTextDisplay.text = "" + this.BeadCount + "@" + this.NumberToShow;
+			} else {
+				this.MyTextDisplay.gameObject.SetActive (false);
+			}
 		}
 	}
 	

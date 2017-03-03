@@ -223,6 +223,9 @@ public class SpinalBreath : ExcersizeActivityInst {
 	
 	// Update is called once per frame
 	void Update () {
+
+		this.Breath.CurrentBreathsPerRep = 2;
+
 		if (this.IsInfoAvatar) {
 			this.UpdateInfoModel ();
 		}

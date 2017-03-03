@@ -39,6 +39,7 @@ public class ChiBallBreath : ParticleExcersize {
 	}
 
 	void UpdateParticles_GeneralChi(ParticleSpan ps, float toffset) {
+		
 		for (int i = 0; i < ps.Count; i++) {
 			float ba = this.Breath.UnitBreathInPct;
 			float fi = ((float)i) / ((float)(ps.Count - 1));
@@ -93,6 +94,8 @@ public class ChiBallBreath : ParticleExcersize {
 
 	protected override void VirtualUpdate ()
 	{
+		this.Breath.CurrentBreathsPerRep = 1;
+
 		float toffset = UnitAnimationSpeed * Breath.UnitTimeSinceStart;
 		this.UpdateParticles_HandToHandSpan(this.HandToHandSpan, toffset);
 		this.UpdateParticles_GeneralChi (this.LeftSideSpan, toffset);

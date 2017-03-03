@@ -32,9 +32,14 @@ public class BiofieldAppMain : MonoBehaviour {
 		if ((this.AbacusObj != null) && (this.Scheduler != null)) {
 			var ar = this.AbacusObj.AllRails;
 			var br = this.Scheduler.Breath;
+			var bpr = br.CurrentBreathsPerRep;
+
+			// TODO: put biosensor "calmness" value here:
+			//ar [0].SetBeadCountAndNumber(1, 0 to 1 value, ideally 0.5 is calm, 0 is too low, 1 is too high);
+
 			ar [1].SetBeadCountAndNumber(1, br.UnitTo010f( br.UnitTimeInBreath ));
-			ar [2].SetBeadCountAndNumberABA (7, br.UnitTimeSinceStart);
-			ar [3].SetBeadCountAndNumber (6, br.UnitTimeSinceStart / 8.0f);
+			ar [2].SetBeadCountAndNumberABA (bpr, br.UnitTimeSinceStart);
+			ar [3].SetBeadCountAndNumber (6, br.UnitTimeSinceStart / ((float)bpr) );
 		}
 	}
 	
