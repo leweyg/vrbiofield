@@ -7,6 +7,8 @@ public class AbacusRail : MonoBehaviour {
 	public float NumberToShow { get; set; }
 	public int BeadCount { get; set; }
 	public bool FlipDirection { get; set; }
+	public bool ForceTextDisplay { get; set; }
+	public float TextDisplayUnitScalar { get; set; }
 
 	private TextMesh MyTextDisplay;
 
@@ -45,6 +47,7 @@ public class AbacusRail : MonoBehaviour {
 		PosHigh.y = this.transform.position.y;
 
 		this.MyTextDisplay = this.GetComponentInChildren<TextMesh> ();
+		this.TextDisplayUnitScalar = 1.0f;
 
 		this.SetBeadCountAndNumber (0, 0);
 		this.UpdateBeads ();
@@ -97,8 +100,9 @@ public class AbacusRail : MonoBehaviour {
 
 		// if showing, update the text display:
 		if (this.MyTextDisplay != null) {
-			if (this.AbacusDefaults.UseDebugText) {
+			if (this.AbacusDefaults.UseDebugText || this.ForceTextDisplay) {
 				this.MyTextDisplay.text = "" + this.BeadCount + "@" + this.NumberToShow;
+				this.MyTextDisplay.gameObject.SetActive (true);
 			} else {
 				this.MyTextDisplay.gameObject.SetActive (false);
 			}

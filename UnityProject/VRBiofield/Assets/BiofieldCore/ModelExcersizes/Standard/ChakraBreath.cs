@@ -128,6 +128,10 @@ public class ChakraBreath : ExcersizeActivityInst {
 				sclAlpha = 1.0f;
 				displayAlpha = 1.0f;
 			}
+			if (Breath.UseHeartBeats) {
+				displayAlpha *= Mathf.Lerp (0.7f, 1.0f, Breath.HeartBeatUnitAlpha);
+			}
+
 			this.Mesher.SetChakraAlpha (displayAlpha);
 			this.Mesher.transform.localScale = this.Mesher.CurrentLocalScaleBase * sclAlpha;
 			if (this.BackMesher != null) {
