@@ -10,6 +10,7 @@ public class PCControls : MonoBehaviour {
 	public PCView ViewCenter;
 	public PCView ViewRight;
 	public PCView ViewFarRight;
+	public PCView ViewFarLeft;
 
 	private PCView[] AllViews;
 	private PCView LatestView = null;
@@ -30,7 +31,9 @@ public class PCControls : MonoBehaviour {
 		this.AllViews = new PCView[] {
 			this.ViewLeft, 
 			this.ViewCenter, 
-			this.ViewRight, this.ViewFarRight
+			this.ViewRight, 
+			this.ViewFarRight,
+			this.ViewFarLeft,
 		};
 	}
 

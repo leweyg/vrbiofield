@@ -14,7 +14,7 @@ public class ExcersizeBreathController : MonoBehaviour {
 	public float UnitTimeInBreath { get { return (UnitTimeSinceStart - ((float)BreathIndex));
 		}}
 
-	public bool UnitBreathIsIn { get { 
+	public bool IsBreathingIn { get { 
 			var timeFrac = this.UnitTimeInBreath;
 			return (timeFrac < 0.5f);
 		} }

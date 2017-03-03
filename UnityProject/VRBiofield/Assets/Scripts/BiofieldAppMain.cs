@@ -4,11 +4,15 @@ using System.Collections;
 public class BiofieldAppMain : MonoBehaviour {
 
 	public bool TakeScreenshotOnS = false;
+	private ExcersizeSharedScheduler Scheduler;
+	private Abacus AbacusObj;
 
 	void SetupExcersizeControls() {
 		var book = GameObject.FindObjectOfType<BookAnimScript> ();
-		var sched = GameObject.FindObjectOfType<ExcersizeSharedScheduler> ();
+		Scheduler = (Scheduler!=null) ? Scheduler : GameObject.FindObjectOfType<ExcersizeSharedScheduler> ();
+		AbacusObj = (AbacusObj!=null) ? AbacusObj : GameObject.FindObjectOfType<Abacus> ();
 
+		var sched = this.Scheduler;
 		book.OnPageChanged += ((int newPage) => {
 			var ia = ((newPage/2) % sched.Activities.Length);
 			var act = sched.Activities[ia];
@@ -22,9 +26,24 @@ public class BiofieldAppMain : MonoBehaviour {
 	}
 
 	private int ScreenshotCount = 0;
+
+	void UpdateStuffEachFrame() {
+
+		if ((this.AbacusObj != null) && (this.Scheduler != null)) {
+			var ar = this.AbacusObj.AllRails;
+			var br = this.Scheduler.Breath;
+			ar [1].SetBeadCountAndNumber(1, br.UnitTo010f( br.UnitTimeInBreath ));
+			ar [2].SetBeadCountAndNumberABA (7, br.UnitTimeSinceStart);
+			ar [3].SetBeadCountAndNumber (6, br.UnitTimeSinceStart / 8.0f);
+		}
+	}
 	
 	// Update is called once per frame
 	void Update () {
+		
+		this.UpdateStuffEachFrame ();
+
+		// check for special things:
 		if (TakeScreenshotOnS && Input.GetKeyUp (KeyCode.S)) {
 			ScreenshotCount++;
 			Application.CaptureScreenshot ("screenshot" + ScreenshotCount + ".png", 2);

@@ -10274,6 +10274,12 @@ Transform:
   m_Father: {fileID: 1136280874}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1318046599 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114000012972062370, guid: 1d1095030e5c62c4a84cda6111f1a6c8,
+    type: 2}
+  m_PrefabInternal: {fileID: 1977992653}
+  m_Script: {fileID: 11500000, guid: febb61506af5159448d0b31e4870b373, type: 3}
 --- !u!1 &1336391404
 GameObject:
   m_ObjectHideFlags: 0
@@ -13413,6 +13419,19 @@ Prefab:
       propertyPath: AvatarUser
       value: 
       objectReference: {fileID: 126708139}
+    - target: {fileID: 1000014067410084, guid: 1d1095030e5c62c4a84cda6111f1a6c8, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000012785193494, guid: 1d1095030e5c62c4a84cda6111f1a6c8, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012835197152, guid: 1d1095030e5c62c4a84cda6111f1a6c8,
+        type: 2}
+      propertyPath: CurrentActivity
+      value: 
+      objectReference: {fileID: 1318046599}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1d1095030e5c62c4a84cda6111f1a6c8, type: 2}
   m_IsPrefabParent: 0

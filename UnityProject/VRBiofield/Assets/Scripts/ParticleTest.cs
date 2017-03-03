@@ -109,7 +109,7 @@ public class ParticleTest : MonoBehaviour {
 			float t = this.BreathTimer.UnitBreathInPct;
 			var pos = this.CoreLine.SampleAtUnitLength (Mathf.Repeat( t + toffset, 1.0f));
 			this.Particles [i].position = pos;
-			this.Particles [i].startColor = this.BreathTimer.UnitBreathIsIn ? Color.blue : Color.red;
+			this.Particles [i].startColor = this.BreathTimer.IsBreathingIn ? Color.blue : Color.red;
 		}
 
 		this.ParRenderer.SetParticles (this.Particles, this.Particles.Length);
