@@ -36,7 +36,7 @@ public class FlowMeshAroundLine : MonoBehaviour {
 		private FlowMeshAroundLine Owner;
 		public LinesThroughPoints CurrentLine;
 		public Mesh Result;
-		public int AroundCount = 6;
+		public int AroundCount = 18;
 		public int AlongCount = 10;
 		public float FlowThickness = 0.07f;
 		private List<FMVertex> Vertices = new List<FMVertex> ();

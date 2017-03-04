@@ -1,6 +1,6 @@
 // Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
 
-Shader "Biofield / Flow Mesh Shader" {
+Shader "Biofield / Fade Edges Shader" {
     Properties{
         _MainTex("Texture", 2D) = "white" {}
     _RandomSeedColor("Random Seed Color", Color) = (1, 1, 1, 1)
@@ -78,15 +78,9 @@ Shader "Biofield / Flow Mesh Shader" {
 
         //return float4(input.tex.xy * 2.0,1,1);
 
-        float p = 3.14159;
-        float t = ( 
-        remap( cos( ( input.tex.x * p * -40.0f ) + (input.tex.y * 10.0f ) + (_Time.y * 8.5f) ), -1, 1, 0, 1 ) *
-        remap( cos( ( input.tex.y * 20.0f ) + (_Time.y * 1.5f ) + ( input.tex.x * p * 5.0f ) ), -1, 1, 0, 1 ) );
-        //return float4(1,t,1,1);
-
 	float3 dir = normalize( input.wpos.xyz - _WorldSpaceCameraPos.xyz );
-	float NdotL = pow( -dot( normalize(input.normal.xyz), dir ), 8);
-	return float4(0.5,0.5,0.5,NdotL * t);
+	float NdotL = pow( -dot( normalize(input.normal.xyz), dir ), 4);
+	return float4(0.5,0.5,0.5,NdotL);
 
         //float3 xyzToC = length(input.localPos.xyz);
         //float3 finalRgb = xyzToC - floor(xyzToC);
