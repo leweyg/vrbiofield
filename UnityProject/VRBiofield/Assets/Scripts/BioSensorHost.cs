@@ -7,6 +7,10 @@ public class BioSensorHost : MonoBehaviour {
 
 	public ExcersizeSharedScheduler ExcersizeSystem;
 	public Abacus DebugAbacus;
+	public bool TestHeartRateNow = false;
+	public bool TestUserBreathTiming = false;
+	public bool UserBreathingIn = false;
+	public float READ_UserBreathTime = 0.0f;
 
 	void Start () {
 		ExcersizeSystem.EnsureSetup ();
@@ -21,7 +25,7 @@ public class BioSensorHost : MonoBehaviour {
 
 
 		// TODO: Put BioSensor reading stuff here:
-		bool sensorInited = false;
+		bool sensorInited = TestHeartRateNow;
 		float heartBeatsPerMinute = 70.0f;
 		bool debugUnitCalmnessValue = false;
 		float unitCalmnessValue = 0.75f;
@@ -37,6 +41,13 @@ public class BioSensorHost : MonoBehaviour {
 		} else {
 			br.UseHeartBeats = false;
 		}
+		if (TestUserBreathTiming) {
+			br.IsUsingUserBreathRate = true;
+			br.IsUserBreathingIn = this.UserBreathingIn;
+		} else {
+			br.IsUsingUserBreathRate = false;
+		}
+		this.READ_UserBreathTime = br.CurrentEstBreathDuration;
 		if (debugUnitCalmnessValue) {
 			var ar = this.DebugAbacus.AllRails[0];
 			ar.SetBeadCountAndNumber(1, unitCalmnessValue);

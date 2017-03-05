@@ -40,7 +40,7 @@ public class BiofieldAppMain : MonoBehaviour {
 
 			ar [1].SetBeadCountAndNumber(1, bt);
 			ar [2].SetBeadCountAndNumberABA (bpr, br.UnitTimeSinceStart);
-			ar [3].SetBeadCountAndNumber (6, br.UnitTimeSinceStart / ((float)bpr) );
+			ar [3].SetBeadCountAndNumberABA (6, br.UnitTimeSinceStart / ((float)bpr) );
 		}
 	}
 	
