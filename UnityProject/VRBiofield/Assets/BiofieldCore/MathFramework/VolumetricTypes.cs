@@ -28,6 +28,12 @@ public class VolumeHeader {
 		return ((ndx.X >= 0) && (ndx.Y >= 0) && (ndx.Z >= 0)
 			&& (ndx.X < Size.X) && (ndx.Y < Size.Y) && (ndx.Z < Size.Z));
 	}
+
+	public Vector3 CubicToDecimalUnit(Int3 ndx) {
+		return new Vector3 (((float)ndx.X) / ((float)Size.X - 1), 
+			((float)ndx.Y) / ((float)Size.Y - 1), ((float)ndx.Z) / ((float)Size.Z - 1));
+	}
+
 }
 
 public class VolumeBuffer<T> {
@@ -83,18 +89,26 @@ public class VolumeBuffer<T> {
 		return pos.Select2 (this.Size, (i,sz) => ((i == 0) || ((i + 1) == sz))).AnyTrue();
 	}
 
-	public T Read(Cubic<int> pos) {
+	public T Read(Int3 pos) {
 		if (this.IsSafe (pos)) {
-			return this.Array [this.Header.CubicToLinear(new Int3(pos))];
+			return this.Array [this.Header.CubicToLinear(pos)];
 		} else {
 			return default(T);
 		}
 	}
 
-	public void Write(Cubic<int> pos, T val) {
+	public T Read(Cubic<int> pos) {
+		return this.Read (new Int3 (pos));
+	}
+
+	public void Write(Int3 pos, T val) {
 		if (this.IsSafe (pos)) {
-			this.Array [this.Header.CubicToLinear(new Int3 (pos))] = val;
+			this.Array [this.Header.CubicToLinear(pos)] = val;
 		}
+	}
+
+	public void Write(Cubic<int> pos, T val) {
+		this.Write (new Int3 (pos), val);
 	}
 
 	public T SampleSpan(Cubic<SpanI> span, T defVal, Func<T,T,T> combiner)
