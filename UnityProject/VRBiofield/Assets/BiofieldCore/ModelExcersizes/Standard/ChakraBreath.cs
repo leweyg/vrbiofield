@@ -99,6 +99,8 @@ public class ChakraBreath : ExcersizeActivityInst {
 				} else {
 					this.Mesher.MeshController.ResultMesh = null;
 					this.Mesher.MeshController.CurrentSpinOpposite = cur.ChakraOneWay;
+					this.Mesher.MeshController.CurrentColor1 = cur.ChakraColor;
+					this.Mesher.MeshController.CurrentColor2 = cur.ChakraColor; // TODO: make this customizable.
 					this.Mesher.MeshController.BuildSingleLevel (Mathf.Min (33, cur.ChakraPetals));
 					this.CachedMeshes.Add (cur, this.Mesher.MeshController.ResultMesh);
 				}

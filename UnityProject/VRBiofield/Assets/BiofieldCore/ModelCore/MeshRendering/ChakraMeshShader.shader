@@ -5,6 +5,7 @@ Shader "Biofield / Chakra Mesh Shader" {
 	_ScrollOffset("_ScrollOffset", vector) = (0,0,0,0)
 	_ScrollScale("_ScrollScale", vector) = (1,1,1,1)
 	_CustomColor("CustomColor",Color) = (0,1,0,0)
+	_CustomColor2("CustomColor2",Color) = (0,1,0,0)
 	_CustomAlpha("CustomAlpha",Float) = 1
 	_SampleTransparency("_SampleTransparency", Float) = 1
     }
@@ -30,6 +31,7 @@ Shader "Biofield / Chakra Mesh Shader" {
 	float _SampleTransparency;
 	float4x4 _UnitToVolMatrix;
 	fixed4 _CustomColor;
+	fixed4 _CustomColor2;
 	float _CustomAlpha;
 
 
@@ -40,12 +42,14 @@ Shader "Biofield / Chakra Mesh Shader" {
     struct vertexInput {
         float4 vertex : POSITION;
         float4 texcoord : TEXCOORD0;
+        float4 vcolor : COLOR;
     };
 
     struct vertexOutput {
         float4 pos : SV_POSITION;
         float4 tex : TEXCOORD0;
         float4 localPos : TEXCOORD1;
+        float4 vcolor : TEXCOORD2;
     };
 
     vertexOutput vert(vertexInput input)
@@ -57,6 +61,7 @@ Shader "Biofield / Chakra Mesh Shader" {
         output.tex = input.texcoord;
         output.pos = screenPosUnProj;
         output.localPos = input.vertex;
+        output.vcolor = input.vcolor;
 
         return output;
     }
@@ -76,7 +81,8 @@ Shader "Biofield / Chakra Mesh Shader" {
         float al = length(input.tex.xy);
         float rt = _Time.y + (al * 24.0f);
         float c = remap( (cos(rt)), -1, 1, 0.0, 1.0 );
-        float3 clr = lerp(float3(1,1,1),_CustomColor.rgb,al); 
+        //float3 clr = lerp(float3(1,1,1),_CustomColor.rgb,al); 
+        float3 clr = lerp(float3(1,1,1),input.vcolor.rgb,al);
         float alpha = saturate(1.0 - (al*2.1)) * _CustomAlpha;
         return float4(clr.rgb,alpha * c);
 

@@ -72,11 +72,14 @@ public class DynamicFieldAsParticles : MonoBehaviour {
 
 		this.UpdateFieldParticles (true);
 
-		//var cells = this.Model.FieldsCells;
-		//var cnt = cells.Header.TotalCount;
-		//for (int i = 0; i < cnt; i++) {
-		//	var c = cells.Array [i];
-		//	Debug.DrawLine (c.Pos, c.Pos + (c.Direction * 0.1f), Color.green);
-		//}
+		if (true) {
+			var cells = this.Model.FieldsCells;
+			var cnt = cells.Header.TotalCount;
+			for (int i = 0; i < cnt; i++) {
+				var c = cells.Array [i];
+				Debug.DrawLine (c.Pos, c.Pos + (c.Direction.normalized * 0.1f ), Color.green);
+			}
+		}
+
 	}
 }
