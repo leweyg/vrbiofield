@@ -6,6 +6,7 @@ public class DynamicFieldAsParticles : MonoBehaviour {
 
 	private ParticleSystem PartSystem = null;
 	private ParticleSystem.Particle[] PartData = null;
+	private List<Vector4> PartCustom = null;
 	public DynamicFieldModel Model = null;
 
 	private bool isSetup = false;
@@ -33,18 +34,31 @@ public class DynamicFieldAsParticles : MonoBehaviour {
 		return angle;
 	}
 
+	public static Color ColorWithAlpha(Color c, float alpha) {
+		Color res = c;
+		res.a = alpha;
+		return res;
+	}
+
 	void UpdateFieldParticles(bool isFirst = false) {
 		var cells = this.Model.FieldsCells;
 		int count = cells.Header.TotalCount;
 		var camPos = Camera.main.transform.position;
-		this.PartData = new ParticleSystem.Particle[count];
+		if (this.PartData == null) {
+			this.PartData = new ParticleSystem.Particle[count];
+			this.PartCustom = new List<Vector4> (count);
+			while (this.PartCustom.Count < count) {
+				this.PartCustom.Add (Vector4.zero);
+			}
+		}
 		for (int i = 0; i < count; i++) {
 			var p = this.PartData [i];
 			var c = cells.Array [i];
+			var s = this.PartCustom [i];
 
 			if (isFirst) {
 				p.position = c.Pos;
-				p.color = Color.green;
+				p.startColor = Color.green;
 				p.startSize3D = Vector3.one * 0.1f;
 				p.remainingLifetime = 10000.0f;
 				p.randomSeed = (uint)i;
@@ -56,10 +70,14 @@ public class DynamicFieldAsParticles : MonoBehaviour {
 			float angle = SignedAngleBetween(up, c.Direction, rght);
 			p.axisOfRotation = fwd;
 			p.rotation = angle;
+			p.startColor = ColorWithAlpha (c.LatestColor, Mathf.Clamp01( c.Direction.magnitude / Model.UnitMagnitude ));
+			s = new Vector4 ((float)i, 0, 0, 0);
 
 			this.PartData [i] = p;
+			this.PartCustom [i] = s;
 		}
 		this.PartSystem.SetParticles (this.PartData, this.PartData.Length);
+		this.PartSystem.SetCustomParticleData (this.PartCustom, ParticleSystemCustomData.Custom1);
 	}
 
 	// Use this for initialization
@@ -77,7 +95,10 @@ public class DynamicFieldAsParticles : MonoBehaviour {
 			var cnt = cells.Header.TotalCount;
 			for (int i = 0; i < cnt; i++) {
 				var c = cells.Array [i];
-				Debug.DrawLine (c.Pos, c.Pos + (c.Direction.normalized * 0.1f ), Color.green);
+				var offset = ((c.Direction / Model.UnitMagnitude) * 0.1f);
+				var tipScl = offset.magnitude * 0.2f;
+				Debug.DrawLine (c.Pos, c.Pos + offset, Color.green);
+				Debug.DrawLine (c.Pos, c.Pos + (new Vector3(0,tipScl,0)), Color.green);
 			}
 		}
 

@@ -38,29 +38,29 @@ Shader "Biofield / Dynamic Field Particle Shader" {
 
 
     struct vertexInput {
-        float4 vertex : POSITION;
-        float4 vcolor : COLOR;
+        float3 vertex : POSITION;
+        fixed4 vcolor : COLOR;
         float4 texcoord : TEXCOORD0;
-        float4 custom1 : TEXCOORD1;
+        float4 custom1 : TEXCOORD1; // { time_offset, flow_scl, alpha, 0 }
     };
 
     struct vertexOutput {
         float4 pos : SV_POSITION;
-        float4 tex : TEXCOORD0;
-        float4 localPos : TEXCOORD1;
-        float4 vcolor : TEXCOORD2;
-        float4 custom1 : TEXCOORD3;
+        float2 tex : TEXCOORD0;
+        //float4 localPos : TEXCOORD1;
+        float4 vcolor : TEXCOORD1;
+        float4 custom1 : TEXCOORD2;
     };
 
     vertexOutput vert(vertexInput input)
     {
         vertexOutput output;
 
-        float4 screenPosUnProj = mul(UNITY_MATRIX_MVP, input.vertex);
+        float4 screenPosUnProj = mul(UNITY_MATRIX_MVP, float4(input.vertex.xyz, 1));
 
         output.tex = input.texcoord;
         output.pos = screenPosUnProj;
-        output.localPos = input.vertex;
+        //output.localPos = float4(input.vertex.xyz, 1);
         output.vcolor = input.vcolor;
         output.custom1 = input.custom1;
 

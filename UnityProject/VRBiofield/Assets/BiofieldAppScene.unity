@@ -2865,6 +2865,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ExcersizeSystem: {fileID: 597817466}
   DebugAbacus: {fileID: 2013619475}
+  TestHeartRateNow: 0
+  TestUserBreathTiming: 0
+  UserBreathingIn: 0
+  READ_UserBreathTime: 0
 --- !u!1 &500485917
 GameObject:
   m_ObjectHideFlags: 0
@@ -10432,7 +10436,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2013619474}
   m_LocalRotation: {x: -0, y: 0.6579033, z: -0, w: 0.7531025}
-  m_LocalPosition: {x: 1.366, y: -0.547, z: 0.438}
+  m_LocalPosition: {x: 1.5, y: -0.635, z: 0.692}
   m_LocalScale: {x: 0.44343168, y: 0.44343168, z: 0.44343168}
   m_Children:
   - {fileID: 1544003442}
