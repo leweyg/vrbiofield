@@ -99,4 +99,5 @@ public struct Int3 {
 	public Vector3 AsVector3() {
 		return new Vector3 (X, Y, Z);
 	}
+
 }
