@@ -560,12 +560,12 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 203664259}
+  - component: {fileID: 203664263}
   - component: {fileID: 203664262}
   - component: {fileID: 203664261}
   - component: {fileID: 203664260}
-  - component: {fileID: 203664263}
   m_Layer: 0
-  m_Name: AsMesh
+  m_Name: IsosurfaceMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -645,6 +645,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 875355fb1695ae34f923f5ffd33093aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsosurfaceRootValue: 12.7
 --- !u!1 &227694746
 GameObject:
   m_ObjectHideFlags: 0
@@ -891,7 +892,13 @@ Prefab:
       propertyPath: Body
       value: 
       objectReference: {fileID: 85540261}
-    m_RemovedComponents: []
+    - target: {fileID: 114248287165464286, guid: 24855079d64dadd4887e781bc205636f,
+        type: 2}
+      propertyPath: CurrentFocusChakra
+      value: 2
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 65671942419090496, guid: 24855079d64dadd4887e781bc205636f, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 24855079d64dadd4887e781bc205636f, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &328004974

@@ -10,7 +10,7 @@ Shader "Volume Rendering / Volume Isosurface" {
         SubShader{
         Tags{ "Queue" = "Transparent" "IgnoreProjector" = "True" "RenderType" = "Transparent" }
         Blend SrcAlpha OneMinusSrcAlpha
-        Cull Off
+        Cull Back
         ZWrite Off
         Pass{
         CGPROGRAM

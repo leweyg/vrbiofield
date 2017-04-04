@@ -9,6 +9,7 @@ public class VolumeTetrahedraSurfacer {
 		int tetCorners = 4;
 		Dictionary<int,int> ndxToVertex = new Dictionary<int, int> ();
 		List<int> triangles = new List<int> ();
+		List<int> quads = new List<int> ();
 		float[] signes = new float[tetCorners];
 		List<int> edgesInTetra = new List<int> ();
 		VolumeHeader h2 = new VolumeHeader (new Int3 (2, 2, 2));
@@ -59,22 +60,7 @@ public class VolumeTetrahedraSurfacer {
 							if (edgesInTetra.Count == 3) {
 								triangles.Add (vid);
 							} else if (edgesInTetra.Count == 4) {
-								if (ee != edgesInTetra [3]) {
-									triangles.Add (vid);
-								} else {
-									Debug.Log ("Four sided");
-									triangles.Add (prevVid);
-									triangles.Add (prevPrevVid);
-									triangles.Add (vid);
-
-									triangles.Add (pppv);
-									triangles.Add (prevPrevVid);
-									triangles.Add (vid);
-
-									triangles.Add (pppv);
-									triangles.Add (prevVid);
-									triangles.Add (vid);
-								}
+								quads.Add (vid);
 							} else {
 								Debug.Assert (false, "Really??");
 							}
@@ -88,16 +74,39 @@ public class VolumeTetrahedraSurfacer {
 		}
 
 		List<Vector3> vertices = new List<Vector3> ();
+		List<float> vertexSigns = new List<float> ();
+		Vector3 invScale = new Vector3 (1.0f / (vol.Size.X-1), 1.0f / (vol.Size.Y-1), 1.0f / (vol.Size.Z-1));
 		foreach (var kv in ndxToVertex) {
 			var packed = kv.Key;
 			var vid = kv.Value;
 			while (vertices.Count <= vid) {
 				vertices.Add (Vector3.zero);
+				vertexSigns.Add (0);
 			}
 			Int3 a3, b3;
 			UnpackVoxelEdgeId (vol.Header, packed, out a3, out b3);
-			var pos = Vector3.Lerp (a3.AsVector3 (), b3.AsVector3 (), 0.5f); // TODO: weight value based on signed root
-			vertices [vid] = pos;
+			var wa = signTest (vol.Read (a3));
+			var wb = signTest (vol.Read (b3));
+			var wab = Mathf.Abs (wa) / (Mathf.Abs (wa) + Mathf.Abs (wb));
+			var pos = Vector3.Lerp (a3.AsVector3 (), b3.AsVector3 (), wab); //0.5f); // TODO: weight value based on signed root
+			var upos = new Vector3(pos.x * invScale.x, pos.y * invScale.y, pos.z * invScale.z) - (Vector3.one * 0.5f);
+			vertices [vid] = upos;
+			vertexSigns [vid] = wa - wb;
+		}
+		for (int i = 0; i < triangles.Count; i += 3) {
+			// TODO: ensure triangle is oriented correctly:
+		}
+		for (int qi = 0; qi < quads.Count; qi+=4) {
+			// TODO: ensure quad is oriented correctly:
+
+			// add quad to triangles list:
+			triangles.Add(quads[qi+0]);
+			triangles.Add(quads[qi+1]);
+			triangles.Add(quads[qi+2]);
+
+			triangles.Add(quads[qi+1]);
+			triangles.Add(quads[qi+2]);
+			triangles.Add(quads[qi+3]);
 		}
 		Mesh result = new Mesh ();
 		Debug.Log ("Meshing info: verts=" + vertices.Count + " tris=" + triangles.Count);
