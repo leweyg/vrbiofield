@@ -20,8 +20,17 @@ public class VolumeSurfaceMesh : MonoBehaviour {
 		test.Write (new Int3 (2, 2, 2), true);
 		//test.Write (new Int3 (1, 2, 2), true);
 
-		SetMeshFromVolume (VolumeTetrahedraSurfacer.GenerateSurfaceVolume (test, (t => (t ? 3.0f : -1.0f))));
+		var mesh = VolumeTetrahedraSurfacer.GenerateSurfaceVolume (test, 
+			           (t => (t ? 1.0f : -3.0f)), 
+			           GetRelativeCameraPos ());
+		SetMeshFromVolume (mesh);
 		Debug.Log ("Done meshing.");
+	}
+
+
+
+	public Vector3 GetRelativeCameraPos() {
+		return this.transform.worldToLocalMatrix.MultiplyPoint (Camera.main.transform.position);
 	}
 
 	void SetMeshFromVolume(Mesh m) {
@@ -38,19 +47,31 @@ public class VolumeSurfaceMesh : MonoBehaviour {
 		var df = this.GetComponentInParent<DynamicFieldModel> ();
 		var cells = df.FieldsCells;
 
-		SetMeshFromVolume (VolumeTetrahedraSurfacer.GenerateSurfaceVolume (cells, (t => t.Direction.magnitude - IsosurfaceRootValue)));
+		var mesh = VolumeTetrahedraSurfacer.GenerateSurfaceVolume (cells, 
+			           (t => t.Direction.magnitude - IsosurfaceRootValue), 
+			GetRelativeCameraPos (), df);
+		SetMeshFromVolume (mesh);
 
 	}
+
 
 	// Use this for initialization
 	void Start () {
 		
 	}
-	
+
+	public bool AutoUpdate = false;
+	private float PreviousRootValue = -1.0f;
 	// Update is called once per frame
 	void Update () {
+		if (AutoUpdate) {
+			if (PreviousRootValue != this.IsosurfaceRootValue) {
+				this.UpdateNow = true;
+			}
+		}
 		if (UpdateNow) {
 			UpdateNow = false;
+			this.PreviousRootValue = this.IsosurfaceRootValue;
 			this.FromDynamicField ();
 		}
 	}

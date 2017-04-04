@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+
 Shader "Volume Rendering / Volume Isosurface" {
     Properties{
         _MainTex("Texture", 2D) = "white" {}
@@ -38,35 +40,30 @@ Shader "Volume Rendering / Volume Isosurface" {
     struct vertexInput {
         float4 vertex : POSITION;
         float4 texcoord : TEXCOORD0;
+        float4 tangent : TANGENT;
+        float3 normal : NORMAL;
     };
 
     struct vertexOutput {
         float4 pos : SV_POSITION;
         float4 tex : TEXCOORD0;
-        float4 objPosStart : TEXCOORD1;
-        float4 objPosEnd : TEXCOORD2;
+        float4 tangent : TEXCOORD1;
+        float3 extraXShade : TEXCOORD2;
     };
 
     vertexOutput vert(vertexInput input)
     {
         vertexOutput output;
 
-        //float4 worldPosUnProj = mul( _Object2World, input.vertex );
-        float4 screenPosUnProj = mul(UNITY_MATRIX_MVP, input.vertex);
-
-
-        float3 tocamera = ObjSpaceViewDir(input.vertex);
-
-        const float maxDistance = 1.7;
-
-        float3 objPos = (input.vertex.xyz);
-        objPos = mul( _UnitToVolMatrix, float4( objPos, 1.0 ) );
-        output.objPosStart = float4(objPos, 1);
-        output.objPosEnd = float4(objPos - (normalize(tocamera) * maxDistance), 1);
+        float4 worldPos = mul( unity_ObjectToWorld, float4( input.vertex.xyz, 1) );
+        float4 screenPosUnProj = mul(UNITY_MATRIX_MVP, float4( input.vertex.xyz, 1 ) );
+        float4 worldNormal = normalize( mul(unity_ObjectToWorld, float4( input.normal.xyz, 0 ) ) );
+        float3 viewDir = normalize( worldPos -  _WorldSpaceCameraPos );
 
         output.tex = input.texcoord;
         output.pos = screenPosUnProj;
-
+        output.tangent = input.tangent;
+        output.extraXShade = float3( abs(dot( worldNormal, viewDir)), 0, 0 );
 
         return output;
     }
@@ -76,7 +73,12 @@ Shader "Volume Rendering / Volume Isosurface" {
 
     float4 frag(vertexOutput input) : COLOR
     {
-		return float4(0.7, 1.0, 0.7, 0.5 );    
+    	float4 baseColor = float4(0.7, 1.0, 0.7, 0.75 );    
+    	float rippleFader = 1.0f; //( 1.0f + sin( ( _Time.y * input.tangent.x ) + input.tangent.y ) ) * 0.5f;
+    	float edgeFader = (1.0f - (input.extraXShade.r * 1.0f )); //0.5f));
+    	//float4 fnlColor = float4((baseColor.rgb * input.extraXShade.r), baseColor.a);
+    	float4 fnlColor = float4(baseColor.rgb * rippleFader, edgeFader * baseColor.a);
+		return fnlColor;
     }
 
         ENDCG

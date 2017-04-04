@@ -5,7 +5,7 @@ using System;
 
 public class VolumeTetrahedraSurfacer {
 
-	public static Mesh GenerateSurfaceVolume<T>(VolumeBuffer<T> vol, Func<T,float> signTest) {
+	public static Mesh GenerateSurfaceVolume<T>(VolumeBuffer<T> vol, Func<T,float> signTest, Vector3 relativeCameraPos, DynamicFieldModel optionalModel = null) {
 		int tetCorners = 4;
 		Dictionary<int,int> ndxToVertex = new Dictionary<int, int> ();
 		List<int> triangles = new List<int> ();
@@ -74,14 +74,22 @@ public class VolumeTetrahedraSurfacer {
 		}
 
 		List<Vector3> vertices = new List<Vector3> ();
-		List<float> vertexSigns = new List<float> ();
+		List<Vector3> vertexSigns = new List<Vector3> ();
+		List<Vector4> vertexTangents = null;
+		if (optionalModel != null) {
+			vertexTangents = new List<Vector4> ();
+		}
 		Vector3 invScale = new Vector3 (1.0f / (vol.Size.X-1), 1.0f / (vol.Size.Y-1), 1.0f / (vol.Size.Z-1));
 		foreach (var kv in ndxToVertex) {
+			// setup vertices from edge data:
 			var packed = kv.Key;
 			var vid = kv.Value;
 			while (vertices.Count <= vid) {
 				vertices.Add (Vector3.zero);
-				vertexSigns.Add (0);
+				vertexSigns.Add (Vector3.zero);;
+				if (optionalModel != null) {
+					vertexTangents.Add(Vector4.zero);
+				}
 			}
 			Int3 a3, b3;
 			UnpackVoxelEdgeId (vol.Header, packed, out a3, out b3);
@@ -91,28 +99,91 @@ public class VolumeTetrahedraSurfacer {
 			var pos = Vector3.Lerp (a3.AsVector3 (), b3.AsVector3 (), wab); //0.5f); // TODO: weight value based on signed root
 			var upos = new Vector3(pos.x * invScale.x, pos.y * invScale.y, pos.z * invScale.z) - (Vector3.one * 0.5f);
 			vertices [vid] = upos;
-			vertexSigns [vid] = wa - wb;
-		}
-		for (int i = 0; i < triangles.Count; i += 3) {
-			// TODO: ensure triangle is oriented correctly:
+			vertexSigns [vid] = (a3.AsVector3 () - b3.AsVector3 ()) * Mathf.Sign (wa - wb);
+			if (optionalModel != null) {
+				var ta = CalcFlowTangent(optionalModel, optionalModel.FieldsCells.Read(a3));
+				var tb = CalcFlowTangent(optionalModel, optionalModel.FieldsCells.Read(b3));
+				vertexTangents[vid] = ((ta + tb) *0.5f);
+			}
 		}
 		for (int qi = 0; qi < quads.Count; qi+=4) {
-			// TODO: ensure quad is oriented correctly:
+			
+			// ensure quad covers whole space (a and b must be furthest from each other):
+			var a = vertices[quads[qi+0]];
+			var b = vertices[quads[qi+1]];
+			var c = vertices[quads[qi+2]];
+			var d = vertices[quads[qi+3]];
 
-			// add quad to triangles list:
+			// add triangle a-b-c:
 			triangles.Add(quads[qi+0]);
 			triangles.Add(quads[qi+1]);
 			triangles.Add(quads[qi+2]);
 
 			triangles.Add(quads[qi+1]);
-			triangles.Add(quads[qi+2]);
 			triangles.Add(quads[qi+3]);
+			triangles.Add(quads[qi+2]);
+
 		}
+		var trisToSort = new List<SortTri> ();
+		for (int i = 0; i < triangles.Count; i += 3) {
+			// ensure triangle is oriented correctly:
+			var a = vertices[triangles[i+0]];
+			var b = vertices[triangles[i+1]];
+			var c = vertices[triangles[i+2]];
+			var n = Vector3.Cross (b - a, c - b);
+			if (Vector3.Dot (vertexSigns [triangles [i + 0]], n) >= 0.0f) {
+				SwapListValues (triangles, i + 1, i + 2);
+			}
+
+			// add triangle to list
+			SortTri tri;
+			tri.I0 = triangles [i + 0];
+			tri.I1 = triangles [i + 1];
+			tri.I2 = triangles [i + 2];
+			tri.DistFromCam = (relativeCameraPos - ((a + b + c) * (1.0f / 3.0f))).magnitude;
+			trisToSort.Add (tri);
+		}
+		// sort the triangles:
+		if (true)
+		{
+			trisToSort.Sort ((a, b) => (a.DistFromCam.CompareTo (b.DistFromCam)));
+			triangles.Clear ();
+			foreach (var t in trisToSort) { 
+				triangles.Add (t.I0);
+				triangles.Add (t.I1);
+				triangles.Add (t.I2);
+			}
+		}
+
 		Mesh result = new Mesh ();
-		Debug.Log ("Meshing info: verts=" + vertices.Count + " tris=" + triangles.Count);
-		result.vertices = vertices.ToArray ();
-		result.triangles = triangles.ToArray ();
+		//Debug.Log ("Meshing info: verts=" + vertices.Count + " tris=" + triangles.Count);
+		result.SetVertices( vertices );
+		if (optionalModel != null) {
+			result.SetTangents(vertexTangents);
+		}
+		result.triangles = ( triangles.ToArray() );
+		result.RecalculateNormals ();
 		return result;
+	}
+
+	private static Vector4 CalcFlowTangent(DynamicFieldModel model, DynamicFieldModel.DynFieldCell cell) {
+		var dir = cell.Direction.normalized;
+		var repeatScaler = 6.0f;
+		var offset = Vector3.Dot (cell.Pos, dir) * repeatScaler;
+		return new Vector4 (cell.Direction.magnitude / model.UnitMagnitude, offset, 0, 0);
+	}
+
+	private struct SortTri {
+		public int I0, I1, I2;
+		public float DistFromCam;
+
+
+	}
+
+	private static void SwapListValues<T>(List<T> list, int ia, int ib) {
+		var tmp = list [ia];
+		list [ia] = list [ib];
+		list [ib] = tmp;
 	}
 
 	public static int InvertTileOffset(int s, int o) {
