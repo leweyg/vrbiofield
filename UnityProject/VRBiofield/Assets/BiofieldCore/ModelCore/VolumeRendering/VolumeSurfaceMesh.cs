@@ -47,8 +47,14 @@ public class VolumeSurfaceMesh : MonoBehaviour {
 		var df = this.GetComponentInParent<DynamicFieldModel> ();
 		var cells = df.FieldsCells;
 
+		System.Func<DynamicFieldModel.DynFieldCell,float> f = ((cl) => {
+			bool isValid = true;// ( cl.VoxelIndex.X > (cells.Size.X / 2) );
+			float sign = (cl.Direction.magnitude - IsosurfaceRootValue);
+			return (isValid ? sign : -Mathf.Sign(sign));
+		});
+
 		var mesh = VolumeTetrahedraSurfacer.GenerateSurfaceVolume (cells, 
-			           (t => t.Direction.magnitude - IsosurfaceRootValue), 
+			(t => f(t)),// t.Direction.magnitude - IsosurfaceRootValue), 
 			GetRelativeCameraPos (), df);
 		SetMeshFromVolume (mesh);
 

@@ -62,7 +62,7 @@ public class VolumeTetrahedraSurfacer {
 							} else if (edgesInTetra.Count == 4) {
 								quads.Add (vid);
 							} else {
-								Debug.Assert (false, "Really??");
+								Debug.Assert (false, "Really?? c=" + edgesInTetra.Count);
 							}
 							pppv = prevPrevVid;
 							prevPrevVid = prevVid;
@@ -103,7 +103,7 @@ public class VolumeTetrahedraSurfacer {
 			if (optionalModel != null) {
 				var ta = CalcFlowTangent(optionalModel, optionalModel.FieldsCells.Read(a3));
 				var tb = CalcFlowTangent(optionalModel, optionalModel.FieldsCells.Read(b3));
-				vertexTangents[vid] = ((ta + tb) *0.5f);
+				vertexTangents [vid] = Vector4.Lerp (ta, tb, wab); // ((ta + tb) *0.5f);
 			}
 		}
 		for (int qi = 0; qi < quads.Count; qi+=4) {
@@ -146,7 +146,7 @@ public class VolumeTetrahedraSurfacer {
 		// sort the triangles:
 		if (true)
 		{
-			trisToSort.Sort ((a, b) => (a.DistFromCam.CompareTo (b.DistFromCam)));
+			trisToSort.Sort ((a, b) => -(a.DistFromCam.CompareTo (b.DistFromCam)));
 			triangles.Clear ();
 			foreach (var t in trisToSort) { 
 				triangles.Add (t.I0);
@@ -167,10 +167,11 @@ public class VolumeTetrahedraSurfacer {
 	}
 
 	private static Vector4 CalcFlowTangent(DynamicFieldModel model, DynamicFieldModel.DynFieldCell cell) {
-		var dir = cell.Direction.normalized;
+		var dir = cell.Direction.normalized;// / model.UnitMagnitude;
 		var repeatScaler = 6.0f;
-		var offset = Vector3.Dot (cell.Pos, dir) * repeatScaler;
-		return new Vector4 (cell.Direction.magnitude / model.UnitMagnitude, offset, 0, 0);
+		return new Vector4 (dir.x, dir.y, dir.z, repeatScaler);
+		//var offset = Vector3.Dot (cell.Pos, dir) * repeatScaler;
+		//return new Vector4 (cell.Direction.magnitude / model.UnitMagnitude, offset, 0, 0);
 	}
 
 	private struct SortTri {

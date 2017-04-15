@@ -10,10 +10,13 @@ public class DynamicFieldModel : MonoBehaviour {
 	[Range(0,6)]
 	public int CurrentFocusChakra = 0;
 	public float UnitMagnitude = 45.0f;
+	[Range(4,32)]
+	public int VoxelSideRes = 8;
 	public float DEBUG_AvgMagnitude = 0.0f;
 
 	public struct DynFieldCell
 	{
+		public Int3 VoxelIndex;
 		public Vector3 Pos;
 		public Vector3 Direction;
 		public Color LatestColor;
@@ -35,7 +38,7 @@ public class DynamicFieldModel : MonoBehaviour {
 		isSetup = true;
 
 		this.Body.EnsureSetup ();
-		int sideRes = 8;
+		int sideRes = this.VoxelSideRes;// 8;
 		int chakraToShow = CurrentFocusChakra; //3;
 		this.FieldsCells = new VolumeBuffer<DynFieldCell> (Cubic<int>.CreateSame (sideRes));
 		var scl = OneOver (this.FieldsCells.Header.Size.AsVector3 ());
@@ -48,6 +51,7 @@ public class DynamicFieldModel : MonoBehaviour {
 			cell.Direction = cntr - cell.Pos;
 			cell.LatestColor = Color.white;
 			cell.Twist = 0.0f;
+			cell.VoxelIndex = nd;
 			this.FieldsCells.Write (nd.AsCubic(), cell);
 		}
 	}

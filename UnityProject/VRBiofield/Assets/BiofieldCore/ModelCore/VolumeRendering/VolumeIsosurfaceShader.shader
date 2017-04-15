@@ -12,7 +12,7 @@ Shader "Volume Rendering / Volume Isosurface" {
         SubShader{
         Tags{ "Queue" = "Transparent" "IgnoreProjector" = "True" "RenderType" = "Transparent" }
         Blend SrcAlpha OneMinusSrcAlpha
-        Cull Back
+        Cull Off
         ZWrite Off
         Pass{
         CGPROGRAM
@@ -46,7 +46,8 @@ Shader "Volume Rendering / Volume Isosurface" {
 
     struct vertexOutput {
         float4 pos : SV_POSITION;
-        float4 tex : TEXCOORD0;
+        //float4 tex : TEXCOORD0;
+        float4 worldPos : TEXCOORD0;
         float4 tangent : TEXCOORD1;
         float3 extraXShade : TEXCOORD2;
     };
@@ -60,7 +61,8 @@ Shader "Volume Rendering / Volume Isosurface" {
         float4 worldNormal = normalize( mul(unity_ObjectToWorld, float4( input.normal.xyz, 0 ) ) );
         float3 viewDir = normalize( worldPos -  _WorldSpaceCameraPos );
 
-        output.tex = input.texcoord;
+        //output.tex = input.texcoord;
+        output.worldPos = worldPos;
         output.pos = screenPosUnProj;
         output.tangent = input.tangent;
         output.extraXShade = float3( abs(dot( worldNormal, viewDir)), 0, 0 );
@@ -74,10 +76,16 @@ Shader "Volume Rendering / Volume Isosurface" {
     float4 frag(vertexOutput input) : COLOR
     {
     	float4 baseColor = float4(0.7, 1.0, 0.7, 0.75 );    
-    	float rippleFader = 1.0f; //( 1.0f + sin( ( _Time.y * input.tangent.x ) + input.tangent.y ) ) * 0.5f;
-    	float edgeFader = (1.0f - (input.extraXShade.r * 1.0f )); //0.5f));
+    	//float rippleFader = ( 1.0f + sin( ( _Time.y * -input.tangent.x ) + input.tangent.y ) ) * 0.5f;
+    	float timeOffset = ( frac( _Time.y ) * 2.0f ) - 1.0f;
+    	float3 dir = -normalize( input.tangent.xyz );
+    	float ripplePos = ( dot( dir, ( input.worldPos.xyz + ( dir * timeOffset ) ) ) );
+    	float rippleFader = ( 1.0f + sin( ripplePos * 3.14159 ) ) * 0.5f;
+    	float edgePct = input.extraXShade.r;
+    	float edgeFader = rippleFader * edgePct; // 1.0f; // (1.0f - (input.extraXShade.r * 1.0f )); //0.5f));
     	//float4 fnlColor = float4((baseColor.rgb * input.extraXShade.r), baseColor.a);
-    	float4 fnlColor = float4(baseColor.rgb * rippleFader, edgeFader * baseColor.a);
+    	float3 rgbColor = lerp(float3(1,1,1), baseColor.rgb, rippleFader ); // baseColor.rgb * rippleFader;
+    	float4 fnlColor = float4(rgbColor, edgeFader * baseColor.a);
 		return fnlColor;
     }
 
