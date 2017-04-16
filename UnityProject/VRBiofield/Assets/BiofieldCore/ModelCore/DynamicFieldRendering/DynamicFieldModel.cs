@@ -54,6 +54,8 @@ public class DynamicFieldModel : MonoBehaviour {
 			cell.VoxelIndex = nd;
 			this.FieldsCells.Write (nd.AsCubic(), cell);
 		}
+
+		this.UpdateCellFieldDir (snapToCurrent:true);
 	}
 
 	// Use this for initialization
@@ -85,7 +87,7 @@ public class DynamicFieldModel : MonoBehaviour {
 		return res;
 	}
 
-	void UpdateCellFieldDir() {
+	void UpdateCellFieldDir(bool snapToCurrent=false) {
 		var chakras = this.Body.Chakras.AllChakras;
 		var chakra = chakras [((int)(Time.time * 0.5f)) % chakras.Length];
 		chakra = chakras[CurrentFocusChakra];
@@ -105,7 +107,7 @@ public class DynamicFieldModel : MonoBehaviour {
 			//c.Direction = MagneticDipoleField(c.Pos, cpos, cdir) / UnitMagnitude;
 			var newDir = ChakraDipoleField(c.Pos, cpos, cdir, cOneWay);
 			var newClr = chakra.ChakraColor;
-			var lf = Time.deltaTime * 1.0f;
+			var lf = (snapToCurrent ? 1.0f : Time.deltaTime * 1.0f);
 			c.Direction = Vector3.Lerp (c.Direction, newDir, lf);
 			c.LatestColor = Color.Lerp (c.LatestColor, newClr, lf);
 			cells.Array [i] = c;
@@ -119,6 +121,7 @@ public class DynamicFieldModel : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		this.EnsureSetup ();
 		this.UpdateCellFieldDir	();
 
 	}

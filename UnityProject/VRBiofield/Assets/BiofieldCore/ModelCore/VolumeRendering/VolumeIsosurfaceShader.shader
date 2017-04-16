@@ -19,7 +19,7 @@ Shader "Volume Rendering / Volume Isosurface" {
 
 #pragma vertex vert  
 #pragma fragment frag 
-#pragma target 5.0
+#pragma target 4.0
 
 #include "UnityCG.cginc"
 
@@ -81,8 +81,9 @@ Shader "Volume Rendering / Volume Isosurface" {
     	float3 dir = -normalize( input.tangent.xyz );
     	float ripplePos = ( dot( dir, ( input.worldPos.xyz + ( dir * timeOffset ) ) ) );
     	float rippleFader = ( 1.0f + sin( ripplePos * 3.14159 ) ) * 0.5f;
+    	float magFader = saturate( input.tangent.w );
     	float edgePct = input.extraXShade.r;
-    	float edgeFader = rippleFader * edgePct; // 1.0f; // (1.0f - (input.extraXShade.r * 1.0f )); //0.5f));
+    	float edgeFader = rippleFader * edgePct * magFader; // 1.0f; // (1.0f - (input.extraXShade.r * 1.0f )); //0.5f));
     	//float4 fnlColor = float4((baseColor.rgb * input.extraXShade.r), baseColor.a);
     	float3 rgbColor = lerp(float3(1,1,1), baseColor.rgb, rippleFader ); // baseColor.rgb * rippleFader;
     	float4 fnlColor = float4(rgbColor, edgeFader * baseColor.a);

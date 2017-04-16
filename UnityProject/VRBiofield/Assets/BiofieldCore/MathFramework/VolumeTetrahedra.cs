@@ -169,7 +169,7 @@ public class VolumeTetrahedraSurfacer {
 	private static Vector4 CalcFlowTangent(DynamicFieldModel model, DynamicFieldModel.DynFieldCell cell) {
 		var dir = cell.Direction.normalized;// / model.UnitMagnitude;
 		var repeatScaler = 6.0f;
-		return new Vector4 (dir.x, dir.y, dir.z, repeatScaler);
+		return new Vector4 (dir.x, dir.y, dir.z, cell.Direction.magnitude / model.UnitMagnitude);
 		//var offset = Vector3.Dot (cell.Pos, dir) * repeatScaler;
 		//return new Vector4 (cell.Direction.magnitude / model.UnitMagnitude, offset, 0, 0);
 	}

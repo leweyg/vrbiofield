@@ -40,17 +40,21 @@ public class VolumeSurfaceMesh : MonoBehaviour {
 		mr.enabled = true;
 	}
 
-	[Range(0.0f,30.0f)]
+	[Range(0.0f,70.0f)]
 	public float IsosurfaceRootValue = 5.0f;
 	[ContextMenu("From Dynamic Field")]
 	void FromDynamicField() {
 		var df = this.GetComponentInParent<DynamicFieldModel> ();
+		df.EnsureSetup ();
 		var cells = df.FieldsCells;
 
 		System.Func<DynamicFieldModel.DynFieldCell,float> f = ((cl) => {
 			bool isValid = true;// ( cl.VoxelIndex.X > (cells.Size.X / 2) );
 			float sign = (cl.Direction.magnitude - IsosurfaceRootValue);
 			return (isValid ? sign : -Mathf.Sign(sign));
+
+			//bool isOdd = ((cl.VoxelIndex.X % 2) == 1);
+			//return (isOdd ? 1.0f : -1.0f);
 		});
 
 		var mesh = VolumeTetrahedraSurfacer.GenerateSurfaceVolume (cells, 
@@ -70,6 +74,7 @@ public class VolumeSurfaceMesh : MonoBehaviour {
 	private float PreviousRootValue = -1.0f;
 	// Update is called once per frame
 	void Update () {
+		
 		if (AutoUpdate) {
 			if (PreviousRootValue != this.IsosurfaceRootValue) {
 				this.UpdateNow = true;
