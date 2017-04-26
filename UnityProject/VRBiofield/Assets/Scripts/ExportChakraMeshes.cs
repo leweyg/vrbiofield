@@ -19,6 +19,25 @@ public class ExportChakraMeshes : MonoBehaviour {
 		}
 	}
 
+	[ContextMenu("Export Yogi Mesh")]
+	public void ExportYogiMesh() {
+		var bodyRoot = this.ChakraExcersize.Body.LeftLegEnd;
+		while (bodyRoot.parent != null)
+			bodyRoot = bodyRoot.parent;
+		var smr = bodyRoot.GetComponentInChildren<SkinnedMeshRenderer> ();
+		Mesh m = new Mesh ();
+		smr.BakeMesh (m);
+
+		var str = ObjExporterScript.MeshToString (m, this.transform, null);
+
+		string toPath = (Application.dataPath + "/ExportedMeshes/YogiMesh_SimpleLotus.obj");
+		Debug.Log ("Saving mesh to: " + toPath);
+		StreamWriter sw = new StreamWriter (toPath);
+		sw.Write (str);
+		sw.Close ();
+
+	}
+
 	[ContextMenu("Export All Chakra Meshes")]
 	public void DoExportAll() {
 		var dict = this.ChakraExcersize.MeshDictionary;
