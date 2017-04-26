@@ -22,6 +22,8 @@ public class ChakraBreath : ExcersizeActivityInst {
 		Debug.Assert (this.BackMesher != null);
 	}
 
+	public Dictionary<ChakraType,Mesh> MeshDictionary { get { return this.CachedMeshes; } }
+
 	private List<ChakraType> CommonChakras = new List<ChakraType>();
 
 	private bool IsCommonChakra(ChakraType c) {
