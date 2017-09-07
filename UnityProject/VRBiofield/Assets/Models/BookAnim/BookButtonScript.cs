@@ -8,6 +8,8 @@ public class BookButtonScript : MonoBehaviour {
 	private Collider MyCollider;
 	private bool IsHovering = false;
 	private MeshRenderer MyRenderer;
+	public Texture WhiteTexture = null;
+	private Texture ArrowTexture = null;
 
 	// Use this for initialization
 	void Start () {
@@ -34,11 +36,19 @@ public class BookButtonScript : MonoBehaviour {
 		if ((this.IsHovering != isOver) || (fullUpdate)) {
 			this.IsHovering = isOver;
 		}
-		var clr = Book.CanChangePageInDirection(this.IsTurnForward) ? Book.ButtonColorActive : Color.black;
+		var isValidArrow = Book.CanChangePageInDirection (this.IsTurnForward);
+		var clr = isValidArrow ? Book.ButtonColorActive : Color.black;
 		clr = (this.IsHovering ? clr : Book.ButtonColorPassive);
 		if (this.cachedColor != clr) {
 			this.cachedColor = clr;
 			this.MyRenderer.material.color = clr;
+			if (this.WhiteTexture != null) {
+				if (this.ArrowTexture == null) {
+					this.ArrowTexture = this.MyRenderer.material.mainTexture;
+				}
+				var t = (isValidArrow ? this.ArrowTexture : this.WhiteTexture);
+				this.MyRenderer.material.mainTexture = t;
+			}
 		}
 
 		if (this.IsHovering && FocusRay.main.IsHeadGaze) {

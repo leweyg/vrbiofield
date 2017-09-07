@@ -27,16 +27,6 @@ public class FlowVertexNode : MonoBehaviour {
 	public Vector3 TempNormal {get; set;}
 
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
 	private static List<FlowVertexNode> FlowNodesForAdd = new List<FlowVertexNode>();
 
 	[ContextMenu ("Mark for Tri Add")]

@@ -4,13 +4,6 @@ using UnityEngine;
 
 public class AbacusBead : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+	public float PreviousPlacementValue = -1.0f;
+
 }

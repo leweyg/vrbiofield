@@ -11,11 +11,16 @@ public class AbacusRail : MonoBehaviour {
 	public float TextDisplayUnitScalar { get; set; }
 
 	private TextMesh MyTextDisplay;
+	private bool IsFullUpdate = true;
 
 	public void SetBeadCountAndNumber(int c, float f) {
-		this.BeadCount = c;
+		if (this.BeadCount != c) {
+			this.BeadCount = c;
+			this.IsFullUpdate = true;
+		}
 		this.NumberToShow = f;
 		this.UpdateBeads ();
+		this.IsFullUpdate = false;
 	}
 	public void SetBeadCountAndNumberWrapped(int c, float f) {
 		var cf = (float)c;
@@ -26,7 +31,11 @@ public class AbacusRail : MonoBehaviour {
 		var cf = ((float)c);
 		float floorF = (Mathf.Floor (f / cf) * cf);
 		var v = f - floorF;
-		this.FlipDirection = ((((int)(floorF / cf)) % 2) == 1);
+		var newFlip = ((((int)(floorF / cf)) % 2) == 1);
+		if (newFlip != this.FlipDirection) {
+			this.FlipDirection = newFlip;
+			this.IsFullUpdate = true;
+		}
 		this.SetBeadCountAndNumber (c, v);
 	}
 
@@ -71,17 +80,15 @@ public class AbacusRail : MonoBehaviour {
 				this.MyBeads.Add (nb);
 				nb.transform.parent = db.transform.parent;
 				nb.transform.localScale = db.transform.localScale;
+				this.IsFullUpdate = true;
 			}
 			var cb = this.MyBeads [bi];
-			cb.gameObject.SetActive (true);
+			if (this.IsFullUpdate) {
+				cb.gameObject.SetActive (true);
+			}
 
 			// now place the bead:
-			var br = this.AbacusDefaults.BeadRadius;
-			var h = (FlipDirection ? this.PosLow : this.PosHigh);
-			var l = (FlipDirection ? this.PosHigh : this.PosLow);
-			var dirPos = (h - l).normalized * ( br * 2.0f);
-			var posLeft = h - (dirPos * (((float)bi) + 0.5f));
-			var posRight = l + (dirPos * (((float)(this.BeadCount - bi)) - 0.5f));
+
 			float pf;
 			var bif = (float)bi;
 			if (bi == ((int)this.NumberToShow)) {
@@ -91,11 +98,23 @@ public class AbacusRail : MonoBehaviour {
 			} else {
 				pf = 0.0f;
 			}
-			cb.transform.position = Vector3.Lerp(posLeft, posRight, pf);
+
+			if ((this.IsFullUpdate) || (cb.PreviousPlacementValue != pf)) {
+				cb.PreviousPlacementValue = pf;
+				var br = this.AbacusDefaults.BeadRadius;
+				var h = (FlipDirection ? this.PosLow : this.PosHigh);
+				var l = (FlipDirection ? this.PosHigh : this.PosLow);
+				var dirPos = (h - l).normalized * (br * 2.0f);
+				var posLeft = h - (dirPos * (((float)bi) + 0.5f));
+				var posRight = l + (dirPos * (((float)(this.BeadCount - bi)) - 0.5f));
+				cb.transform.position = Vector3.Lerp (posLeft, posRight, pf);
+			}
 		}
-		for (int bi = BeadCount; bi < this.MyBeads.Count; bi++) {
-			// hide unused beads:
-			this.MyBeads [bi].gameObject.SetActive (false);
+		if (this.IsFullUpdate) {
+			for (int bi = BeadCount; bi < this.MyBeads.Count; bi++) {
+				// hide unused beads:
+				this.MyBeads [bi].gameObject.SetActive (false);
+			}
 		}
 
 		// if showing, update the text display:
