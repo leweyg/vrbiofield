@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using System.Collections;
 using System.IO;
 using System.Text;
@@ -79,13 +81,14 @@ public class ObjExporterScript
 
 public class ObjExporter : ScriptableObject
 {
-	[MenuItem ("File/Export/Wavefront OBJ")]
+	#if UNITY_EDITOR
+	[UnityEditor.MenuItem ("File/Export/Wavefront OBJ")]
 	static void DoExportWSubmeshes()
 	{
 		DoExport(true);
 	}
 
-	[MenuItem ("File/Export/Wavefront OBJ (No Submeshes)")]
+	[UnityEditor.MenuItem ("File/Export/Wavefront OBJ (No Submeshes)")]
 	static void DoExportWOSubmeshes()
 	{
 		DoExport(false);
@@ -94,6 +97,7 @@ public class ObjExporter : ScriptableObject
 
 	static void DoExport(bool makeSubmeshes)
 	{
+		
 		if (Selection.gameObjects.Length == 0)
 		{
 			Debug.Log("Didn't Export Any Meshes; Nothing was selected!");
@@ -131,6 +135,8 @@ public class ObjExporter : ScriptableObject
 		ObjExporterScript.End();
 		Debug.Log("Exported Mesh: " + fileName);
 	}
+
+	#endif
 
 	static string processTransform(Transform t, bool makeSubmeshes)
 	{
