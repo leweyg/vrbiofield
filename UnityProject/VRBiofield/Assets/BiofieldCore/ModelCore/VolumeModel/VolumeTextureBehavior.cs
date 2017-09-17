@@ -250,6 +250,7 @@ public class VolumeTextureBehavior : MonoBehaviour {
 						var wcenter = m2w.MultiplyPoint (center);
 						var wradius = m2w.MultiplyVector (Vector3.one * radius).magnitude;
 						if (Physics.CheckSphere (wcenter, wradius)) {
+							//Debug.Log ("Touched something");
 							curColor = Color.white;
 							curColor.a = 0.2f;
 							curDistance = 0.0f;
