@@ -5,6 +5,7 @@ using UnityEngine;
 public class DynamicFieldModel : MonoBehaviour {
 
 	public BodyLandmarks Body;
+	public ExcersizeSharedScheduler ExcersizeSystem;
 
 	public VolumeBuffer<DynFieldCell> FieldsCells = null;
 	[Range(0,6)]
@@ -14,6 +15,8 @@ public class DynamicFieldModel : MonoBehaviour {
 	public int VoxelSideRes = 8;
 	public float DEBUG_AvgMagnitude = 0.0f;
 	public bool SkipRandomPlacement = false;
+	private bool mIsPaused = false;
+	public float FieldOverallAlpha { get; private set; }
 
 	public struct DynFieldCell
 	{
@@ -38,6 +41,13 @@ public class DynamicFieldModel : MonoBehaviour {
 			return;
 		isSetup = true;
 
+		FieldOverallAlpha = 1.0f;
+		if (!this.Body) {
+			this.Body = this.gameObject.GetComponentInParent<BodyLandmarks> ();
+		}
+		if (!this.ExcersizeSystem) {
+			this.ExcersizeSystem = GameObject.FindObjectOfType<ExcersizeSharedScheduler> ();
+		}
 		this.Body.EnsureSetup ();
 		int sideRes = this.VoxelSideRes;// 8;
 		int chakraToShow = CurrentFocusChakra; //3;
@@ -59,6 +69,20 @@ public class DynamicFieldModel : MonoBehaviour {
 		}
 
 		this.UpdateCellFieldDir (snapToCurrent:true);
+	}
+
+	public delegate void PausedChangedEvent(bool isNowPaused);
+	public event PausedChangedEvent OnPausedChanged;
+	public bool IsPaused {
+		get { return this.mIsPaused; }
+		set {
+			if (this.mIsPaused != value) {
+				this.mIsPaused = value;
+				if (OnPausedChanged != null) {
+					OnPausedChanged (value);
+				}
+			}
+		}
 	}
 
 	// Use this for initialization
@@ -117,9 +141,16 @@ public class DynamicFieldModel : MonoBehaviour {
 	}
 
 	void UpdateCellFieldDir(bool snapToCurrent=false) {
+		if (this.IsPaused)
+			return;
+		
 		var chakras = this.Body.Chakras.AllChakras;
 		var chakra = chakras [((int)(Time.time * 0.5f)) % chakras.Length];
-		chakra = chakras[CurrentFocusChakra];
+		if (CurrentFocusChakra >= 0) {
+			chakra = chakras [CurrentFocusChakra];
+		} else {
+			return;
+		}
 
 		var cpos = chakra.transform.position;
 		var cdir = -chakra.transform.up;
@@ -149,10 +180,46 @@ public class DynamicFieldModel : MonoBehaviour {
 
 		this.DEBUG_AvgMagnitude = (avgSum / ((float)avgCnt));
 	}
+
+	void UpdateCurrentSelection() {
+		if (this.ExcersizeSystem) {
+			var cur = this.ExcersizeSystem.CurrentActivity;
+			var wantPause = true;
+			var overallAlpha = 1.0f;
+			if (cur) {
+				ChakraBreath chakraExcer = null;
+				ChakraBreath infoChakra = null;
+				foreach (var inst in cur.Instances) {
+					var ce = (inst as ChakraBreath);
+					if (ce) {
+						if (ce.Body == this.Body) {
+							chakraExcer = ce;
+						}
+						if (ce.IsInfoAvatar) {
+							infoChakra = ce;
+						}
+					}
+				}
+				if (infoChakra && infoChakra.FocusChakra) {
+					if (chakraExcer != infoChakra) {
+						chakraExcer = null; // if teacher, and info is active, hide the teacher
+					}
+				}
+				if (chakraExcer && chakraExcer.CurrentChakra) {
+					this.CurrentFocusChakra = chakraExcer.CurrentChakra.ChakraIndex - 1;
+					overallAlpha = Mathf.Lerp (0.35f, 1.0f, chakraExcer.LatestBreathAlpha); // doesn't fully fade
+					wantPause = false;
+				}
+			}
+			this.IsPaused = (wantPause);
+			this.FieldOverallAlpha = overallAlpha;
+		}
+	}
 	
 	// Update is called once per frame
 	void Update () {
 		this.EnsureSetup ();
+		this.UpdateCurrentSelection ();
 		this.UpdateCellFieldDir	();
 
 	}

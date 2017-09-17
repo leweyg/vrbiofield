@@ -5,13 +5,22 @@ public class ExcersizeActivityBase : MonoBehaviour {
 
 	public string ActivityName = "General Breath";
 	public ExcersizeSharedScheduler Context { get; set; }
-	private List<ExcersizeActivityInst> Instances = new List<ExcersizeActivityInst> ();
+	public List<ExcersizeActivityInst> Instances { get; private set; }
 
 	public virtual void EnsureSetup() {
 		if (this.Context == null) {
 			this.Context = this.GetComponentInParent<ExcersizeSharedScheduler> ();
 			this.Context.EnsureSetup ();
+			this.Instances = new List<ExcersizeActivityInst> ();
 		}
+	}
+
+	public virtual ExcersizeActivityInst FindInstanceForBody(BodyLandmarks body) {
+		foreach (var i in this.Instances) {
+			if (i.Body == body)
+				return i;
+		}
+		return null;
 	}
 
 	public virtual void RegisterInstance(ExcersizeActivityInst inst) {

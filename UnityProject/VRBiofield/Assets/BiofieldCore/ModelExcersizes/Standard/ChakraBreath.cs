@@ -9,9 +9,10 @@ public class ChakraBreath : ExcersizeActivityInst {
 	public ChakraMesh Mesher = null;
 	public ChakraMesh BackMesher = null;
 	//public ChakraControl MainControls = null;
-	private ChakraType CurrentChakra = null;
 	public bool IsShowBreathing = false;
 	public bool ForceFull = false;
+	public ChakraType CurrentChakra { get; private set; }
+	public ChakraType FocusChakra { get; private set; }
 	private Dictionary<ChakraType,Mesh> CachedMeshes = new Dictionary<ChakraType, Mesh>();
 	private Dictionary<ChakraType,Mesh> CachedMeshesBack = new Dictionary<ChakraType, Mesh>();
 
@@ -74,13 +75,17 @@ public class ChakraBreath : ExcersizeActivityInst {
 		// else
 		return 1.0f;
 	}
+
+	public float LatestBreathAlpha { get; private set; }
 	
 	// Update is called once per frame
 	void Update () {
 		var cur = this.FindClosestChakra ();
+		this.FocusChakra = cur;
 
 		// update breath:
 		var breathAlpha = this.CurrentBreathAlpha (ref cur);
+		this.LatestBreathAlpha = breathAlpha;
 
 		// update mesh:
 		if (cur != this.CurrentChakra) {
