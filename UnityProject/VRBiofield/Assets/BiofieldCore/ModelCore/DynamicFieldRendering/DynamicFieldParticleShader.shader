@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 Shader "Biofield / Dynamic Field Particle Shader" {
     Properties{
         _MainTex("Texture", 2D) = "white" {}
@@ -56,7 +58,7 @@ Shader "Biofield / Dynamic Field Particle Shader" {
     {
         vertexOutput output;
 
-        float4 screenPosUnProj = mul(UNITY_MATRIX_MVP, float4(input.vertex.xyz, 1));
+        float4 screenPosUnProj = UnityObjectToClipPos(float4(input.vertex.xyz, 1));
 
         output.tex = input.texcoord;
         output.pos = screenPosUnProj;
@@ -82,7 +84,8 @@ Shader "Biofield / Dynamic Field Particle Shader" {
         float2 texPos = input.tex.xy;
         float4 texColor = tex2D(_MainTex, texPos).rgba;
 
-        float tstColor = tex2D(_MainTex, texPos + float2(0,_Time.y + input.custom1.x)).a;
+        float2 texOffset = float2(0,_Time.y + input.custom1.x);
+        float tstColor = tex2D(_MainTex, texPos + texOffset).a;
         float animVal = tstColor;// abs( sin( (_Time.y) + texPos.y * 4.5 ) );
  
         texColor.rgba = input.vcolor.rgba * float4(1,1,1,texColor.a);

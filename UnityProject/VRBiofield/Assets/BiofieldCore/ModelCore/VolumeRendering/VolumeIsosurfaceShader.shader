@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 // Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
 
 Shader "Volume Rendering / Volume Isosurface" {
@@ -57,7 +59,7 @@ Shader "Volume Rendering / Volume Isosurface" {
         vertexOutput output;
 
         float4 worldPos = mul( unity_ObjectToWorld, float4( input.vertex.xyz, 1) );
-        float4 screenPosUnProj = mul(UNITY_MATRIX_MVP, float4( input.vertex.xyz, 1 ) );
+        float4 screenPosUnProj = UnityObjectToClipPos(float4( input.vertex.xyz, 1 ) );
         float4 worldNormal = normalize( mul(unity_ObjectToWorld, float4( input.normal.xyz, 0 ) ) );
         float3 viewDir = normalize( worldPos -  _WorldSpaceCameraPos );
 

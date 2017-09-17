@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 Shader "Volume Rendering / Volume Icon" {
     Properties{
         _MainTex("Texture", 2D) = "white" {}
@@ -51,7 +53,7 @@ Shader "Volume Rendering / Volume Icon" {
         vertexOutput output;
 
         //float4 worldPosUnProj = mul( _Object2World, input.vertex );
-        float4 screenPosUnProj = mul(UNITY_MATRIX_MVP, input.vertex);
+        float4 screenPosUnProj = UnityObjectToClipPos(input.vertex);
 
 
         float3 tocamera = ObjSpaceViewDir(input.vertex);

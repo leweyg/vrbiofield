@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 Shader "Biofield / Energy Particle Shader" {
     Properties{
         _MainTex("Texture", 2D) = "white" {}
@@ -54,7 +56,7 @@ Shader "Biofield / Energy Particle Shader" {
     {
         vertexOutput output;
 
-        float4 screenPosUnProj = mul(UNITY_MATRIX_MVP, input.vertex);
+        float4 screenPosUnProj = UnityObjectToClipPos(input.vertex);
 
         output.tex = input.texcoord;
         output.pos = screenPosUnProj;

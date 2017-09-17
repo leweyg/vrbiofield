@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 // Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
 
 Shader "Biofield / Fade Edges Shader" {
@@ -56,7 +58,7 @@ Shader "Biofield / Fade Edges Shader" {
     {
         vertexOutput output;
 
-        float4 screenPosUnProj = mul(UNITY_MATRIX_MVP, input.vertex);
+        float4 screenPosUnProj = UnityObjectToClipPos(input.vertex);
 
         output.tex = input.texcoord;
         output.pos = screenPosUnProj;

@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 Shader "Volume Rendering / Per-Pixel Random Sampler" {
     Properties{
         _BackgroundColor("Background Color", Color) = (1, 1, 1, 0)
@@ -51,7 +53,7 @@ Shader "Volume Rendering / Per-Pixel Random Sampler" {
         vertexOutput output;
 
         //float4 worldPosUnProj = mul( _Object2World, input.vertex );
-        float4 screenPosUnProj = mul(UNITY_MATRIX_MVP, input.vertex);
+        float4 screenPosUnProj = UnityObjectToClipPos(input.vertex);
 
 
         float3 tocamera = ObjSpaceViewDir(input.vertex);
@@ -185,6 +187,7 @@ Shader "Volume Rendering / Per-Pixel Random Sampler" {
 
     float4 frag(vertexOutput input) : COLOR
     {
+
         float2 texPos = input.tex.xy;
         float4 texColor = tex2D(_MainTex, texPos).rgba;
 

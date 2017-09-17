@@ -34,6 +34,8 @@ public class VolumeHeader {
 			((float)ndx.Y) / ((float)Size.Y - 1), ((float)ndx.Z) / ((float)Size.Z - 1));
 	}
 
+	public static VolumeHeader Two = new VolumeHeader (new Int3 (2, 2, 2));
+
 }
 
 public class VolumeBuffer<T> {

@@ -8,6 +8,8 @@ public class DynamicFieldAsParticles : MonoBehaviour {
 	private ParticleSystem.Particle[] PartData = null;
 	private List<Vector4> PartCustom = null;
 	public DynamicFieldModel Model = null;
+	public bool IsDebugParticles = false;
+	public bool IsDebugGrid = false;
 
 	private bool isSetup = false;
 	public void EnsureSetup() {
@@ -59,9 +61,17 @@ public class DynamicFieldAsParticles : MonoBehaviour {
 			if (isFirst) {
 				p.position = c.Pos;
 				p.startColor = Color.green;
-				p.startSize3D = Vector3.one * 0.1f;
+				p.startSize3D = Vector3.one * 0.2f;
 				p.remainingLifetime = 10000.0f;
 				p.randomSeed = (uint)i;
+			}
+
+			if (false) {
+				var tt = Time.timeSinceLevelLoad;
+				var t = (tt - Mathf.Floor (tt));
+				var ht = (t - 0.5f) * 2.0f;
+			
+				p.position = c.Pos + (c.Direction * ht * 0.01f);
 			}
 
 			Vector3 fwd = (p.position - camPos);
@@ -70,7 +80,7 @@ public class DynamicFieldAsParticles : MonoBehaviour {
 			float angle = SignedAngleBetween(up, c.Direction, rght);
 			p.axisOfRotation = fwd;
 			p.rotation = angle;
-			p.startColor = ColorWithAlpha (c.LatestColor, Mathf.Clamp01( c.Direction.magnitude / Model.UnitMagnitude ));
+			p.startColor = ColorWithAlpha (c.LatestColor, Mathf.Clamp01( Mathf.Pow( c.Direction.magnitude / Model.UnitMagnitude, 2.0f ) ));
 			s = new Vector4 ((float)i, 0, 0, 0);
 
 			this.PartData [i] = p;
@@ -84,21 +94,44 @@ public class DynamicFieldAsParticles : MonoBehaviour {
 	void Start () {
 		this.EnsureSetup ();
 	}
+
+	private Vector3 DebugCellOffset(DynamicFieldModel.DynFieldCell c) {
+		var offset = ((c.Direction / Model.UnitMagnitude) * 0.2f);
+		return offset;
+	}
 	
 	// Update is called once per frame
 	void Update () {
 
 		this.UpdateFieldParticles (true);
 
-		if (true) {
+		if (this.IsDebugParticles || this.IsDebugGrid) {
 			var cells = this.Model.FieldsCells;
 			var cnt = cells.Header.TotalCount;
 			for (int i = 0; i < cnt; i++) {
 				var c = cells.Array [i];
-				var offset = ((c.Direction / Model.UnitMagnitude) * 0.1f);
+				var offset = DebugCellOffset (c); //((c.Direction / Model.UnitMagnitude) * 0.1f);
 				var tipScl = offset.magnitude * 0.2f;
-				Debug.DrawLine (c.Pos, c.Pos + offset, Color.green);
-				Debug.DrawLine (c.Pos, c.Pos + (new Vector3(0,tipScl,0)), Color.green);
+				if (this.IsDebugParticles) {
+					Debug.DrawLine (c.Pos, c.Pos + (offset * 1.0f), Color.green);
+					Debug.DrawLine (c.Pos, c.Pos + (new Vector3 (0, tipScl, 0)), Color.green);
+				}
+				if (this.IsDebugGrid) {
+					var ndx = cells.Header.LinearToCubic (i);
+					var from = c.Pos + offset;
+					//var justOne = new Int3(1,0,0);
+					if (cells.Header.IsSafe (ndx.Add (Int3.One))) 
+					{
+						var two = VolumeHeader.Two;
+						for (int j = 0; j < two.TotalCount; j++) 
+						{
+							var toCell = cells.Read (ndx.Add (two.LinearToCubic (j)));
+								//var toCell = cells.Read(ndx.Add(justOne)); //new Int3(1, 0, 0)));
+							var toPos = toCell.Pos + DebugCellOffset (toCell);
+							Debug.DrawLine (from, toPos, Color.green);
+						}
+					}
+				}
 			}
 		}
 

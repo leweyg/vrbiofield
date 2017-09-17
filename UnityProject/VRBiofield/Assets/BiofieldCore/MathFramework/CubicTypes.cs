@@ -77,7 +77,7 @@ public struct Int3 {
 	}
 
 	public Int3 Add(Int3 v) {
-		return this.SelectWith (v, (a,b) => (a + b));
+		return new Int3 (X + v.X, Y + v.Y, Z + v.Z);
 	}
 
 	public bool Any(Func<int,bool> f) {
@@ -99,5 +99,8 @@ public struct Int3 {
 	public Vector3 AsVector3() {
 		return new Vector3 (X, Y, Z);
 	}
+
+	public static Int3 Zero { get { return new Int3 (0, 0, 0); } }
+	public static Int3 One { get { return new Int3 (1, 1, 1); } }
 
 }

@@ -13,6 +13,7 @@ public class DynamicFieldModel : MonoBehaviour {
 	[Range(4,32)]
 	public int VoxelSideRes = 8;
 	public float DEBUG_AvgMagnitude = 0.0f;
+	public bool SkipRandomPlacement = false;
 
 	public struct DynFieldCell
 	{
@@ -47,7 +48,9 @@ public class DynamicFieldModel : MonoBehaviour {
 		foreach (var nd in this.FieldsCells.AllIndices3()) {
 			var cell = this.FieldsCells.Read (nd.AsCubic());
 			cell.Pos = this.transform.localToWorldMatrix.MultiplyPoint (FieldsCells.Header.CubicToDecimalUnit(nd) - (Vector3.one * 0.5f));
-			cell.Pos += Scale (Random.insideUnitSphere, scl); // add random offset
+			if (!(SkipRandomPlacement)) {
+				cell.Pos += Scale (Random.insideUnitSphere, scl); // add random offset
+			}
 			cell.Direction = cntr - cell.Pos;
 			cell.LatestColor = Color.white;
 			cell.Twist = 0.0f;
@@ -87,6 +90,32 @@ public class DynamicFieldModel : MonoBehaviour {
 		return res;
 	}
 
+	public static Vector3 ChakraFieldV2(Vector3 pos, Vector3 chakraPos, Quaternion chakraOrient, bool isOneWay) {
+		var delta = (pos - chakraPos);
+		var chakraFwd = chakraOrient * -Vector3.up;
+		var d1 = Vector3.Cross (chakraFwd, delta).normalized;
+		var d2 = Vector3.Cross (chakraFwd, d1).normalized;
+		var d3 = Vector3.Cross (d1, d2).normalized;
+		var s1 = Vector3.Dot (d1, delta);
+		var s2 = Vector3.Dot (d2, delta);
+		var sf = (delta - (chakraFwd * Vector3.Dot (chakraFwd, delta))).magnitude;
+		var s3 = 2.0f * (1.0f / Mathf.Max (0.2f, (Mathf.Pow (s1, 2) + Mathf.Pow (s2, 2))));// * Mathf.Sign( Vector3.Dot(delta, chakraFwd));//  Mathf.Abs( Vector3.Dot (delta, chakraFwd) ) * 2.0f;
+		//return (d1 + d2);
+		return (chakraFwd * sf * -20.0f);
+	}
+
+	public static Vector3 ChakraFieldV3(Vector3 pos, Vector3 chakraPos, Quaternion chakraOrient, bool isOneWay) {
+		var delta = (pos - chakraPos);
+		var chakraFwd = (chakraOrient * -Vector3.up).normalized;
+		var nearestPosOnLine = chakraPos + (chakraFwd * Vector3.Dot (chakraFwd, delta));
+		var r = (pos - nearestPosOnLine);
+		var dist = (3.0f / delta.magnitude);
+		var inpct = Mathf.Min( dist * 6.0f, (3.0f / r.magnitude) );
+		var toline = r.normalized * (-inpct);
+		var tocenter = chakraFwd.normalized * (-dist) * Mathf.Sign(Vector3.Dot(chakraFwd,delta)); 
+		return (toline + tocenter) * 1.0f;
+	}
+
 	void UpdateCellFieldDir(bool snapToCurrent=false) {
 		var chakras = this.Body.Chakras.AllChakras;
 		var chakra = chakras [((int)(Time.time * 0.5f)) % chakras.Length];
@@ -94,6 +123,7 @@ public class DynamicFieldModel : MonoBehaviour {
 
 		var cpos = chakra.transform.position;
 		var cdir = -chakra.transform.up;
+		var crot = chakra.transform.rotation;
 		var cOneWay = chakra.ChakraOneWay;
 
 		var avgSum = 0.0f;
@@ -105,7 +135,8 @@ public class DynamicFieldModel : MonoBehaviour {
 			var c = cells.Array [i];
 			//c.Direction = chakra.transform.position - c.Pos;
 			//c.Direction = MagneticDipoleField(c.Pos, cpos, cdir) / UnitMagnitude;
-			var newDir = ChakraDipoleField(c.Pos, cpos, cdir, cOneWay);
+			//var newDir = ChakraDipoleField(c.Pos, cpos, cdir, cOneWay);
+			var newDir = ChakraFieldV3(c.Pos, cpos, crot, cOneWay);
 			var newClr = chakra.ChakraColor;
 			var lf = (snapToCurrent ? 1.0f : Time.deltaTime * 1.0f);
 			c.Direction = Vector3.Lerp (c.Direction, newDir, lf);
