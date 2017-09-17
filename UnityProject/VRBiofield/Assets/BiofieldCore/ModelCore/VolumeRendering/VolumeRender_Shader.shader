@@ -18,7 +18,7 @@ Shader "Volume Rendering / Per-Pixel Random Sampler" {
 
 #pragma vertex vert  
 #pragma fragment frag 
-#pragma target 4.0
+#pragma target 3.0
 
 #include "UnityCG.cginc"
 
@@ -187,6 +187,7 @@ Shader "Volume Rendering / Per-Pixel Random Sampler" {
 
     float4 frag(vertexOutput input) : COLOR
     {
+
 
         float2 texPos = input.tex.xy;
         float4 texColor = tex2D(_MainTex, texPos).rgba;
