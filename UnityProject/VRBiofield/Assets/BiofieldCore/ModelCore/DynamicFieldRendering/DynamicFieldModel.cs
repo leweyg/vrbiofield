@@ -168,7 +168,7 @@ public class DynamicFieldModel : MonoBehaviour {
 			//c.Direction = MagneticDipoleField(c.Pos, cpos, cdir) / UnitMagnitude;
 			//var newDir = ChakraDipoleField(c.Pos, cpos, cdir, cOneWay);
 			var newDir = ChakraFieldV3(c.Pos, cpos, crot, cOneWay);
-			var newClr = chakra.ChakraColor;
+			var newClr = Color.Lerp (chakra.ChakraColor, Color.white, 0.61f); // should be white with hint of color for clean prana
 			var lf = (snapToCurrent ? 1.0f : Time.deltaTime * 1.0f);
 			c.Direction = Vector3.Lerp (c.Direction, newDir, lf);
 			c.LatestColor = Color.Lerp (c.LatestColor, newClr, lf);
