@@ -11,7 +11,7 @@ Shader "Biofield / Dynamic Field Particle Shader" {
 	//_SampleTransparency("_SampleTransparency", Float) = 1
     }
         SubShader{
-        Tags{ "Queue" = "Transparent" "IgnoreProjector" = "True" "RenderType" = "Transparent" }
+        Tags{ "Queue" = "Transparent+1" "IgnoreProjector" = "True" "RenderType" = "Transparent" }
         Blend SrcAlpha OneMinusSrcAlpha
         Cull Off
         ZWrite Off
@@ -90,8 +90,9 @@ Shader "Biofield / Dynamic Field Particle Shader" {
         float tstColor = tex2D(_MainTex, sliceUV).a;
         float animVal = tstColor;// abs( sin( (_Time.y) + texPos.y * 4.5 ) );
  
-        texColor.rgba = input.vcolor.rgba * float4(1,1,1,texColor.a);
-        texColor.a *= animVal;
+        texColor.rgba = float4( input.vcolor.rgba ) * float4(1,1,1,texColor.a);
+        //texColor.a *= animVal;
+        texColor.a = pow(texColor.a * animVal, 0.8 );
 
         return texColor;
 
