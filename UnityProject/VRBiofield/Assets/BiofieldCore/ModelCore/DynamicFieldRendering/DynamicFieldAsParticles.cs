@@ -84,7 +84,7 @@ public class DynamicFieldAsParticles : MonoBehaviour {
 			float angle = SignedAngleBetween(up, c.Direction, rght);
 			p.axisOfRotation = fwd;
 			p.rotation = angle;
-			float timeAlpha = Mathf.Clamp01 (Mathf.Pow (c.Direction.magnitude / Model.UnitMagnitude, 2.3f));
+			float timeAlpha = Mathf.Clamp01 (Mathf.Pow (c.Direction.magnitude / Model.UnitMagnitude, 2.0f));
 			p.startColor = ColorWithAlpha (c.LatestColor, timeAlpha * Model.FieldOverallAlpha);
 			s = new Vector4 ((float)i, 0, 0, 0);
 
