@@ -85,7 +85,7 @@ Shader "Biofield / Chakra Mesh Shader" {
         float c = remap( (cos(rt)), -1, 1, 0.0, 1.0 );
         //float3 clr = lerp(float3(1,1,1),_CustomColor.rgb,al); 
         float3 clr = lerp(float3(1,1,1),input.vcolor.rgb,al);
-        float alpha = saturate(1.0 - (al*2.1)) * _CustomAlpha;
+        float alpha = saturate(1.0 - (al*1.7)) * _CustomAlpha;
         return float4(clr.rgb,alpha * c);
 
         //float3 xyzToC = length(input.localPos.xyz);

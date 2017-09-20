@@ -129,7 +129,7 @@ Transform:
   m_GameObject: {fileID: 1785455118851544}
   m_LocalRotation: {x: 0.42730305, y: -0.4153122, z: 0.57588184, w: 0.55972135}
   m_LocalPosition: {x: -0.23, y: -0.09, z: -0.01}
-  m_LocalScale: {x: 1.1223791, y: 1.1223798, z: 1.1223803}
+  m_LocalScale: {x: 1.2579839, y: 1.6980947, z: 1.2579839}
   m_Children:
   - {fileID: 4470836367166706}
   - {fileID: 4866450983956270}
@@ -269,7 +269,7 @@ MonoBehaviour:
   ExcersizeSystem: {fileID: 0}
   CurrentFocusChakra: 2
   UnitMagnitude: 100
-  VoxelSideRes: 11
+  VoxelSideRes: 12
   DEBUG_AvgMagnitude: 0
   SkipRandomPlacement: 0
 --- !u!198 &198150586778145798
@@ -329,7 +329,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 1664492096
+  randomSeed: -442394613
   InitialModule:
     serializedVersion: 3
     enabled: 1

@@ -92,7 +92,7 @@ Shader "Biofield / Dynamic Field Particle Shader" {
  
         texColor.rgba = float4( input.vcolor.rgba ) * float4(1,1,1,texColor.a);
         //texColor.a *= animVal;
-        texColor.a = pow(texColor.a * animVal, 0.8 );
+        texColor.a = pow(texColor.a * animVal, 0.78 );
 
         return texColor;
 
