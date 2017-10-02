@@ -10,6 +10,9 @@ public class DynamicFieldAsParticles : MonoBehaviour {
 	public DynamicFieldModel Model = null;
 	public bool IsDebugParticles = false;
 	public bool IsDebugGrid = false;
+	[Range(0.0f, 2.0f)]
+	public float ParticleSizeScalar = 1.0f;
+	private bool DataPushed { get; set; }
 
 	private bool isSetup = false;
 	public void EnsureSetup() {
@@ -65,7 +68,7 @@ public class DynamicFieldAsParticles : MonoBehaviour {
 			if (isFirst) {
 				p.position = c.Pos;
 				p.startColor = Color.green;
-				p.startSize3D = Vector3.one * 0.2f;
+				p.startSize3D = Vector3.one * 0.2f * ParticleSizeScalar;
 				p.remainingLifetime = 10000.0f;
 				p.randomSeed = (uint)i;
 			}
@@ -93,6 +96,7 @@ public class DynamicFieldAsParticles : MonoBehaviour {
 		}
 		this.PartSystem.SetParticles (this.PartData, this.PartData.Length);
 		this.PartSystem.SetCustomParticleData (this.PartCustom, ParticleSystemCustomData.Custom1);
+		this.DataPushed = true;
 	}
 
 	// Use this for initialization
@@ -109,6 +113,8 @@ public class DynamicFieldAsParticles : MonoBehaviour {
 	void Update () {
 
 		if (Model.IsPaused)
+			return;
+		if (Model.IsStaticLayout && this.DataPushed)
 			return;
 
 		this.UpdateFieldParticles (true);

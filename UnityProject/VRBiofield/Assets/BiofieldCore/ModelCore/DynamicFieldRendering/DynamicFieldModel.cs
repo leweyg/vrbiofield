@@ -5,6 +5,7 @@ using UnityEngine;
 public class DynamicFieldModel : MonoBehaviour {
 
 	public BodyLandmarks Body;
+	public MainEnergyApp Hand;
 	public ExcersizeSharedScheduler ExcersizeSystem;
 
 	public VolumeBuffer<DynFieldCell> FieldsCells = null;
@@ -17,6 +18,8 @@ public class DynamicFieldModel : MonoBehaviour {
 	public bool SkipRandomPlacement = false;
 	private bool mIsPaused = false;
 	public float FieldOverallAlpha { get; private set; }
+	public bool DEBUG_IsPaused;
+	public bool IsStaticLayout { get; private set; }
 
 	public struct DynFieldCell
 	{
@@ -45,27 +48,50 @@ public class DynamicFieldModel : MonoBehaviour {
 		if (!this.Body) {
 			this.Body = this.gameObject.GetComponentInParent<BodyLandmarks> ();
 		}
+		if (!this.Body) {
+			if (!this.Hand) {
+				this.Hand = this.gameObject.GetComponentInParent<MainEnergyApp> ();
+			}
+		}
+		Debug.Assert ((this.Body) || (this.Hand));
 		if (!this.ExcersizeSystem) {
 			this.ExcersizeSystem = GameObject.FindObjectOfType<ExcersizeSharedScheduler> ();
 		}
-		this.Body.EnsureSetup ();
-		int sideRes = this.VoxelSideRes;// 8;
-		int chakraToShow = CurrentFocusChakra; //3;
-		this.FieldsCells = new VolumeBuffer<DynFieldCell> (Cubic<int>.CreateSame (sideRes));
-		var scl = OneOver (this.FieldsCells.Header.Size.AsVector3 ());
-		var l2w = this.transform.localToWorldMatrix;
-		var cntr = Body.Chakras.AllChakras [chakraToShow].transform.position;//  l2w.MultiplyPoint (Vector3.zero);
-		foreach (var nd in this.FieldsCells.AllIndices3()) {
-			var cell = this.FieldsCells.Read (nd.AsCubic());
-			cell.Pos = this.transform.localToWorldMatrix.MultiplyPoint (FieldsCells.Header.CubicToDecimalUnit(nd) - (Vector3.one * 0.5f));
-			if (!(SkipRandomPlacement)) {
-				cell.Pos += Scale (Random.insideUnitSphere, scl); // add random offset
+		if (this.Body) {
+			this.Body.EnsureSetup ();
+			int sideRes = this.VoxelSideRes;// 8;
+			int chakraToShow = CurrentFocusChakra; //3;
+			this.FieldsCells = new VolumeBuffer<DynFieldCell> (Cubic<int>.CreateSame (sideRes));
+			var scl = OneOver (this.FieldsCells.Header.Size.AsVector3 ());
+			var l2w = this.transform.localToWorldMatrix;
+			var cntr = Body.Chakras.AllChakras [chakraToShow].transform.position;//  l2w.MultiplyPoint (Vector3.zero);
+			foreach (var nd in this.FieldsCells.AllIndices3()) {
+				var cell = this.FieldsCells.Read (nd.AsCubic ());
+				cell.Pos = this.transform.localToWorldMatrix.MultiplyPoint (FieldsCells.Header.CubicToDecimalUnit (nd) - (Vector3.one * 0.5f));
+				if (!(SkipRandomPlacement)) {
+					cell.Pos += Scale (Random.insideUnitSphere, scl); // add random offset
+				}
+				cell.Direction = cntr - cell.Pos;
+				cell.LatestColor = Color.white;
+				cell.Twist = 0.0f;
+				cell.VoxelIndex = nd;
+				this.FieldsCells.Write (nd.AsCubic (), cell);
 			}
-			cell.Direction = cntr - cell.Pos;
-			cell.LatestColor = Color.white;
-			cell.Twist = 0.0f;
-			cell.VoxelIndex = nd;
-			this.FieldsCells.Write (nd.AsCubic(), cell);
+		} else if (this.Hand) {
+			var arrows = this.Hand.FindAllFlowNodes();
+			var n = arrows.Count;
+			this.IsStaticLayout = true;
+			this.FieldsCells = new VolumeBuffer<DynFieldCell> (Cubic<int>.Create(n, 1, 1));
+			for (int i = 0; i < n; i++) {
+				var cell = this.FieldsCells.Array [i];
+				var arrow = arrows [i];
+				cell.Pos = arrow.transform.position;
+				cell.Direction = arrow.transform.up * 50.0f;
+				cell.LatestColor = Color.green;
+				cell.Twist = 0.0f;
+				cell.VoxelIndex = new Int3 (i, 0, 0);
+				this.FieldsCells.Array [i] = cell;
+			}
 		}
 
 		this.UpdateCellFieldDir (snapToCurrent:true);
@@ -143,6 +169,8 @@ public class DynamicFieldModel : MonoBehaviour {
 	void UpdateCellFieldDir(bool snapToCurrent=false) {
 		if (this.IsPaused)
 			return;
+		if (this.Hand)
+			return;
 		
 		var chakras = this.Body.Chakras.AllChakras;
 		var chakra = chakras [((int)(Time.time * 0.5f)) % chakras.Length];
@@ -182,6 +210,8 @@ public class DynamicFieldModel : MonoBehaviour {
 	}
 
 	void UpdateCurrentSelection() {
+		if (this.Hand)
+			return;
 		if (this.ExcersizeSystem) {
 			var cur = this.ExcersizeSystem.CurrentActivity;
 			var wantPause = true;
@@ -218,6 +248,7 @@ public class DynamicFieldModel : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		DEBUG_IsPaused = this.IsPaused;
 		this.EnsureSetup ();
 		this.UpdateCurrentSelection ();
 		this.UpdateCellFieldDir	();

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 
 public class MainEnergyApp : MonoBehaviour {
@@ -19,6 +20,22 @@ public class MainEnergyApp : MonoBehaviour {
 		Volume.SetActive (false);
 		if (gm != null) {
 			gm.SetActive (true);
+		}
+	}
+
+	public List<FlowVertexNode> FindAllFlowNodes() {
+		List<FlowVertexNode> ans = new List<FlowVertexNode> ();
+		this.GetAllFlowNodesRecursive (this.Arrows.transform, ans);
+		return ans;
+	}
+
+	private void GetAllFlowNodesRecursive(Transform t, List<FlowVertexNode>  list) {
+		for (int i = 0; i < t.childCount; i++) {
+			GetAllFlowNodesRecursive (t.GetChild (i), list);
+		}
+		var fn = t.GetComponent<FlowVertexNode> ();
+		if (fn) {
+			list.Add (fn);
 		}
 	}
 
