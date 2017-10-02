@@ -210,8 +210,10 @@ public class DynamicFieldModel : MonoBehaviour {
 	}
 
 	void UpdateCurrentSelection() {
-		if (this.Hand)
+		if (this.Hand) {
+			this.FieldOverallAlpha = this.ExcersizeSystem.Breath.UnitFadeInPct;
 			return;
+		}
 		if (this.ExcersizeSystem) {
 			var cur = this.ExcersizeSystem.CurrentActivity;
 			var wantPause = true;

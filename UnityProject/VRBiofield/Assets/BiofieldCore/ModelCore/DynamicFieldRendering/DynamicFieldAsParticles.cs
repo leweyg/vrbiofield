@@ -5,6 +5,8 @@ using UnityEngine;
 public class DynamicFieldAsParticles : MonoBehaviour {
 
 	private ParticleSystem PartSystem = null;
+	private ParticleSystemRenderer PartRenderer = null;
+	private Material PartMatInst = null;
 	private ParticleSystem.Particle[] PartData = null;
 	private List<Vector4> PartCustom = null;
 	public DynamicFieldModel Model = null;
@@ -26,6 +28,7 @@ public class DynamicFieldAsParticles : MonoBehaviour {
 		if (this.PartSystem == null) {
 			this.PartSystem = this.gameObject.GetComponent<ParticleSystem> ();
 		}
+		this.PartRenderer = this.PartSystem.GetComponent<ParticleSystemRenderer> ();
 
 		this.Model.EnsureSetup ();
 		this.UpdateFieldParticles (isFirst:true);
@@ -114,8 +117,14 @@ public class DynamicFieldAsParticles : MonoBehaviour {
 
 		if (Model.IsPaused)
 			return;
-		if (Model.IsStaticLayout && this.DataPushed)
+		if (Model.IsStaticLayout && this.DataPushed) {
+			if (!PartMatInst) {
+				PartRenderer.material.SetFloat ("CreateInstance", 1);
+				PartMatInst = PartRenderer.material;
+			}
+			PartMatInst.SetFloat ("_CustomAlpha", this.Model.FieldOverallAlpha);
 			return;
+		}
 
 		this.UpdateFieldParticles (true);
 
