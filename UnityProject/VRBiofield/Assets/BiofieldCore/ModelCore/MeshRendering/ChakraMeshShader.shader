@@ -77,20 +77,31 @@ Shader "Biofield / Chakra Mesh Shader" {
     {
         //float2 texPos = input.tex.xy;
         //float4 texColor = tex2D(_MainTex, texPos).rgba;
+        float2 centeredUV = ( input.tex.xy + ((0.3).xx) );
+        float2 unitUV = (( centeredUV - ((0.5).xx) ) * 3 ) + ((0.5).xx);
+        //return tex2D(_MainTex, unitUV).rgba;
 
-        //return float4(input.tex.xy * 2.0,1,1);
+        unitUV.y *= 1.2;
+        float2 crossUV = float2(-unitUV.y, unitUV.x);
+        float2 fwdUV = float2(1,1) / sqrt(2);
+       	float2 midPnt = fwdUV * dot(fwdUV, unitUV);
+        float alphaSide = 1 - (abs(dot(unitUV - midPnt, crossUV)) * 4);
+        //return float4(alphaSide.xxx, 1);
+
+        float alphaAlong = (1 - length(unitUV)*0.7);
+        float leafAlpha = (alphaAlong * alphaSide);
+        //return float4( leafAlpha.xxxx );
 
         float al = length(input.tex.xy);
-        float rt = _Time.y + (al * 24.0f);
+        float unitAl = length(unitUV);
+        float rt = ((_Time.y * 1.7) + (al * 24.0f));
         float c = remap( (cos(rt)), -1, 1, 0.0, 1.0 );
         //float3 clr = lerp(float3(1,1,1),_CustomColor.rgb,al); 
         float3 clr = lerp(float3(1,1,1),input.vcolor.rgb,al);
-        float distAlpha = saturate(1.0 - (al*1.7));
+        float distAlpha = saturate(1.0 - (unitAl * 0.9));
         return float4(clr.rgb,distAlpha * c * _CustomAlpha);
+        //return float4(clr.rgb,leafAlpha * c * _CustomAlpha);
 
-        //float3 xyzToC = length(input.localPos.xyz);
-        //float3 finalRgb = xyzToC - floor(xyzToC);
-        //return float4(finalRgb,1);
     }
 
         ENDCG
