@@ -274,7 +274,7 @@ public class DynamicFieldModel : MonoBehaviour {
 					}
 				}
 				if (this.ExcersizeInst != bestInst) {
-					this.ExcersizeInst = null;
+					this.ExcersizeInst = null; // disable the model that isn't in front of user
 				}
 				if (!chakraExcer) {
 					this.ExcersizeInst = null; // DISABLING NON CHAKRA EXCERSIZE
