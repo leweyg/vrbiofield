@@ -31,6 +31,7 @@ public class ExcersizeActivityBase : MonoBehaviour {
 	}
 
 	public virtual void ApplyState() {
+		this.EnsureSetup ();
 		foreach (var i in this.Instances) {
 			i.ApplyBodyPositioning ();
 		}
