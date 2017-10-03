@@ -83,12 +83,12 @@ Shader "Biofield / Dynamic Field Particle Shader" {
         //float4 texColor = tex2D(_MainTex, texPos).rgba;
 
         float2 texPos = input.tex.xy;
-        float4 texColor = tex2D(_MainTex, texPos).rgba;
+        float4 texColor = ( tex2D(_MainTex, texPos).rgba );
 
-        float2 texOffset = float2(0,_Time.y + input.custom1.x);
+        float2 texOffset = float2(0,_Time.y + input.custom1.x + input.custom1.y);
         float2 sliceUV = (texPos + texOffset);
         sliceUV = saturate( ( (frac(sliceUV) - float2(0.5,0.5)) * float2( 2.5f, 1.0f ) ) + float2(0.5,0.5) );
-        float tstColor = tex2D(_MainTex, sliceUV).a;
+        float tstColor = ( tex2D(_MainTex, sliceUV).a );
         float animVal = tstColor;// abs( sin( (_Time.y) + texPos.y * 4.5 ) );
  
         texColor.rgba = float4( input.vcolor.rgba ) * float4(1,1,1,texColor.a);

@@ -92,7 +92,7 @@ public class DynamicFieldAsParticles : MonoBehaviour {
 			p.rotation = angle;
 			float timeAlpha = Mathf.Clamp01 (Mathf.Pow (c.Direction.magnitude / Model.UnitMagnitude, 2.0f));
 			p.startColor = ColorWithAlpha (c.LatestColor, timeAlpha * Model.FieldOverallAlpha);
-			s = new Vector4 ((float)i, 0, 0, 0);
+			s = new Vector4 ((float)i, UnityEngine.Random.value, 0, 0);
 
 			this.PartData [i] = p;
 			this.PartCustom [i] = s;
