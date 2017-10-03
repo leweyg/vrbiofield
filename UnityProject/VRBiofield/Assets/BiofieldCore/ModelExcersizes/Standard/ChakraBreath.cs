@@ -49,6 +49,17 @@ public class ChakraBreath : ExcersizeActivityInst {
 		return bestChakra;
 	}
 
+	public override Vector3 CalcVectorField (DynamicFieldModel model, Vector3 pos, out Color primaryColor)
+	{
+		var cur = this.CurrentChakra;
+		if (!cur) {
+			primaryColor = Color.white;
+			return Vector3.zero;
+		}
+		primaryColor = cur.ChakraColor;
+		return DynamicFieldModel.ChakraFieldV3 (pos, cur.transform.position, cur.transform.rotation, cur.ChakraOneWay);
+	}
+
 	float CurrentBreathAlpha(ref ChakraType ref_cur) {
 		this.Breath.CurrentBreathsPerRep = this.CommonChakras.Count / 2;
 		if (CommonChakras.Count < 1) {

@@ -7,6 +7,7 @@ public class DynamicFieldModel : MonoBehaviour {
 	public BodyLandmarks Body;
 	public MainEnergyApp Hand;
 	public ExcersizeSharedScheduler ExcersizeSystem;
+	public ExcersizeActivityInst ExcersizeInst;
 
 	public VolumeBuffer<DynFieldCell> FieldsCells = null;
 	[Range(0,6)]
@@ -166,6 +167,25 @@ public class DynamicFieldModel : MonoBehaviour {
 		return (toline + tocenter) * 1.0f;
 	}
 
+	public static Vector3 ChakraFieldAlongLineV4(Vector3 pos, Vector3 chakraPos, Vector3 chakraEnd, bool isOneWay) {
+		var delta = (pos - chakraPos);
+		float chakraLength = (chakraEnd - chakraPos).magnitude;
+		var chakraFwd = (chakraEnd - chakraPos).normalized;
+		var alongDist = Vector3.Dot (chakraFwd, delta);
+
+		// shift virtual position to near point along the line:
+		pos += chakraFwd * Mathf.Min (alongDist, chakraLength);
+		delta = (pos - chakraPos);
+
+		var nearestPosOnLine = chakraPos + (chakraFwd * alongDist);
+		var r = (pos - nearestPosOnLine);
+		var dist = (3.0f / delta.magnitude);
+		var inpct = Mathf.Min( dist * 6.0f, (3.0f / r.magnitude) );
+		var toline = r.normalized * (-inpct);
+		var tocenter = chakraFwd.normalized * (-dist) * Mathf.Sign(Vector3.Dot(chakraFwd,delta)); 
+		return (toline + tocenter) * 1.0f;
+	}
+
 	void UpdateCellFieldDir(bool snapToCurrent=false) {
 		if (this.IsPaused)
 			return;
@@ -195,8 +215,16 @@ public class DynamicFieldModel : MonoBehaviour {
 			//c.Direction = chakra.transform.position - c.Pos;
 			//c.Direction = MagneticDipoleField(c.Pos, cpos, cdir) / UnitMagnitude;
 			//var newDir = ChakraDipoleField(c.Pos, cpos, cdir, cOneWay);
-			var newDir = ChakraFieldV3(c.Pos, cpos, crot, cOneWay);
-			var newClr = Color.Lerp (chakra.ChakraColor, Color.white, 0.61f); // should be white with hint of color for clean prana
+			Vector3 newDir;
+			Color primeColor = Color.white;
+			if (this.ExcersizeInst) {
+				newDir = this.ExcersizeInst.CalcVectorField (this, c.Pos, out primeColor);
+			} else {
+				newDir = ChakraFieldV3 (c.Pos, cpos, crot, cOneWay);
+			}
+
+
+			var newClr = Color.Lerp (primeColor, Color.white, 0.61f); // should be white with hint of color for clean prana
 			var lf = (snapToCurrent ? 1.0f : Time.deltaTime * 1.0f);
 			c.Direction = Vector3.Lerp (c.Direction, newDir, lf);
 			c.LatestColor = Color.Lerp (c.LatestColor, newClr, lf);
@@ -214,6 +242,9 @@ public class DynamicFieldModel : MonoBehaviour {
 			this.FieldOverallAlpha = this.ExcersizeSystem.Breath.UnitFadeInPct;
 			return;
 		}
+		this.ExcersizeInst = null;
+		var bestInst = this.ExcersizeInst;
+		float bestInstScore = 0.0f;
 		if (this.ExcersizeSystem) {
 			var cur = this.ExcersizeSystem.CurrentActivity;
 			var wantPause = true;
@@ -222,6 +253,16 @@ public class DynamicFieldModel : MonoBehaviour {
 				ChakraBreath chakraExcer = null;
 				ChakraBreath infoChakra = null;
 				foreach (var inst in cur.Instances) {
+					{
+						float score = Vector3.Dot ((inst.Body.transform.position - Camera.main.transform.position).normalized, Camera.main.transform.forward);
+						if ((!bestInst) || (score > bestInstScore)) {
+							bestInst = inst;
+							bestInstScore = score;
+						}
+					}
+					if (inst.Body == this.Body) {
+						this.ExcersizeInst = inst;
+					}
 					var ce = (inst as ChakraBreath);
 					if (ce) {
 						if (ce.Body == this.Body) {
@@ -232,14 +273,24 @@ public class DynamicFieldModel : MonoBehaviour {
 						}
 					}
 				}
+				if (this.ExcersizeInst != bestInst) {
+					this.ExcersizeInst = null;
+				}
+				if (!chakraExcer) {
+					this.ExcersizeInst = null; // DISABLING NON CHAKRA EXCERSIZE
+				}
 				if (infoChakra && infoChakra.FocusChakra) {
 					if (chakraExcer != infoChakra) {
 						chakraExcer = null; // if teacher, and info is active, hide the teacher
+						this.ExcersizeInst = null;
 					}
 				}
-				if (chakraExcer && chakraExcer.CurrentChakra) {
-					this.CurrentFocusChakra = chakraExcer.CurrentChakra.ChakraIndex - 1;
-					overallAlpha = Mathf.Lerp (0.35f, 1.0f, chakraExcer.LatestBreathAlpha); // doesn't fully fade
+				if ((this.ExcersizeInst)) {
+					if ((chakraExcer && chakraExcer.CurrentChakra)) {
+						this.CurrentFocusChakra = chakraExcer.CurrentChakra.ChakraIndex - 1;
+						overallAlpha = Mathf.Lerp (0.35f, 1.0f, chakraExcer.LatestBreathAlpha); // doesn't fully fade
+					}
+					overallAlpha = this.ExcersizeSystem.Breath.UnitFadeInPct;
 					wantPause = false;
 				}
 			}

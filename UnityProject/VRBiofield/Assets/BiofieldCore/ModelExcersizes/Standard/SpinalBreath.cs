@@ -21,12 +21,14 @@ public class SpinalBreath : ExcersizeActivityInst {
 		public SpinalBreath Owner;
 		public LinesThroughPoints Line;
 		public int First, Count;
+		public float LatestAlpha;
 
 		public ParticleSpan(SpinalBreath sb, int count, LinesThroughPoints ln) {
 			this.Owner = sb;
 			this.Line = ln;
 			this.First = sb.ClaimedCount;
 			this.Count = count;
+			this.LatestAlpha = 1.0f;
 			sb.ClaimedCount += count;
 			sb.AllSpans.Add(this);
 		}
@@ -188,6 +190,7 @@ public class SpinalBreath : ExcersizeActivityInst {
 			} else if (isSpine != ((Breath.BreathIndex % 2) == 1)) {
 				a = 0.0f;
 			}
+			ps.LatestAlpha = a;
 
 			var pi = ps.IndexOf(i);
 			this.Particles [pi].position = pos;
@@ -201,6 +204,29 @@ public class SpinalBreath : ExcersizeActivityInst {
 		this.UpdateParticles_GroundingSpan(this.SpanRightLegToDanTien, toffset);
 		this.UpdateParticles_GroundingSpan (this.SpanCrownToDanTien, toffset);
 
+	}
+
+	public override Vector3 CalcVectorField (DynamicFieldModel model, Vector3 pos, out Color primaryColor)
+	{
+		if (false) {
+			primaryColor = Color.white;
+			return Vector3.zero;
+		}
+		
+		Vector3 res = Vector3.zero;
+		primaryColor = Color.white;
+		foreach (var s in this.AllSpans) {
+			if (s.LatestAlpha > 0.0f) {
+				for (int i = 1; i < s.Line.Points.Length; i++) {
+					var fm = s.Line.Points [i - 1];
+					var to = s.Line.Points [i];
+					var fld = DynamicFieldModel.ChakraFieldAlongLineV4 (pos, fm, to, false) * s.LatestAlpha;
+					res += fld;
+					primaryColor = ((s == this.SpanCrownToDanTien) ? Color.white : Color.green);
+				}
+			}
+		}
+		return res;
 	}
 
 	Color ColorWithAlpha(Color c, float a) {
