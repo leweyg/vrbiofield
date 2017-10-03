@@ -6,6 +6,7 @@ public class FocusRay : MonoBehaviour {
 
 	private bool IsMouseAiming = false;
 	private GameObject MouseAimObject = null;
+	public bool IsTestGazeOnly = false;
 
 	public Transform FocusSource {
 		get { 
@@ -54,7 +55,7 @@ public class FocusRay : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (UnityEngine.VR.VRSettings.enabled) {
+		if (UnityEngine.VR.VRSettings.enabled || IsTestGazeOnly) {
 		} else if (Input.mousePosition != Vector3.zero) {
 			this.IsMouseAiming = true;
 			var r = Camera.main.ScreenPointToRay (Input.mousePosition);
