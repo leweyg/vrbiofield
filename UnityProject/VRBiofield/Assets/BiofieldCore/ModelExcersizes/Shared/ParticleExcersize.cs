@@ -20,6 +20,8 @@ public class ParticleExcersize : ExcersizeActivityInst {
 		public LinesThroughPoints Line;
 		public int First, Count;
 		private Vector3[] RandomUnitOffsets = null;
+		public Vector3[] FlowFieldCache = null;
+		public float LatestOverallAlpha = 1.0f;
 
 		public ParticleSpan(ParticleExcersize sb, int count, LinesThroughPoints ln) {
 			this.Owner = sb;
@@ -165,6 +167,34 @@ public class ParticleExcersize : ExcersizeActivityInst {
 		foreach (var s in this.AllSpans) {
 			this.UpdateParticles_GeneralSpan (s, 0.0f);
 		}
+	}
+
+	public override Vector3 CalcVectorField (DynamicFieldModel model, int posIndex, Vector3 pos, out Color primaryColor)
+	{
+		Vector3 res = Vector3.zero;
+		primaryColor = Color.white;
+		foreach (var ps in this.AllSpans) {
+			if (ps.LatestOverallAlpha > 0.0f) {
+				if (ps.FlowFieldCache != null) {
+					// ready to go
+				} else {
+					ps.FlowFieldCache = new Vector3[model.CellCount];
+					for (int c = 0; c < model.CellCount; c++) {
+						var cPos = model.FieldsCells.Array [c].Pos;
+						var cField = Vector3.zero;
+						for (int i = 1; i < ps.Line.Points.Length; i++) {
+							var fm = ps.Line.Points [i - 1];
+							var to = ps.Line.Points [i];
+							var fld = DynamicFieldModel.ChakraFieldAlongLineV4 (cPos, fm, to, false);
+							cField += fld;
+						}
+						ps.FlowFieldCache [c] = cField;
+					}
+				}
+				res += ps.FlowFieldCache [posIndex] * ps.LatestOverallAlpha;
+			}
+		}
+		return res;
 	}
 
 	// Update is called once per frame

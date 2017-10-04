@@ -55,7 +55,7 @@ public class ChiBallBreath : ParticleExcersize {
 					a = 0.0f;
 				}
 			}
-
+			ps.LatestOverallAlpha = a;
 			var pi = ps.IndexOf(i);
 			this.Particles [pi].position = pos;
 			this.Particles [pi].startColor = ColorWithAlpha (clr, a);
@@ -71,6 +71,7 @@ public class ChiBallBreath : ParticleExcersize {
 			float mt = Mathf.Repeat (fi + toffset, 1.0f);
 			float a = ba * Mathf.Clamp01 (Breath.UnitTo010f (mt) * 5.1f);
 
+
 			var basePose = ps.Line.SampleAtLength (Mathf.Clamp01 ((bt - 0.5f) * 2.0f));
 			var pos = basePose + (offsets[i] * SphereRadius 
 				* Breath.UnitTo010f(bt) 
@@ -84,12 +85,20 @@ public class ChiBallBreath : ParticleExcersize {
 					a = 0.0f;
 				}
 			}
+			ps.LatestOverallAlpha = a;
 
 			var pi = ps.IndexOf(i);
 			this.Particles [pi].position = pos;
 			this.Particles [pi].startColor = ColorWithAlpha (clr, a);
 			this.Particles [pi].startSize3D = Vector3.one * (DefaultRadius * 2.0f);
 		}
+	}
+
+	public override Vector3 CalcVectorField (DynamicFieldModel model, int posIndex, Vector3 pos, out Color primaryColor)
+	{
+		var res = base.CalcVectorField (model, posIndex, pos, out primaryColor);
+		primaryColor = Color.green;
+		return res;
 	}
 
 	protected override void VirtualUpdate ()
