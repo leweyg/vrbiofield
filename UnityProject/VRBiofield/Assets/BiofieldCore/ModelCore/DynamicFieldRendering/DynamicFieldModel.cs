@@ -179,13 +179,18 @@ public class DynamicFieldModel : MonoBehaviour {
 		pos += chakraFwd * Mathf.Min (alongDist, chakraLength);
 		delta = (pos - chakraPos);
 
-		var nearestPosOnLine = chakraPos + (chakraFwd * alongDist);
+		var chakraTwist = Vector3.Cross (chakraEnd - chakraPos, pos - chakraPos).normalized * -0.4f;
+
+		var nearestPosOnLine = chakraPos + (chakraFwd * alongDist * 0.3f);
 		var r = (pos - nearestPosOnLine);
-		var dist = (3.0f / delta.magnitude);
-		var inpct = Mathf.Min( dist * 6.0f, (3.0f / r.magnitude) );
-		var toline = r.normalized * (-inpct);
-		var tocenter = chakraFwd.normalized * (-dist) * Mathf.Sign(Vector3.Dot(chakraFwd,delta)); 
-		return (toline + tocenter) * 1.0f;
+		var dist = (1.2f / delta.magnitude);
+		var inpct = Mathf.Min( dist * 6.0f, (0.6f / (r.magnitude * r.magnitude)) );
+		//var toline = r.normalized * (-inpct);
+		//var tocenter = chakraFwd.normalized * (dist);
+		var toline = r.normalized * (-dist);
+		var tocenter = (chakraFwd + chakraTwist).normalized * (inpct);
+
+		return (toline + tocenter) * 1.5f;
 	}
 
 	void UpdateCellFieldDir(bool snapToCurrent=false) {

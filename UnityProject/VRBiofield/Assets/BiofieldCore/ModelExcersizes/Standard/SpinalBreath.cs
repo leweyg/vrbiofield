@@ -221,14 +221,14 @@ public class SpinalBreath : ExcersizeActivityInst {
 						for (int i = 1; i < s.Line.Points.Length; i++) {
 							var fm = s.Line.Points [i - 1];
 							var to = s.Line.Points [i];
-							var fld = DynamicFieldModel.ChakraFieldAlongLineV4 (cPos, fm, to, false) * s.LatestAlpha;
+							var fld = DynamicFieldModel.ChakraFieldAlongLineV4 (cPos, fm, to, false);
 							cField += fld;
 						}
 						s.FieldCache [c] = cField;
 					}
 				}
 				primaryColor = ((s == this.SpanCrownToDanTien) ? Color.white : Color.green);
-				res += s.FieldCache [posIndex] * s.LatestAlpha;
+				res += s.FieldCache [posIndex] * Mathf.Pow( s.LatestAlpha, 0.75f );
 			}
 		}
 		return res;
