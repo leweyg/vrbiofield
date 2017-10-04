@@ -4,7 +4,9 @@ Visually guided VR meditation experience, based on yoga practises such as chakra
 Project Website - http://vrbiofields.strikingly.com/
 
 ![VR Experience](https://github.com/leweyg/vrbiofield/blob/master/articles/images/ChakraFieldEarly_Heart.jpg)
-![alt text](https://github.com/leweyg/vrbiofield/blob/master/articles/images/HandEnergy_progress_4_png.png)
+![VR Experience](https://github.com/leweyg/vrbiofield/blob/master/articles/images/early_prana_model/VRTimerAndGuide.jpg)
+![VR Experience](https://github.com/leweyg/vrbiofield/blob/master/articles/images/early_prana_model/ChiBallBreath.jpg)
+![alt text](https://github.com/leweyg/vrbiofield/blob/master/articles/images/HandEnergy_progress_7.png)
 
 Developer:
 Lewey Geselowitz - http://www.lewcid.com/lg/aboutme.html 
