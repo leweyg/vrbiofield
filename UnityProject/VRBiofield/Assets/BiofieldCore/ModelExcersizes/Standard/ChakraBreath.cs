@@ -49,7 +49,7 @@ public class ChakraBreath : ExcersizeActivityInst {
 		return bestChakra;
 	}
 
-	public override Vector3 CalcVectorField (DynamicFieldModel model, Vector3 pos, out Color primaryColor)
+	public override Vector3 CalcVectorField (DynamicFieldModel model, int posIndex, Vector3 pos, out Color primaryColor)
 	{
 		var cur = this.CurrentChakra;
 		if (!cur) {

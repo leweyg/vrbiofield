@@ -22,6 +22,7 @@ public class SpinalBreath : ExcersizeActivityInst {
 		public LinesThroughPoints Line;
 		public int First, Count;
 		public float LatestAlpha;
+		public Vector3[] FieldCache;
 
 		public ParticleSpan(SpinalBreath sb, int count, LinesThroughPoints ln) {
 			this.Owner = sb;
@@ -206,24 +207,28 @@ public class SpinalBreath : ExcersizeActivityInst {
 
 	}
 
-	public override Vector3 CalcVectorField (DynamicFieldModel model, Vector3 pos, out Color primaryColor)
+	public override Vector3 CalcVectorField (DynamicFieldModel model, int posIndex, Vector3 pos, out Color primaryColor)
 	{
-		if (false) {
-			primaryColor = Color.white;
-			return Vector3.zero;
-		}
-		
 		Vector3 res = Vector3.zero;
 		primaryColor = Color.white;
 		foreach (var s in this.AllSpans) {
 			if (s.LatestAlpha > 0.0f) {
-				for (int i = 1; i < s.Line.Points.Length; i++) {
-					var fm = s.Line.Points [i - 1];
-					var to = s.Line.Points [i];
-					var fld = DynamicFieldModel.ChakraFieldAlongLineV4 (pos, fm, to, false) * s.LatestAlpha;
-					res += fld;
-					primaryColor = ((s == this.SpanCrownToDanTien) ? Color.white : Color.green);
+				if (s.FieldCache == null) {
+					s.FieldCache = new Vector3[model.CellCount];
+					for (int c = 0; c < model.CellCount; c++) {
+						var cPos = model.FieldsCells.Array[c].Pos;
+						var cField = Vector3.zero;
+						for (int i = 1; i < s.Line.Points.Length; i++) {
+							var fm = s.Line.Points [i - 1];
+							var to = s.Line.Points [i];
+							var fld = DynamicFieldModel.ChakraFieldAlongLineV4 (cPos, fm, to, false) * s.LatestAlpha;
+							cField += fld;
+						}
+						s.FieldCache [c] = cField;
+					}
 				}
+				primaryColor = ((s == this.SpanCrownToDanTien) ? Color.white : Color.green);
+				res += s.FieldCache [posIndex] * s.LatestAlpha;
 			}
 		}
 		return res;

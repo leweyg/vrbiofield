@@ -25,7 +25,7 @@ public class ExcersizeActivityInst : MonoBehaviour {
 		this.Body.EnsureBodyPositioning ().ResetPositioning ();
 	}
 
-	public virtual Vector3 CalcVectorField(DynamicFieldModel model, Vector3 pos, out Color primaryColor) {
+	public virtual Vector3 CalcVectorField(DynamicFieldModel model, int posIndex, Vector3 pos, out Color primaryColor) {
 		primaryColor = Color.white;
 		return Vector3.zero;
 	}

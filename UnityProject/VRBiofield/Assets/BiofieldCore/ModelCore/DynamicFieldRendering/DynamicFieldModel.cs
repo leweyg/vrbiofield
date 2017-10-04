@@ -31,6 +31,8 @@ public class DynamicFieldModel : MonoBehaviour {
 		public float Twist;
 	};
 
+	public int CellCount { get { return this.FieldsCells.Header.TotalCount; } }
+
 	static Vector3 OneOver(Vector3 v) {
 		return new Vector3 (1.0f / v.x, 1.0f / v.y, 1.0f / v.z);
 	}
@@ -218,7 +220,7 @@ public class DynamicFieldModel : MonoBehaviour {
 			Vector3 newDir;
 			Color primeColor = Color.white;
 			if (this.ExcersizeInst) {
-				newDir = this.ExcersizeInst.CalcVectorField (this, c.Pos, out primeColor);
+				newDir = this.ExcersizeInst.CalcVectorField (this, i, c.Pos, out primeColor);
 			} else {
 				newDir = ChakraFieldV3 (c.Pos, cpos, crot, cOneWay);
 			}
@@ -277,7 +279,7 @@ public class DynamicFieldModel : MonoBehaviour {
 					this.ExcersizeInst = null; // disable the model that isn't in front of user
 				}
 				if (!chakraExcer) {
-					this.ExcersizeInst = null; // DISABLING NON CHAKRA EXCERSIZE
+					//this.ExcersizeInst = null; // DISABLING NON CHAKRA EXCERSIZE
 				}
 				if (infoChakra && infoChakra.FocusChakra) {
 					if (chakraExcer != infoChakra) {
