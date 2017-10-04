@@ -160,12 +160,13 @@ public class DynamicFieldModel : MonoBehaviour {
 	public static Vector3 ChakraFieldV3(Vector3 pos, Vector3 chakraPos, Quaternion chakraOrient, bool isOneWay) {
 		var delta = (pos - chakraPos);
 		var chakraFwd = (chakraOrient * -Vector3.up).normalized;
+		var chakraTwist = Vector3.Cross (chakraFwd, pos - chakraPos).normalized * -0.4f;
 		var nearestPosOnLine = chakraPos + (chakraFwd * Vector3.Dot (chakraFwd, delta));
 		var r = (pos - nearestPosOnLine);
 		var dist = (3.0f / delta.magnitude);
 		var inpct = Mathf.Min( dist * 6.0f, (3.0f / r.magnitude) );
 		var toline = r.normalized * (-inpct);
-		var tocenter = chakraFwd.normalized * (-dist) * Mathf.Sign(Vector3.Dot(chakraFwd,delta)); 
+		var tocenter = (chakraFwd + chakraTwist).normalized * (-dist) * Mathf.Sign(Vector3.Dot(chakraFwd,delta)); 
 		return (toline + tocenter) * 1.0f;
 	}
 
