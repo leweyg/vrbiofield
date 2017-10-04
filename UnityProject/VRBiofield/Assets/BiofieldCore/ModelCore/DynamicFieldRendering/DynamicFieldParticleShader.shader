@@ -87,7 +87,8 @@ Shader "Biofield / Dynamic Field Particle Shader" {
 
         float2 texOffset = float2(0,_Time.y + input.custom1.x + input.custom1.y);
         float2 sliceUV = (texPos + texOffset);
-        sliceUV = saturate( ( (frac(sliceUV) - float2(0.5,0.5)) * float2( 2.5f, 1.0f ) ) + float2(0.5,0.5) );
+        //sliceUV.x = saturate( ( (frac(sliceUV) - float2(0.5,0.5)) * float2( 2.5f, 1.0f ) ) + float2(0.5,0.5) ).x;
+        sliceUV.x = saturate( ( (frac(sliceUV.x) - 0.5) * ( 2.5f ) ) + (0.5) );
         float tstColor = ( tex2D(_MainTex, sliceUV).a );
         float animVal = tstColor;// abs( sin( (_Time.y) + texPos.y * 4.5 ) );
  

@@ -88,6 +88,8 @@ public class ChakraMesh : MonoBehaviour {
 			float r = this.CurrentPetalStart + ((px) * (this.CurrentPetalArc * extraScaleWidth));
 			float y = (petalY * this.CurrentAuricSlope * extraHeight);
 			float w = y * CurrentWidthScalar;
+			//float hw = w * 2.0f;
+			//w = w * (Mathf.Pow (hw, 2.0f) / hw);
 			float x = Mathf.Sin (r) * w;
 			float z = Mathf.Cos (r) * w;
 			return new Vector3 (x, y, z);
