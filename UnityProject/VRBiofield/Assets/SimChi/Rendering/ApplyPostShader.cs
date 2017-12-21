@@ -21,6 +21,9 @@ public class ApplyPostShader : MonoBehaviour {
 			return;
 		}
 
+		var cam = this.GetComponent<Camera> ();
+		cam.depthTextureMode = DepthTextureMode.Depth;
+
 		//ShaderMaterial.SetFloat("_bwBlend", intensity);
 		Graphics.Blit (source, destination, ShaderMaterial);
 	}
