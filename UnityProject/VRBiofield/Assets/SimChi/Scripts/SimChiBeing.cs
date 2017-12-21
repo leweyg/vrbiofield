@@ -6,6 +6,7 @@ public class SimChiBeing : MonoBehaviour {
 
 	public GameObject MainShape;
 	public GameObject BelowGround;
+	public Transform CrownPos;
 	public Light MainLight;
 	private float MainLightInitialIntensity;
 

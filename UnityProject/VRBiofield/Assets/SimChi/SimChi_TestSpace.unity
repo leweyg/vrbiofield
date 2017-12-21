@@ -240,7 +240,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 317810940}
   m_LocalRotation: {x: -0.052261695, y: -0.73206115, z: 0.056522585, w: 0.67687553}
-  m_LocalPosition: {x: 0, y: 25, z: -4}
+  m_LocalPosition: {x: 4.1, y: 17, z: -55.6}
   m_LocalScale: {x: 251.9507, y: 251.95078, z: 251.9508}
   m_Children: []
   m_Father: {fileID: 1611527820}
@@ -352,6 +352,34 @@ Prefab:
 Transform:
   m_PrefabParentObject: {fileID: 400002, guid: 270075e3ef379a74484873bef2083143, type: 3}
   m_PrefabInternal: {fileID: 323585635}
+--- !u!1 &359630741
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 359630742}
+  m_Layer: 0
+  m_Name: CrownPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &359630742
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 359630741}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 687660199}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &383470969
 GameObject:
   m_ObjectHideFlags: 0
@@ -375,7 +403,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 383470969}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 23, z: 0}
+  m_LocalPosition: {x: -0.7, y: 23, z: -25.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 594715406}
@@ -440,7 +468,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 387340256}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 17.6, z: -0.3}
+  m_LocalPosition: {x: 0, y: 18.6, z: -19.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 245727359}
@@ -638,14 +666,14 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 608428839}
-  m_LocalRotation: {x: 0, y: 0.0878512, z: 0, w: 0.9961336}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1617039067}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 10.08, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &608428841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -737,6 +765,7 @@ Transform:
   - {fileID: 627399813}
   - {fileID: 323585636}
   - {fileID: 422328584}
+  - {fileID: 359630742}
   m_Father: {fileID: 790033963}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -753,6 +782,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MainShape: {fileID: 726961125}
   BelowGround: {fileID: 1344942306}
+  CrownPos: {fileID: 359630742}
   MainLight: {fileID: 422328585}
 --- !u!1 &720079106 stripped
 GameObject:
@@ -821,6 +851,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MainShape: {fileID: 813873444}
   BelowGround: {fileID: 0}
+  CrownPos: {fileID: 0}
   MainLight: {fileID: 387340258}
 --- !u!1001 &858106526
 Prefab:
@@ -901,6 +932,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MainShape: {fileID: 901863373}
   BelowGround: {fileID: 0}
+  CrownPos: {fileID: 0}
   MainLight: {fileID: 317810942}
 --- !u!1 &1064678179
 GameObject:
@@ -925,7 +957,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1064678179}
   m_LocalRotation: {x: -0, y: 0.967065, z: -0, w: -0.25452974}
-  m_LocalPosition: {x: 1.7634748, y: -5.1811943, z: 9.182251}
+  m_LocalPosition: {x: 1.78, y: -5.94, z: 9.04}
   m_LocalScale: {x: 2.4950762, y: 2.4950757, z: 2.4950771}
   m_Children: []
   m_Father: {fileID: 1204452776}
@@ -1220,6 +1252,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MainShape: {fileID: 0}
   BelowGround: {fileID: 781560621}
+  CrownPos: {fileID: 0}
   MainLight: {fileID: 1064678181}
 --- !u!1 &1296233428
 GameObject:
@@ -1630,6 +1663,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MainShape: {fileID: 720079106}
   BelowGround: {fileID: 0}
+  CrownPos: {fileID: 0}
   MainLight: {fileID: 383470971}
 --- !u!1 &2135751312
 GameObject:
@@ -1675,4 +1709,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MainShape: {fileID: 0}
   BelowGround: {fileID: 1435552438}
+  CrownPos: {fileID: 0}
   MainLight: {fileID: 492422795}
