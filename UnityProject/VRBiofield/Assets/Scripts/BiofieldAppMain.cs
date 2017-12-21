@@ -52,7 +52,7 @@ public class BiofieldAppMain : MonoBehaviour {
 		// check for special things:
 		if (TakeScreenshotOnS && Input.GetKeyUp (KeyCode.S)) {
 			ScreenshotCount++;
-			Application.CaptureScreenshot ("screenshot" + ScreenshotCount + ".png", 2);
+			ScreenCapture.CaptureScreenshot ("screenshot" + ScreenshotCount + ".png", 2);
 		}
 	}
 }

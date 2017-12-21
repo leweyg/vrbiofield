@@ -22,7 +22,7 @@ public class PCControls : MonoBehaviour {
 			this.enabled = false;
 			return;
 		}
-		if (UnityEngine.VR.VRSettings.enabled) {
+		if (UnityEngine.XR.XRSettings.enabled) {
 			this.enabled = false;
 			return;
 		}

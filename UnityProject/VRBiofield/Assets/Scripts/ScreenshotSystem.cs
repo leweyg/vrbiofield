@@ -12,7 +12,7 @@ public class ScreenshotSystem : MonoBehaviour {
 	[ContextMenu("Take Screenshot")]
 	public void DoScreenshot() {			
 		var shotName = "screenshot_" + (imageIndex++) + ".png";
-		Application.CaptureScreenshot(shotName, 2);
+		ScreenCapture.CaptureScreenshot(shotName, 2);
 		Debug.Log("Saved image to " + shotName);
 	}
 	
