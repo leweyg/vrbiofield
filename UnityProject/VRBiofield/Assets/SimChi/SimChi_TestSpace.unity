@@ -337,6 +337,14 @@ Prefab:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 270075e3ef379a74484873bef2083143, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 270075e3ef379a74484873bef2083143, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 270075e3ef379a74484873bef2083143, type: 3}
   m_IsPrefabParent: 0
@@ -651,6 +659,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PercentEthereal: 0
   PercentPhysical: 1
+  PercentInIt: 0
   MainSceneLight: {fileID: 1107582557}
   CurrentEtherealColor: {r: 0.89705884, g: 0.6596021, b: 0.6596021, a: 1}
 --- !u!1001 &627399812
@@ -973,7 +982,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &1107582557
 Light:
   m_ObjectHideFlags: 0
@@ -1002,7 +1011,7 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 4294966271
   m_Lightmapping: 4
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -1085,6 +1094,14 @@ Prefab:
     - target: {fileID: 400002, guid: 270075e3ef379a74484873bef2083143, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 209.491
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 270075e3ef379a74484873bef2083143, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 270075e3ef379a74484873bef2083143, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 270075e3ef379a74484873bef2083143, type: 3}
@@ -1580,6 +1597,14 @@ Prefab:
     - target: {fileID: 400002, guid: 270075e3ef379a74484873bef2083143, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 335.52798
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 270075e3ef379a74484873bef2083143, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 270075e3ef379a74484873bef2083143, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 270075e3ef379a74484873bef2083143, type: 3}
