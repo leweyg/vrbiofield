@@ -1,10 +1,13 @@
 Models:
 
+"Ant" - https://poly.google.com/view/2YvCk4p0xdH
+"Catepillar" - https://poly.google.com/view/11rgZ0QxZ-F
 "Trees"
 "Beanstalk"
 "Tree roots"
 "Butterfly" 
-by 'Poly by Google' under CC-BY-2.0
+
+by 'Poly by Google' under CC-BY-2.0 license
 https://poly.google.com/user/4aEd8rQgKu2
 
 https://poly.google.com/view/dTy_L-TMS2z

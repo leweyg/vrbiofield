@@ -58,10 +58,8 @@ public class WASDController : MonoBehaviour {
 				delta = (delta * (RotateSpeed / Mathf.Min (Screen.width, Screen.height)));
 				this.transform.Rotate (new Vector3 (-delta.y, delta.x, 0));
 
-				var cameraSide = this.transform.right;
-				if (cameraSide.y != 0) {
-					this.transform.Rotate(new Vector3(0,0, -(cameraSide.y * UpCorrectSpeed * UnityEngine.Time.deltaTime ) ));
-				}
+				// now fix the up vector:
+				this.transform.rotation = Quaternion.LookRotation(this.transform.forward);
 				//this.transform.up = new Vector3(0,1,0);
 			}
 			this.mHasMouse = true;
