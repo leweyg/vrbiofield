@@ -2,7 +2,8 @@ Shader "SimChi/ChiPostProcess" {
 	Properties {
 		_MainTex ("Base (RGB)", 2D) = "white" {}
 		_TintColor("Tint Color", Color) = (1,1,1,1)
-		_bwBlend ("Black & White blend", Range (0, 1)) = 0
+		_bwBlend ("Effect blend", Range (0, 1)) = 0
+		_hackyBrighten ("Hacky brighten", Range (1,10)) = 1
 	}
 	SubShader {
 		Pass {
@@ -16,6 +17,7 @@ Shader "SimChi/ChiPostProcess" {
 			sampler2D _CameraDepthTexture;
 			uniform float _bwBlend;
 			uniform float4 _TintColor;
+			uniform float _hackyBrighten;
 
 			float pixelEdge(float4 c) {
 				float4 x = abs( ddx(c) );
@@ -27,6 +29,8 @@ Shader "SimChi/ChiPostProcess" {
 
 			float4 frag(v2f_img i) : COLOR {
 				float4 c = tex2D(_MainTex, i.uv);
+
+				c = saturate( c * _hackyBrighten );
 
 				//return c; // + ( ( ddx(c) + ddy(c) ) * 0.5f);
 
