@@ -38,8 +38,23 @@ public class BodyLandmarks : MonoBehaviour {
 		}
 	}
 
+	private MeridianController mMeridians = null;
+	public MeridianController Meridians {
+		get {
+			if (mMeridians)
+				return mMeridians;
+			mMeridians = this.GetComponentInChildren<MeridianController> ();
+			if (mMeridians) {
+				mMeridians.EnsureSetup ();
+				return mMeridians;
+			}
+			return null;
+		}
+	}
+
 	public void EnsureSetup() {
 		this.Chakras.EnsureSetup ();
+		this.Meridians.EnsureSetup ();
 	}
 
 	private BodyPositioning mBodyPosition;
