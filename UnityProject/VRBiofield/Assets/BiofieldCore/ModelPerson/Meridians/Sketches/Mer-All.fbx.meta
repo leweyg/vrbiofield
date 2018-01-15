@@ -1,0 +1,161 @@
+fileFormatVersion: 2
+guid: 4b8151f9a43e5f7489553263245848eb
+timeCreated: 1515992536
+licenseType: Free
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: 3-liver
+    100002: 4-heart
+    100004: 5-spleen
+    100006: body-ref
+    100008: body-shape
+    100010: kidney
+    100012: kidney-mer
+    100014: kidney-model
+    100016: lung
+    100018: lung-all
+    100020: lung-mer
+    100022: mer
+    100024: mer 1
+    100026: mer 2
+    100028: //RootNode
+    100030: organ
+    100032: organ 1
+    100034: organ 2
+    100036: Root
+    400000: 3-liver
+    400002: 4-heart
+    400004: 5-spleen
+    400006: body-ref
+    400008: body-shape
+    400010: kidney
+    400012: kidney-mer
+    400014: kidney-model
+    400016: lung
+    400018: lung-all
+    400020: lung-mer
+    400022: mer
+    400024: mer 1
+    400026: mer 2
+    400028: //RootNode
+    400030: organ
+    400032: organ 1
+    400034: organ 2
+    400036: Root
+    2300000: body-shape
+    2300002: kidney-mer
+    2300004: kidney-model
+    2300006: lung
+    2300008: lung-mer
+    2300010: mer
+    2300012: mer 1
+    2300014: mer 2
+    2300016: organ
+    2300018: organ 1
+    2300020: organ 2
+    3300000: body-shape
+    3300002: kidney-mer
+    3300004: kidney-model
+    3300006: lung
+    3300008: lung-mer
+    3300010: mer
+    3300012: mer 1
+    3300014: mer 2
+    3300016: organ
+    3300018: organ 1
+    3300020: organ 2
+    4300000: body-shape
+    4300002: lung
+    4300004: lung-mer
+    4300006: kidney-mer
+    4300008: kidney-model
+    4300010: mer
+    4300012: organ
+    4300014: mer
+    4300016: organ
+    4300018: organ
+    4300020: mer
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: No Name
+    second: {fileID: 2100000, guid: c24484309626afe429eb3d2c92d1d453, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 0
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
