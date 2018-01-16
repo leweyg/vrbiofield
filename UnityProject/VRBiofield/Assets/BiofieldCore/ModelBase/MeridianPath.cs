@@ -5,23 +5,28 @@ using UnityEngine;
 public class MeridianPath : MonoBehaviour {
 
 	public string MeridianName;
+	public Color MeridanColor = Color.white;
 	public int MeditationOrder = 0;
 	public GameObject Organ;
 	public GameObject MeridianLine;
 	private bool mIsSetup = false;
 	public Material MatInstOrgan { get; set; }
 	public Material MatInstLine { get; set; }
+	public Vector3 OrganCenterPos { get; set; }
 
 	public void SetMeridianOpacity(float organ_alpha, float line_alpha) {
 		string name = "_CustomAlpha";
 		MatInstOrgan.SetFloat (name, organ_alpha);
 		MatInstLine.SetFloat (name, line_alpha);
+		MatInstLine.SetFloat ("_PulsationPct", 1.0f);
 	}
 
 	public void EnsureSetup() {
 		if (mIsSetup)
 			return;
 		mIsSetup = true;
+
+		this.OrganCenterPos = this.transform.position; // just to start with, fixed later
 
 		for (int ci = 0; ci < this.transform.childCount; ci++) {
 			var ob = (this.transform.GetChild (ci));
@@ -35,6 +40,12 @@ public class MeridianPath : MonoBehaviour {
 				if (this.Organ == null) {
 					this.Organ = ob.gameObject;
 					this.MatInstOrgan = GetMaterialInst (this.Organ);
+
+					var mf = this.Organ.GetComponent<Renderer> ();
+					if (mf) {
+						// actually use bounds
+						this.OrganCenterPos = mf.bounds.center;
+					}
 				}
 			}
 		}

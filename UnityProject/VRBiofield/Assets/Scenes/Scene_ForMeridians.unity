@@ -11069,6 +11069,11 @@ Prefab:
       propertyPath: CurrentActivity
       value: 
       objectReference: {fileID: 398745904}
+    - target: {fileID: 114000013503891988, guid: 1d1095030e5c62c4a84cda6111f1a6c8,
+        type: 2}
+      propertyPath: TimePerBreath
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1d1095030e5c62c4a84cda6111f1a6c8, type: 2}
   m_IsPrefabParent: 0
