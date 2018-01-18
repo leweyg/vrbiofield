@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Linq;
 
 public class BookAnimScript : MonoBehaviour {
 
@@ -26,6 +27,14 @@ public class BookAnimScript : MonoBehaviour {
 	private int TurnDirection;
 	private int TurnNextLeft;
 	private int TurnHoverUpdateFrame = -1;
+
+	[ContextMenu("Add page at top")]
+	public void AddPageAtTop() {
+		var lst = Pages.ToList ();
+		lst.Insert (0, null);
+		lst.Insert (1, null);
+		this.Pages = lst.ToArray ();
+	}
 
 	public void SetIsHovering(bool isOver, bool isForward) {
 		this.TurnHoverUpdateFrame = Time.frameCount;

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Linq;
 
 public class ExcersizeSharedScheduler : MonoBehaviour {
 
@@ -23,6 +24,13 @@ public class ExcersizeSharedScheduler : MonoBehaviour {
 			Debug.Assert (this.Breath != null);
 		}
 		this.Breath.EnsureSetup ();
+	}
+
+	[ContextMenu("Add activity at top of list")]
+	public void AddActivityAtTop() {
+		var lst = this.Activities.ToList ();
+		lst.Insert (0, null);
+		this.Activities = lst.ToArray ();
 	}
 
 	public BodyLandmarks GetBody(ActivityAvatar av) {

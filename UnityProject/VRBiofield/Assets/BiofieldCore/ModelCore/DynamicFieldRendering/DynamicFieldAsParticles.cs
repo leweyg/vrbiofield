@@ -126,13 +126,19 @@ public class DynamicFieldAsParticles : MonoBehaviour {
 			return;
 		}
 
-		if (Model.IsPaused)
-			return;
-		if (Model.IsStaticLayout && this.DataPushed) {
+		// material update:
+		{
 			if (!PartMatInst) {
 				PartRenderer.material.SetFloat ("CreateInstance", 1);
 				PartMatInst = PartRenderer.material;
 			}
+			PartMatInst.SetFloat ("_CustomFlowRate", this.Model.ParticleFlowRate);
+		}
+
+		if (Model.IsPaused)
+			return;
+
+		if (Model.IsStaticLayout && this.DataPushed) {
 			PartMatInst.SetFloat ("_CustomAlpha", this.Model.FieldOverallAlpha);
 			return;
 		}

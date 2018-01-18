@@ -22,6 +22,9 @@ public class DynamicFieldModel : MonoBehaviour {
 	public bool DEBUG_IsPaused;
 	public bool IsStaticLayout { get; private set; }
 
+	public float ParticleFlowTime { get; set; }
+	public float ParticleFlowRate { get; set; }
+
 	public struct DynFieldCell
 	{
 		public Int3 VoxelIndex;
@@ -48,6 +51,7 @@ public class DynamicFieldModel : MonoBehaviour {
 		isSetup = true;
 
 		FieldOverallAlpha = 1.0f;
+		ParticleFlowRate = 1.0f;
 		if (!this.Body) {
 			this.Body = this.gameObject.GetComponentInParent<BodyLandmarks> ();
 		}
@@ -167,6 +171,19 @@ public class DynamicFieldModel : MonoBehaviour {
 		var inpct = Mathf.Min( dist * 6.0f, (3.0f / r.magnitude) );
 		var toline = r.normalized * (-inpct);
 		var tocenter = (chakraFwd + chakraTwist).normalized * (-dist) * Mathf.Sign(Vector3.Dot(chakraFwd,delta)); 
+		return (toline + tocenter) * 1.0f;
+	}
+
+	public static Vector3 ChakraFieldV3_v2(Vector3 pos, Vector3 chakraPos, Quaternion chakraOrient, bool isOneWay) {
+		var delta = (pos - chakraPos);
+		var chakraFwd = (chakraOrient * -Vector3.up).normalized;
+		var chakraTwist = Vector3.Cross (chakraFwd, pos - chakraPos).normalized * -0.4f;
+		var nearestPosOnLine = chakraPos + (chakraFwd * Vector3.Dot (chakraFwd, delta));
+		var r = (pos - nearestPosOnLine);
+		var dist = (3.0f / delta.magnitude);
+		var inpct = Mathf.Min( dist * 6.0f, (3.0f / r.magnitude) );
+		var toline = r.normalized * (-inpct);
+		var tocenter = (delta.normalized * 5.0f) * Mathf.Sign(Vector3.Dot(chakraFwd,delta)); 
 		return (toline + tocenter) * 1.0f;
 	}
 
@@ -317,6 +334,10 @@ public class DynamicFieldModel : MonoBehaviour {
 	void Update () {
 		DEBUG_IsPaused = this.IsPaused;
 		this.EnsureSetup ();
+
+		// update regarless of being paused (to keep particles moving):
+		this.ParticleFlowTime += ParticleFlowRate * Time.deltaTime;
+
 		this.UpdateCurrentSelection ();
 		this.UpdateCellFieldDir	();
 

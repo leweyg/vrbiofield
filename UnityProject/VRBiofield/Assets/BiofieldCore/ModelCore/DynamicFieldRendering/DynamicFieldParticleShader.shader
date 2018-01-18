@@ -8,6 +8,7 @@ Shader "Biofield / Dynamic Field Particle Shader" {
 	//_ScrollScale("_ScrollScale", vector) = (1,1,1,1)
 	//_CustomColor("CustomColor",Color) = (0,1,0,0)
 		_CustomAlpha("CustomAlpha",Float) = 1
+		_CustomFlowRate("CustomFlowRate",Float) = 1
 	//_SampleTransparency("_SampleTransparency", Float) = 1
     }
         SubShader{
@@ -38,6 +39,7 @@ Shader "Biofield / Dynamic Field Particle Shader" {
     const bool perEye = false;
     const bool singleSample = false;
     float _CustomAlpha;
+    float _CustomFlowRate;
 
 
     struct vertexInput {
@@ -85,7 +87,7 @@ Shader "Biofield / Dynamic Field Particle Shader" {
         float2 texPos = input.tex.xy;
         float4 texColor = ( tex2D(_MainTex, texPos).rgba );
 
-        float2 texOffset = float2(0,_Time.y + input.custom1.x + input.custom1.y);
+        float2 texOffset = float2(0,(_Time.y * _CustomFlowRate) + input.custom1.x + input.custom1.y);
         float2 sliceUV = (texPos + texOffset);
         //sliceUV.x = saturate( ( (frac(sliceUV) - float2(0.5,0.5)) * float2( 2.5f, 1.0f ) ) + float2(0.5,0.5) ).x;
         sliceUV.x = saturate( ( (frac(sliceUV.x) - 0.5) * ( 2.5f ) ) + (0.5) );
