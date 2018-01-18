@@ -199,10 +199,16 @@ public class DynamicFieldModel : MonoBehaviour {
 			return;
 		if (this.Hand)
 			return;
+		bool isShowing = true;
+		if (this.ExcersizeInst) {
+			isShowing = this.ExcersizeInst.IsUseVectorField ();
+			if (!isShowing)
+				return;
+		}
 		
 		var chakras = this.Body.Chakras.AllChakras;
 		var chakra = chakras [((int)(Time.time * 0.5f)) % chakras.Length];
-		if (CurrentFocusChakra >= 0) {
+		if ((CurrentFocusChakra >= 0)) {
 			chakra = chakras [CurrentFocusChakra];
 		} else {
 			return;

@@ -54,7 +54,9 @@ public class BodyLandmarks : MonoBehaviour {
 
 	public void EnsureSetup() {
 		this.Chakras.EnsureSetup ();
-		this.Meridians.EnsureSetup ();
+		if (this.Meridians) {
+			this.Meridians.EnsureSetup ();
+		}
 	}
 
 	private BodyPositioning mBodyPosition;

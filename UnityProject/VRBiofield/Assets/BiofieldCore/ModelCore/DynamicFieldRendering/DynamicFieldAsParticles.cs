@@ -115,6 +115,17 @@ public class DynamicFieldAsParticles : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+		bool isShowing = true;
+		if (this.Model && this.Model.ExcersizeInst) {
+			if (!this.Model.ExcersizeInst.IsUseVectorField ()) {
+				isShowing = false;
+			}
+		}
+		this.PartRenderer.enabled = isShowing;
+		if (!isShowing) {
+			return;
+		}
+
 		if (Model.IsPaused)
 			return;
 		if (Model.IsStaticLayout && this.DataPushed) {

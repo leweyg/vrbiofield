@@ -53,12 +53,25 @@ public class ExcersizeSharedScheduler : MonoBehaviour {
 		//Debug.Log("Changing activity to: " + ((act!=null)?act.ActivityName : "NULL"));
 		foreach (var ob in this.Activities) {
 			if (ob != act) {
+				if (ob) {
+					if (ob.Instances != null) {
+						foreach (var i in ob.Instances) {
+							i.OnStateLeave ();
+						}
+					}
+				}
 				ob.gameObject.SetActive (false);
 			}
 		}
 		if (act != null) {
 			act.gameObject.SetActive (true);
 			act.ApplyState ();
+			act.EnsureSetup ();
+			if (act.Instances != null) {
+				foreach (var i in act.Instances) {
+					i.OnStateEnter ();
+				}
+			}
 		}
 	}
 

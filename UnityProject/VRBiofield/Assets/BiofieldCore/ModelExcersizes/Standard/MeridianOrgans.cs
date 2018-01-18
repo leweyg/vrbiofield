@@ -18,9 +18,34 @@ public class MeridianOrgans : ExcersizeActivityInst {
 
 	}
 
+	public override bool IsUseVectorField ()
+	{
+		return (false); //(ActiveMeridian == null);
+	}
+
+	public override void OnStateEnter ()
+	{
+		base.OnStateEnter ();
+		this.EnsureSetup ();
+
+		this.Body.EnsureSetup ();
+		this.Body.Meridians.EnsureSetup ();
+		Debug.Log ("Entering the meridians experience.");
+		this.Body.Meridians.gameObject.SetActive (true);
+	}
+
+	public override void OnStateLeave ()
+	{
+		Debug.Log ("Leaving the meridians experience.");
+		this.Body.Meridians.gameObject.SetActive (false);
+	}
+
 	public override Vector3 CalcVectorField (DynamicFieldModel model, int posIndex, Vector3 pos, out Color primaryColor)
 	{
 		if (ActiveMeridian) {
+			primaryColor = Color.yellow;
+			return Vector3.zero;
+
 			primaryColor = Color.Lerp (ActiveMeridian.MeridanColor, Color.white, 0.5f);
 			return DynamicFieldModel.ChakraFieldV3 (pos, ActiveMeridian.OrganCenterPos, Quaternion.identity, false);
 		}
