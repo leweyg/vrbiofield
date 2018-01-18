@@ -56,13 +56,35 @@ public class MeridianOrgans : ExcersizeActivityInst {
 	void Start () {
 		this.EnsureSetup ();
 	}
+
+	MeridianPath FindClosestMeridian() {
+		var ray = FocusRay.main.CurrentRay;
+		var bestDot = -100.0f;
+		MeridianPath bestChakra = null;//this.CurrentChakra;
+		foreach (var c in this.Body.Meridians.Meridians) {// .AllPoints) {
+			if (true) {
+				var d = Vector3.Dot (ray.direction, (c.OrganCenterPos - ray.origin).normalized);
+				float minAngle = 0.95f; // 0.98f;
+				if ((d > bestDot) && (d > minAngle)) {
+					bestChakra = c;
+					bestDot = d;
+				}
+			}
+		}
+		return bestChakra;
+	}
 	
 	// Update is called once per frame
 	void Update () {
 		var mc = this.Body.Meridians;
 		this.Breath.CurrentBreathsPerRep = mc.Meridians.Length;
+		var bestMer = FindClosestMeridian ();
+
 		foreach (var m in mc.Meridians) {
 			bool showMer = ( (m.MeditationOrder-1) == ((this.Breath.BreathIndex) % mc.Meridians.Length));
+			if (IsInfoAvatar) {
+				showMer = (m == bestMer);
+			}
 			m.gameObject.SetActive( showMer);
 			if (showMer) {
 				ActiveMeridian = m;
