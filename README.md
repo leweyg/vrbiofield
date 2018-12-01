@@ -2,6 +2,7 @@
 Visually guided VR meditation experience, based on yoga practises such as chakra breathing, energy grounding, forming 'chi' between hands, etc. Utilizes a dynamic and interactive biofield model to help users learn and interact with visually guided meditation techniques.
 
 Web3D Demo - https://leweyg.github.io/vrbiofield/index.html
+
 Windows/Mac/VR Demos - https://github.com/leweyg/vrbiofield/releases
 
 By Lewcid Systems - http://www.lewcid.com/
