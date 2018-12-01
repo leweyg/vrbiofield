@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+  <string name="firebase_database_url" translatable="false">https://chivr-b0736.firebaseio.com</string>
+  <string name="gcm_defaultSenderId" translatable="false">824283163150</string>
+  <string name="google_storage_bucket" translatable="false">chivr-b0736.appspot.com</string>
+  <string name="project_id" translatable="false">chivr-b0736</string>
+  <string name="google_api_key" translatable="false">AIzaSyCjAFS-0Cn7LcZgI4PMxcBCLBC9ydxV26U</string>
+  <string name="google_crash_reporting_api_key" translatable="false">AIzaSyCjAFS-0Cn7LcZgI4PMxcBCLBC9ydxV26U</string>
+  <string name="google_app_id" translatable="false">1:824283163150:android:7950ead58767cb33</string>
+  <string name="default_web_client_id" translatable="false">824283163150-dung0ef1cbrvorsllfdkvl1kjqfncrjc.apps.googleusercontent.com</string>
+</resources>

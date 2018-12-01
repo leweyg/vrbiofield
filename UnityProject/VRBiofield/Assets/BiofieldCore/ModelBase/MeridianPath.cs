@@ -5,6 +5,7 @@ using UnityEngine;
 public class MeridianPath : MonoBehaviour {
 
 	public string MeridianName;
+	public EMeridian MeridianId = EMeridian.Unknown;
 	public Color MeridanColor = Color.white;
 	public int MeditationOrder = 0;
 	public GameObject Organ;
@@ -13,6 +14,17 @@ public class MeridianPath : MonoBehaviour {
 	public Material MatInstOrgan { get; set; }
 	public Material MatInstLine { get; set; }
 	public Vector3 OrganCenterPos { get; set; }
+
+
+	public enum EMeridian
+	{
+		Unknown,
+		Lung,
+		Kidney,
+		Liver,
+		Heart,
+		Spleen,
+	}
 
 	public void SetMeridianOpacity(float organ_alpha, float line_alpha) {
 		string name = "_CustomAlpha";

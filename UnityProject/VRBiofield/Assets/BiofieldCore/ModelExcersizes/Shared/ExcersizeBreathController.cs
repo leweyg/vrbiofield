@@ -10,6 +10,11 @@ public class ExcersizeBreathController : MonoBehaviour {
 	public float TimeStarted { get; private set; }
 	public float UnitTimeSinceStart { get; private set; }
 
+	public bool AnimationBreathIsActive { get; set; }
+	public float AnimationBreathPerSecond = 10;
+	public bool AnimationBreathIsBreathingIn = false;
+	public bool AnimationBreathIsNextAvailable = true;
+
 	public bool IsUsingUserBreathRate { get; set; }
 	public bool IsUserBreathingIn { get; set; }
 	private float UserBreathEstTimePerBreath = 10.0f;
@@ -104,9 +109,52 @@ public class ExcersizeBreathController : MonoBehaviour {
 		return (sum / ((float)count)) * 2.0f;
 	}
 
+	public void SetAnimationBreathNext(bool isIn, float timeUntilChange, bool hasNext = true) {
+		AnimationBreathIsActive = true;
+		AnimationBreathIsNextAvailable = hasNext;
+		if (hasNext) {
+			AnimationBreathIsBreathingIn = isIn;
+			AnimationBreathPerSecond = timeUntilChange;
+			//Debug.Log ("Set time breath: in=" + isIn + " in_s=" + timeUntilChange);
+			UnitTimeSinceStart = (isIn ? 0.5f : 0.0f) + Mathf.Floor (UnitTimeSinceStart);
+		}
+	}
+
+	public void SetAnimationBreathEnd() {
+		AnimationBreathIsActive = false;
+	}
+
+	public float DEBUG_CT = 0.0f;
+
+	private int mUpdatedFrameIndex = 0;
+	public void EnsureUpdated() {
+		if (Time.frameCount == this.mUpdatedFrameIndex) {
+			return;
+		}
+		this.mUpdatedFrameIndex = Time.frameCount;
+
+		this.UpdateTimer ();
+	}
+
 	public void UpdateTimer() {
 
-		if (IsUsingUserBreathRate) {
+		if (AnimationBreathIsActive) {
+			var ct = Fraction (this.UnitTimeSinceStart);
+			ct += (Time.deltaTime / this.AnimationBreathPerSecond) * 0.5f * 0.95f;
+			if (AnimationBreathIsNextAvailable) {
+				if (!this.AnimationBreathIsBreathingIn) {
+					if (ct > 0.5f) {
+						ct = 0.5f; //(ct - 0.5f);
+					}
+				} else {
+					if (ct < 0.5f) {
+						ct = 0.5f; // + (0.5f - ct);
+					}
+				}
+			}
+			DEBUG_CT = ct;
+			this.UnitTimeSinceStart = Mathf.Floor (this.UnitTimeSinceStart) + ct;
+		} else if (IsUsingUserBreathRate) {
 			
 			// Only use for biosensors:
 			var ct = Fraction (this.UnitTimeSinceStart);
@@ -151,6 +199,6 @@ public class ExcersizeBreathController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		this.UpdateTimer ();
+		this.EnsureUpdated ();
 	}
 }

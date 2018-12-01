@@ -1,0 +1,11 @@
+{ "file":"Breath_Visuals_1_Guided3WithDialog.mp3", "events":[
+		{ "name":"out", "time":3.513158 },
+		{ "name":"in", "time":17.5932 },
+		{ "name":"out", "time":27.262747 },
+		{ "name":"in", "time":39.233638 },
+		{ "name":"out", "time":44.93793 },
+		{ "name":"in", "time":52.13784 },
+		{ "name":"out", "time":58.644256 },
+		{ "name":"in", "time":64.567047 },
+		{ "name":"out", "time":69.811216 }
+	] }

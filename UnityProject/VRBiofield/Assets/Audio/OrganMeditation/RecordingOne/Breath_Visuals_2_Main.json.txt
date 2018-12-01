@@ -1,0 +1,12 @@
+{ "file":"Breath_Visuals_2_Main.mp3", "events":[
+		{ "name":"out", "time":2.5 },
+		{ "name":"in", "time":5.0 },
+		{ "name":"out", "time":10.998618 },
+		{ "name":"in", "time":19.162865 },
+		{ "name":"out", "time":26.483028 },
+		{ "name":"in", "time":36.400784 },
+		{ "name":"out", "time":45.092557 },
+		{ "name":"in", "time":54.040371 },
+		{ "name":"out", "time":60.679322 },
+		{ "name":"in", "time":4.675007 }
+	] }

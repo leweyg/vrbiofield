@@ -1,0 +1,21 @@
+{ "file":"Hypno_LoopLonger.mp3", "events":[
+        { "name":"in", "time":1.629473 },
+        { "name":"out", "time":4.984476 },
+        { "name":"in", "time":8.832494 },
+        { "name":"out", "time":12.220102 },
+        { "name":"in", "time":16.048033 },
+        { "name":"out", "time":20.505348 },
+        { "name":"in", "time":25.119728 },
+        { "name":"out", "time":28.470841 },
+        { "name":"in", "time":32.579304 },
+        { "name":"out", "time":35.619546 },
+        { "name":"in", "time":40.270239 },
+        { "name":"out", "time":43.046841 },
+        { "name":"in", "time":47.572319 },
+        { "name":"out", "time":50.904918 },
+        { "name":"in", "time":54.001624 },
+        { "name":"out", "time":57.234047 },
+        { "name":"in", "time":60.815501 },
+        { "name":"out", "time":63.760027 }
+
+    ] }

@@ -1064,6 +1064,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MeridianName: Liver
+  MeridianId: 3
   MeridanColor: {r: 0.034482718, g: 1, b: 0, a: 1}
   MeditationOrder: 3
   Organ: {fileID: 0}
@@ -1080,6 +1081,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MeridianName: Lung
+  MeridianId: 1
   MeridanColor: {r: 0.878244, g: 0.9526847, b: 0.9632353, a: 1}
   MeditationOrder: 1
   Organ: {fileID: 0}
@@ -1096,6 +1098,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MeridianName: Heart
+  MeridianId: 4
   MeridanColor: {r: 0.97794116, g: 0.14163287, b: 0, a: 1}
   MeditationOrder: 4
   Organ: {fileID: 0}
@@ -1112,6 +1115,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MeridianName: Kidney
+  MeridianId: 2
   MeridanColor: {r: 0.21972317, g: 0.69743156, b: 0.9338235, a: 1}
   MeditationOrder: 2
   Organ: {fileID: 0}
@@ -1128,6 +1132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MeridianName: Spleen
+  MeridianId: 5
   MeridanColor: {r: 0.9448277, g: 1, b: 0, a: 1}
   MeditationOrder: 5
   Organ: {fileID: 0}

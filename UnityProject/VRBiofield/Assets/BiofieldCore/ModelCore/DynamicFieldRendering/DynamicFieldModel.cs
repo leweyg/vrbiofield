@@ -6,6 +6,7 @@ public class DynamicFieldModel : MonoBehaviour {
 
 	public BodyLandmarks Body;
 	public MainEnergyApp Hand;
+	public ChiHandEnergyBall ChiBall;
 	public ExcersizeSharedScheduler ExcersizeSystem;
 	public ExcersizeActivityInst ExcersizeInst;
 
@@ -15,6 +16,7 @@ public class DynamicFieldModel : MonoBehaviour {
 	public float UnitMagnitude = 45.0f;
 	[Range(4,32)]
 	public int VoxelSideRes = 8;
+	public int VoxelSideResMobile = 8;
 	public float DEBUG_AvgMagnitude = 0.0f;
 	public bool SkipRandomPlacement = false;
 	private bool mIsPaused = false;
@@ -59,14 +61,16 @@ public class DynamicFieldModel : MonoBehaviour {
 			if (!this.Hand) {
 				this.Hand = this.gameObject.GetComponentInParent<MainEnergyApp> ();
 			}
+			this.ChiBall = this.gameObject.GetComponentInParent<ChiHandEnergyBall> ();
 		}
-		Debug.Assert ((this.Body) || (this.Hand));
+		Debug.Assert ((this.Body) || (this.Hand) || (this.ChiBall));
 		if (!this.ExcersizeSystem) {
 			this.ExcersizeSystem = GameObject.FindObjectOfType<ExcersizeSharedScheduler> ();
 		}
+		bool isMobile = (Application.platform == UnityEngine.RuntimePlatform.IPhonePlayer);
+		int sideRes = (isMobile ? this.VoxelSideResMobile : this.VoxelSideRes);// 8;
 		if (this.Body) {
 			this.Body.EnsureSetup ();
-			int sideRes = this.VoxelSideRes;// 8;
 			int chakraToShow = CurrentFocusChakra; //3;
 			this.FieldsCells = new VolumeBuffer<DynFieldCell> (Cubic<int>.CreateSame (sideRes));
 			var scl = OneOver (this.FieldsCells.Header.Size.AsVector3 ());
@@ -85,10 +89,10 @@ public class DynamicFieldModel : MonoBehaviour {
 				this.FieldsCells.Write (nd.AsCubic (), cell);
 			}
 		} else if (this.Hand) {
-			var arrows = this.Hand.FindAllFlowNodes();
+			var arrows = this.Hand.FindAllFlowNodes ();
 			var n = arrows.Count;
 			this.IsStaticLayout = true;
-			this.FieldsCells = new VolumeBuffer<DynFieldCell> (Cubic<int>.Create(n, 1, 1));
+			this.FieldsCells = new VolumeBuffer<DynFieldCell> (Cubic<int>.Create (n, 1, 1));
 			for (int i = 0; i < n; i++) {
 				var cell = this.FieldsCells.Array [i];
 				var arrow = arrows [i];
@@ -98,6 +102,24 @@ public class DynamicFieldModel : MonoBehaviour {
 				cell.Twist = 0.0f;
 				cell.VoxelIndex = new Int3 (i, 0, 0);
 				this.FieldsCells.Array [i] = cell;
+			}
+		} else if (this.ChiBall) {
+			
+			this.FieldsCells = new VolumeBuffer<DynFieldCell> (Cubic<int>.CreateSame (sideRes));
+			var scl = OneOver (this.FieldsCells.Header.Size.AsVector3 ());
+			var cntr = this.ChiBall.transform.position;
+			var l2w = this.transform.localToWorldMatrix;
+			foreach (var nd in this.FieldsCells.AllIndices3()) {
+				var cell = this.FieldsCells.Read (nd.AsCubic ());
+				cell.Pos = this.transform.localToWorldMatrix.MultiplyPoint (FieldsCells.Header.CubicToDecimalUnit (nd) - (Vector3.one * 0.5f));
+				if (!(SkipRandomPlacement)) {
+					cell.Pos += Scale (Random.insideUnitSphere, scl); // add random offset
+				}
+				cell.Direction = cntr - cell.Pos;
+				cell.LatestColor = Color.white;
+				cell.Twist = 0.0f;
+				cell.VoxelIndex = nd;
+				this.FieldsCells.Write (nd.AsCubic (), cell);
 			}
 		}
 
@@ -222,19 +244,29 @@ public class DynamicFieldModel : MonoBehaviour {
 			if (!isShowing)
 				return;
 		}
-		
-		var chakras = this.Body.Chakras.AllChakras;
-		var chakra = chakras [((int)(Time.time * 0.5f)) % chakras.Length];
-		if ((CurrentFocusChakra >= 0)) {
-			chakra = chakras [CurrentFocusChakra];
-		} else {
-			return;
-		}
 
-		var cpos = chakra.transform.position;
-		var cdir = -chakra.transform.up;
-		var crot = chakra.transform.rotation;
-		var cOneWay = chakra.ChakraOneWay;
+		var mainTrans = this.transform;
+		bool cOneWay = false;
+
+		if (this.Body) {
+			var chakras = this.Body.Chakras.AllChakras;
+			var chakra = chakras [((int)(Time.time * 0.5f)) % chakras.Length];
+
+			if ((CurrentFocusChakra >= 0)) {
+					chakra = chakras [CurrentFocusChakra];
+				} else {
+					return;
+				}
+
+			mainTrans = chakra.transform;
+			cOneWay = chakra.ChakraOneWay;
+		}
+		if (this.ChiBall) {
+			mainTrans = this.ChiBall.transform;
+		}
+		var cpos = mainTrans.position;
+		var cdir = -mainTrans.up;
+		var crot = mainTrans.rotation;
 
 		var avgSum = 0.0f;
 		var avgCnt = 0;
@@ -250,6 +282,8 @@ public class DynamicFieldModel : MonoBehaviour {
 			Color primeColor = Color.white;
 			if (this.ExcersizeInst) {
 				newDir = this.ExcersizeInst.CalcVectorField (this, i, c.Pos, out primeColor);
+			} else if (this.ChiBall) {
+				newDir = this.ChiBall.CalcVectorField (this, i, c.Pos, out primeColor);
 			} else {
 				newDir = ChakraFieldV3 (c.Pos, cpos, crot, cOneWay);
 			}
@@ -273,6 +307,10 @@ public class DynamicFieldModel : MonoBehaviour {
 			this.FieldOverallAlpha = this.ExcersizeSystem.Breath.UnitFadeInPct;
 			return;
 		}
+		if (this.ChiBall) {
+			this.FieldOverallAlpha = 1.0f; 
+			return;
+		}
 		this.ExcersizeInst = null;
 		var bestInst = this.ExcersizeInst;
 		float bestInstScore = 0.0f;
@@ -285,7 +323,7 @@ public class DynamicFieldModel : MonoBehaviour {
 				ChakraBreath infoChakra = null;
 				foreach (var inst in cur.Instances) {
 					{
-						float score = Vector3.Dot ((inst.Body.transform.position - Camera.main.transform.position).normalized, Camera.main.transform.forward);
+						float score = Vector3.Dot ((inst.Body.SpineEnd.transform.position - Camera.main.transform.position).normalized, Camera.main.transform.forward);
 						if ((!bestInst) || (score > bestInstScore)) {
 							bestInst = inst;
 							bestInstScore = score;

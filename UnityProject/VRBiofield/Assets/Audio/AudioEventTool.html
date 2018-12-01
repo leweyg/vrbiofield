@@ -1,0 +1,191 @@
+<html>
+
+<head>
+<title>Audio Markup</title>
+</head>
+
+<body onkeydown="onBodyKeyDown(event)">
+
+<h1>Audio Events</h1>
+
+
+<h3>Track</h3>
+<br/>
+<canvas width=600 height=50 id="mainAudioTimeline" ></canvas>
+<br/>
+    <audio controls id="mainAudioPlayer">
+        <source id="mainAudioSource"
+        src="OrganMeditation/RecordingOne/Breath_Visuals_3_Long10_Cleaner.mp3" 
+        type="audio/mpeg" id="mainAudioSource"></source>
+      Your browser does not support the audio element.
+      </audio>
+      <span id="mainTimeDisplay">(time)</span>
+      <br/>
+      <span id="mainFilename">(filename)</span>
+
+ <br/>
+
+<h3>Events</h3>
+<textarea id="mainJsonOutput" value="put json here" ></textarea>
+<script>
+    
+</script>
+
+<script>
+
+    var timeAudio = 0;
+    var timeCursor = 0;
+    var timeSaveDuration = 10;
+    var mainFilenameJustTitle = "not_sure";
+
+    var preloadedData = { 'file':'Breath_Visuals_3_Long10_Cleaner.mp3', 'events':[
+		{ 'name':'in', 'time':1.547423 },
+		{ 'name':'out', 'time':5.877507 },
+		{ 'name':'in', 'time':10.241444 },
+		{ 'name':'out', 'time':19.829326 },
+		{ 'name':'in', 'time':28.824251 },
+		{ 'name':'out', 'time':35.527287 },
+		{ 'name':'in', 'time':44.646793 },
+		{ 'name':'out', 'time':53.09011 },
+		{ 'name':'in', 'time':61.158768 },
+		{ 'name':'out', 'time':69.425401 },
+		{ 'name':'in', 'time':76.833669 },
+		{ 'name':'out', 'time':84.556959 },
+		{ 'name':'in', 'time':94.21717 },
+		{ 'name':'out', 'time':101.354965 },
+		{ 'name':'in', 'time':108.634181 },
+		{ 'name':'out', 'time':114.835573 },
+		{ 'name':'in', 'time':121.535959 },
+		{ 'name':'out', 'time':127.648314 },
+		{ 'name':'in', 'time':134.080934 },
+		{ 'name':'out', 'time':139.407568 },
+		{ 'name':'in', 'time':145.916272 },
+		{ 'name':'out', 'time':151.839484 },
+	] }
+
+    var audioEvents = [];
+    audioEvents = preloadedData.events;
+
+    var autoAddEvents = {
+        "i" : "in",
+        "o" : "out",
+    }
+
+    function eventsToJson() {
+        var ans = "{ 'file':'" + mainFilenameJustTitle + "', 'events':[\n"
+        
+        for (var ii in audioEvents) {
+            var ae = audioEvents[ii];
+            ans += "\t\t{ 'name':'" + ae.name + "', 'time':" + ae.time + " },\n";
+        }
+        ans += "\t] }";
+        return ans;
+    }
+
+    mainAudioPlayer.onloadedmetadata = function() {
+        timeSaveDuration = mainAudioPlayer.duration;
+    };
+
+    function timeDuration() {
+        return timeSaveDuration;
+    }
+
+    function timeToPixel(t) {
+        var ut = (t / timeDuration());
+        return (mainAudioTimeline.width * ut);
+    }
+
+    function pixelToTime(px) {
+        var ut = (px / mainAudioTimeline.width);
+        return (ut * timeDuration());
+    }
+
+    function drawTimePos(t) {
+        var x = timeToPixel(t);
+        var canvas = mainAudioTimeline;
+        var context = canvas.getContext('2d');
+        context.beginPath();
+        context.moveTo(x, 0);
+        context.lineTo(x, canvas.height);
+        context.stroke();
+    }
+
+    function onBodyKeyDown(e) {
+        var ex = e.key;
+        if (Document.activeElement == mainJsonOutput) {
+            return;
+        }
+        if (ex == " ") {
+            if (mainAudioPlayer.paused) {
+                mainAudioPlayer.play();
+            } else {
+                mainAudioPlayer.pause();
+            }
+        } else if (ex in autoAddEvents) {
+            var toAdd = autoAddEvents[ex];
+            audioEvents.push( {"time":mainAudioPlayer.currentTime, "name":toAdd });
+            UpdateEventData();
+        }
+    }
+
+    mainAudioTimeline.onmousemove = function(e) {
+        timeCursor = pixelToTime(e.x);
+        mainAudioPlayer.currentTime = timeCursor;
+    };
+
+    function UpdateEventData() {
+        mainJsonOutput.value = eventsToJson();
+    }
+
+
+    function UpdateMainTimeline() {
+        var canvas = mainAudioTimeline;
+        var context = canvas.getContext('2d');
+        context.fillStyle = "grey";
+        context.fillRect( 0, 0, canvas.width, canvas.height );
+        context.fillStyle = "black";
+
+        timeAudio = mainAudioPlayer.currentTime;
+        mainTimeDisplay.innerText = "" + timeAudio + " / " + timeDuration();
+
+        context.lineWidth = 0.5;
+        context.strokeStyle = "black";
+        for (var eii in audioEvents) {
+            var ae = audioEvents[eii];
+            drawTimePos(ae.time);
+
+            context.font="14px Georgia"; 
+            context.fillText(ae.name,timeToPixel(ae.time),canvas.height/2);
+        }
+
+        context.lineWidth = 2;
+        context.strokeStyle = "blue";
+        drawTimePos(timeAudio);
+        context.strokeStyle = "red";
+        drawTimePos(timeCursor);
+    }
+
+    function UpdateFilename() {
+        var name = mainAudioSource.src;
+        var parts = name.split("/");
+        var lastName = "name";
+        for (var ii in parts) {
+            lastName = parts[ii];
+        }
+        mainFilenameJustTitle = lastName;
+        mainFilename.innerText = lastName;
+    }
+
+    UpdateMainTimeline();
+
+    setInterval(UpdateMainTimeline, 50);
+
+    UpdateFilename();
+    
+    UpdateEventData();
+
+</script>
+
+</body>
+
+</html>

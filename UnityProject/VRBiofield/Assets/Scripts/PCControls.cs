@@ -15,6 +15,7 @@ public class PCControls : MonoBehaviour {
 	private PCView[] AllViews;
 	private PCView LatestView = null;
 	private float MouseDownTime = 0.0f;
+	public bool DEBUG_MatchForTuning = false;
 
 	// Use this for initialization
 	void Start () {
@@ -27,7 +28,7 @@ public class PCControls : MonoBehaviour {
 			return;
 		}
 
-		UseView (this.ViewRight);
+		UseView (this.ViewCenter);
 		this.AllViews = new PCView[] {
 			this.ViewLeft, 
 			this.ViewCenter, 
@@ -64,7 +65,7 @@ public class PCControls : MonoBehaviour {
 	private float LerpingStartFOV = 90.0f;
 	private float LerpingStartTime = 0.0f;
 	private void UpdateLerping() {
-		if (LerpingIsActive) {
+		if (LerpingIsActive || DEBUG_MatchForTuning) {
 			float lerpTime = 0.61f;
 			float t = ((Time.time - LerpingStartTime) / lerpTime);
 			if (t >= 1.0f) {

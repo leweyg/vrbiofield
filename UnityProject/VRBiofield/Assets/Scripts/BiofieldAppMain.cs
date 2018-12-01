@@ -17,6 +17,7 @@ public class BiofieldAppMain : MonoBehaviour {
 			var ia = ((newPage/2) % sched.Activities.Length);
 			var act = sched.Activities[ia];
 			sched.UpdateCurrentActivity(act);
+			ExcersizeAppState.main.AudioManager.ChangeTrack(null);
 		});
 	}
 

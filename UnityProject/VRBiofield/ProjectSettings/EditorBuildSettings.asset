@@ -6,11 +6,14 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 0
-    path: Assets/BiofieldAppScene.unity
-    guid: 7293a3eb8abd34350a60794ee43ff202
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 0
     path: Assets/Scenes/Scene_ForMeridians.unity
     guid: fee065d2194b5cc408498ec19dd12790
+  - enabled: 0
+    path: Assets/ChiVR_MainAppScene.unity
+    guid: f6c8af9f11d7c4dab85d86d3f246d4b4
   - enabled: 1
-    path: Assets/SimChi/SimChi_TestSpace.unity
-    guid: 9e28f1fb3d4c5b74d8df57f6fe94b6f8
+    path: Assets/ChiVR_MainApp_Chakras.unity
+    guid: 4cd2dd81ee2128f40828f5dfe4de4fff
