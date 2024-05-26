@@ -5,7 +5,7 @@ Web3D Demo - https://leweyg.github.io/vrbiofield/index.html
 
 Windows/Mac/VR Demos - https://github.com/leweyg/vrbiofield/releases
 
-By Lewcid Systems - http://www.lewcid.com/
+By Lewey Geselowitz - https://lewcid.com/lg/aboutme.html
 
 ![VR Experience](https://github.com/leweyg/vrbiofield/blob/master/articles/images/ChakraFieldEarly_Heart.jpg)
 ![VR Experience](https://github.com/leweyg/vrbiofield/blob/master/articles/images/early_prana_model/VRTimerAndGuide.jpg)
@@ -13,5 +13,5 @@ By Lewcid Systems - http://www.lewcid.com/
 ![alt text](https://github.com/leweyg/vrbiofield/blob/master/articles/images/HandEnergy_progress_7.png)
 
 Developer:
-Lewey Geselowitz - http://www.lewcid.com/lg/aboutme.html 
+Lewey Geselowitz - https://lewcid.com/lg/aboutme.html
 
