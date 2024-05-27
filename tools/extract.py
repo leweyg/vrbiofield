@@ -2,6 +2,7 @@
 print("Unity to JSON exporter...");
 
 finalAllMetaFile = "tools/all_meta.json";
+All_By_Guids = {};
 
 import json
 def writeJsonToFile(obj, path):
@@ -85,6 +86,8 @@ def sceneThreeFromJsonScene(component_by_file_id, object_by_guid):
         first_key = list(file_obj.keys())[0];
         first_type = first_key;
         first_val = file_obj[first_key];
+        first_val["type"] = first_key;
+        first_val["fileID"] = file_id;
         if (not(first_type in by_types)):
             by_types[first_type] = [];
         by_types[first_type].append(first_val);
@@ -114,14 +117,35 @@ def sceneThreeFromJsonScene(component_by_file_id, object_by_guid):
     for transform in all_transforms:
         transform['out_index'] = len(result_scenes);
         gameObj = getPtr(transform,'m_GameObject');
+        components = {"GameObject":gameObj};
         scene = { 
             'name':gameObj['m_Name'],
             'children':[],
             "position":listFromDictVector(transform['m_LocalPosition']),
             "quaternion":listFromDictVector(transform['m_LocalRotation']),
             "scale":listFromDictVector(transform['m_LocalScale']),
+            "userData":{"components":components},
         };
         result_scenes.append(scene);
+
+        # get components for userData:
+        for comp in gameObj['m_Component']:
+            (typeIndex,ptr) = typeNameAndObject(comp);
+            obj = getFileId(ptr);
+            objType = obj["type"];
+            if (objType == "MonoBehaviour"):
+                scriptGuid = obj['m_Script']['guid'];
+                if (scriptGuid in All_By_Guids):
+                    scriptInfo = All_By_Guids[scriptGuid];
+                    scriptName = str(scriptInfo['path']);
+                    scriptName = scriptName.split('/')[-1];
+                    scriptName = scriptName.split(".")[0];
+                    objType = scriptName;
+                pass; # todo: find the real script name: .m_Script.guid
+            while (objType in components):
+                objType = objType + "_";
+            components[objType] = obj;
+        
     
 
     def resultSceneByFileId(file_id):
@@ -196,6 +220,13 @@ def buildAllJson():
 if (not fileExists(finalAllMetaFile)):
     buildAllJson();
     writeAllJsonToFile();
+
+def readAllJson(path):
+    with open(path) as f:
+        data = json.load(f);
+    return data;
+
+All_By_Guids = readAllJson(finalAllMetaFile)['by_guid'];
 
 
 def ensureJsonFromUnity(unityPath):
