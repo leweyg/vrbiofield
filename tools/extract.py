@@ -129,6 +129,8 @@ def sceneThreeFromJsonScene(component_by_file_id, object_by_guid):
         };
         result_scenes.append(scene);
 
+        # check prefab if gameObj has [m_PrefabParentObject][guid]
+
         # get components for userData:
         for comp in gameObj['m_Component']:
             (typeIndex,ptr) = typeNameAndObject(comp);
@@ -246,7 +248,7 @@ def ensureJsonFromUnity(unityPath):
 def ensureFilesExporter():
     filesToProcess = [
         "UnityProject/VRBiofield/Assets/BiofieldCore/ModelPerson/Yogi/Yoga Pose.prefab",
-        #"UnityProject/VRBiofield/Assets/BiofieldCore/ModelPerson/Hands/Hand System.prefab"
+        "UnityProject/VRBiofield/Assets/BiofieldCore/ModelPerson/Hands/Hand System.prefab"
     ];
     for fileToExport in filesToProcess:
         ensureJsonFromUnity(fileToExport);
