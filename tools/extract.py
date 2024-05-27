@@ -129,7 +129,9 @@ def sceneThreeFromJsonScene(component_by_file_id, object_by_guid):
         };
         result_scenes.append(scene);
 
-        # check prefab if gameObj has [m_PrefabParentObject][guid]
+        # todo: check prefab if gameObj has [GameObject][m_PrefabParentObject][guid]
+        # todo: check [MeshFilter][m_Mesh][guid], maybe [MeshRenderer]
+        # todo: custom types: FlowVertexNode, 
 
         # get components for userData:
         for comp in gameObj['m_Component']:
