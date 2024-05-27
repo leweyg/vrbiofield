@@ -1,6 +1,7 @@
 
 print("Unity to JSON exporter...");
 
+GlobalJsonOutputPath = "docs/biofield_json/";
 finalAllMetaFile = "tools/all_meta.json";
 All_By_Guids = {};
 
@@ -60,11 +61,11 @@ def jsonObjFromUnityFile(unityPath):
         for line in part['yaml']:
             textStream.write(line);
         resultText = textStream.getvalue();
-        print("ResultText=", resultText);
+        #print("ResultText=", resultText);
         print("Parsing...", partIndex, " of ", partCount);
         partIndex = partIndex + 1;
         data = yaml.load(resultText, Loader=yaml.SafeLoader)
-        print("Resolved.");
+        #print("Resolved.");
         fileID = part['fileID'];
         assert(not(fileID in byFileId));
         byFileId[fileID] = data;
@@ -228,17 +229,30 @@ def readAllJson(path):
 
 All_By_Guids = readAllJson(finalAllMetaFile)['by_guid'];
 
+def jsonPathFromUnityPath(unityPath):
+    cleanPath = unityPath.replace("/","_").replace(" ","_");
+    cleanPath = cleanPath.replace("UnityProject/VRBiofield/Assets/","");
+    jsonPath = GlobalJsonOutputPath + cleanPath + ".json";
+    return jsonPath;
 
 def ensureJsonFromUnity(unityPath):
-    jsonPath = unityPath + ".json";
-    #if (fileExists(jsonPath)): return jsonPath;
+    jsonPath = jsonPathFromUnityPath(unityPath);
+    if (fileExists(jsonPath)): return jsonPath;
     obj = jsonObjFromUnityFile(unityPath);
     obj = sceneThreeFromJsonScene(obj, None);
     writeJsonToFile(obj, jsonPath);
     return jsonPath;
 
-fileToExport = "UnityProject/VRBiofield/Assets/BiofieldCore/ModelPerson/Yogi/Yoga Pose.prefab"
-ensureJsonFromUnity(fileToExport);
+def ensureFilesExporter():
+    filesToProcess = [
+        "UnityProject/VRBiofield/Assets/BiofieldCore/ModelPerson/Yogi/Yoga Pose.prefab",
+        #"UnityProject/VRBiofield/Assets/BiofieldCore/ModelPerson/Hands/Hand System.prefab"
+    ];
+    for fileToExport in filesToProcess:
+        ensureJsonFromUnity(fileToExport);
+    print("Files updated.");
+
+ensureFilesExporter();
 
 print("Done.");
 
