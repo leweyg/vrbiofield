@@ -155,12 +155,46 @@ def sceneThreeFromJsonScene(component_by_file_id, object_by_guid):
     by_types = {};
     root_transform = None;
     by_file_id = component_by_file_id;
+    prefab_list = [];
 
     def typeNameAndObject(typedObj):
         first_key = list(typedObj.keys())[0];
         first_type = first_key;
         first_val = typedObj[first_key];
         return (first_type,first_val);
+
+    for file_id in component_by_file_id:
+        file_obj = component_by_file_id[file_id];
+        first_val = valOfFirstKey(file_obj);
+        if ('is_prefab' in first_val):
+            prefab_list.append(first_val);
+    
+    has_merged_by_path = {};
+    for obj in prefab_list:
+        if ('is_prefab' in obj):
+            internalId = str(obj['m_PrefabInternal']['fileID']);
+            internalObj = component_by_file_id[internalId];
+            externalGuid = obj['m_PrefabParentObject']['guid'];
+            externalFileId = obj['m_PrefabParentObject']['fileID'];
+            externalObj = object_by_guid[str(externalGuid)];
+            externalPath = externalObj['path'].replace(".meta","");
+            if (isUnityPathParseable(externalPath)):
+                externalScene = ensureJsonFromUnityPath(externalPath);
+                if (not(externalPath in has_merged_by_path)):
+                    # try merge scenes:
+                    has_merged_by_path[externalPath] = True;
+                    for eid in externalScene:
+                        if (eid == '100100000'): continue;
+                        assert(not (eid in component_by_file_id));
+                        component_by_file_id[eid] = externalScene[eid];
+                externalComp = externalScene[str(externalFileId)];
+                applyPrefab(obj, externalComp, internalObj);
+                #obj['prefab_base'] = externalComp;
+                #obj['prefab_inst'] = internalObj;
+            else:
+                obj['is_prefab_unknown'] = True;
+                print("Unsupported prefab type.");
+    
 
     for (index,file_id) in enumerate(component_by_file_id):
         file_obj = component_by_file_id[file_id];
@@ -172,26 +206,7 @@ def sceneThreeFromJsonScene(component_by_file_id, object_by_guid):
         if (not(first_type in by_types)):
             by_types[first_type] = [];
         by_types[first_type].append(first_val);
-    
-    for (index,file_id) in enumerate(component_by_file_id):
-        with_type = component_by_file_id[file_id];
-        (typeName,obj) = typeNameAndObject(with_type);
-        if ('is_prefab' in obj):
-            internalId = str(obj['m_PrefabInternal']['fileID']);
-            internalObj = component_by_file_id[internalId];
-            externalGuid = obj['m_PrefabParentObject']['guid'];
-            externalFileId = obj['m_PrefabParentObject']['fileID'];
-            externalObj = object_by_guid[str(externalGuid)];
-            externalPath = externalObj['path'].replace(".meta","");
-            if (isUnityPathParseable(externalPath)):
-                externalScene = ensureJsonFromUnityPath(externalPath);
-                externalComp = externalScene[str(externalFileId)];
-                applyPrefab(obj, externalComp, internalObj);
-                #obj['prefab_base'] = externalComp;
-                #obj['prefab_inst'] = internalObj;
-            else:
-                print("Unsupported prefab type.");
-    
+
     def getFileId(file_id):
         if (isinstance(file_id,dict) and 'fileID' in file_id):
             file_id = file_id['fileID'];
@@ -216,6 +231,10 @@ def sceneThreeFromJsonScene(component_by_file_id, object_by_guid):
     result_scenes = [];
     for transform in all_transforms:
         transform['out_index'] = len(result_scenes);
+        if ('is_prefab_unknown' in transform):
+            scene = {'unknown':True};
+            result_scenes.append(scene);
+            continue;
         gameObj = getPtr(transform,'m_GameObject');
         components = {"GameObject":gameObj};
         scene = { 
@@ -238,7 +257,10 @@ def sceneThreeFromJsonScene(component_by_file_id, object_by_guid):
             obj = getFileId(ptr);
             objType = obj["type"];
             if (objType == "MonoBehaviour"):
-                scriptGuid = obj['m_Script']['guid'];
+                scriptPtr = obj['m_Script'];
+                scriptGuid = "???";
+                if ('guid' in scriptPtr):
+                    scriptGuid = scriptPtr['guid'];
                 if (scriptGuid in All_By_Guids):
                     scriptInfo = All_By_Guids[scriptGuid];
                     scriptName = str(scriptInfo['path']);
@@ -261,6 +283,8 @@ def sceneThreeFromJsonScene(component_by_file_id, object_by_guid):
     # link across scenes now:
     for (index,transform) in enumerate( all_transforms ):
         toScene = result_scenes[index];
+        if ('is_prefab_unknown' in transform):
+            continue;
         for child in transform['m_Children']:
             childResult = resultSceneByFileId(child['fileID'])
             toScene['children'].append(childResult);
@@ -345,7 +369,7 @@ def ensureFilesExporter():
     filesToProcess = [
         "UnityProject/VRBiofield/Assets/BiofieldCore/ModelPerson/Yogi/Yoga Pose.prefab",
         "UnityProject/VRBiofield/Assets/BiofieldCore/ModelPerson/Hands/Hand System.prefab",
-        #"UnityProject/VRBiofield/Assets/ChiVR_MainApp_Chakras.unity"
+        "UnityProject/VRBiofield/Assets/ChiVR_MainApp_Chakras.unity"
     ];
     for fileToExport in filesToProcess:
         ensureSceneFromUnity(fileToExport);
