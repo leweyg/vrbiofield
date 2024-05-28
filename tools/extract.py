@@ -1,7 +1,8 @@
 
 print("Unity to JSON exporter...");
 
-GlobalJsonOutputPath = "docs/biofield_json/";
+GlobalJsonOutputPath = "docs/biofield_json/export/";
+GlobalSceneOutputPath = "docs/biofield_json/scene/";
 finalAllMetaFile = "tools/all_meta.json";
 All_By_Guids = {};
 
@@ -43,8 +44,15 @@ def jsonObjFromUnityFile(unityPath):
             adrStr = ln.rfind("&");
             assert(adrStr >= 0);
             id = ln[adrStr+1:].strip();
+            prefabPostfix = " stripped";
+            isPrefab = False;
+            if (prefabPostfix in id):
+                id = id.replace(prefabPostfix,"");
+                isPrefab = True;
             activePart = [];
             item = { 'fileID':id, 'yaml':activePart }
+            if (isPrefab):
+                item['is_prefab'] = True;
             modLn = "fileID: " + id + "\n";
             indent = '  ';
             parts.append(item);
@@ -67,9 +75,81 @@ def jsonObjFromUnityFile(unityPath):
         data = yaml.load(resultText, Loader=yaml.SafeLoader)
         #print("Resolved.");
         fileID = part['fileID'];
+        if ('is_prefab' in part):
+            first_key = list(data.keys())[0];
+            data[first_key]['is_prefab'] = True;
+
         assert(not(fileID in byFileId));
         byFileId[fileID] = data;
     return byFileId;
+
+All_Json_By_Path = {};
+
+def jsonPathFromUnityPath(unityPath):
+    cleanPath = unityPath.replace("/","_").replace(" ","_");
+    cleanPath = cleanPath.replace("UnityProject/VRBiofield/Assets/","");
+    jsonPath = GlobalJsonOutputPath + cleanPath + ".json";
+    return jsonPath;
+
+def scenePathFromUnityPath(unityPath):
+    jsonPath = jsonPathFromUnityPath(unityPath);
+    scenePath = jsonPath.replace(GlobalJsonOutputPath,GlobalSceneOutputPath);
+    return scenePath;
+
+def ensureJsonFromUnityPath(unityPath):
+    if (unityPath in All_Json_By_Path):
+        return All_Json_By_Path[unityPath];
+    jsonPath = jsonPathFromUnityPath(unityPath);
+    if (fileExists(jsonPath)):
+        print("Using cached json for ", jsonPath);
+        All_Json_By_Path[unityPath] = readAllJson(jsonPath);
+        return All_Json_By_Path[unityPath];
+    print("Caching ", unityPath, " to ", jsonPath);
+    jsonObj = jsonObjFromUnityFile(unityPath);
+    writeJsonToFile(jsonObj, jsonPath);
+    All_Json_By_Path[unityPath] = jsonObj;
+    return jsonObj;
+
+def isUnityPathParseable(path):
+    if (path.endswith(".unity") or path.endswith(".prefab")):
+        return True;
+    print("Can't parse ", path);
+    return False;
+
+def valOfFirstKey(dct):
+    first_key = list(dct.keys())[0];
+    first_val = dct[first_key];
+    return first_val;
+
+def setPropertyByPath(obj, path, val):
+    while ('.' in path):
+        dotIndex = path.find(".");
+        left = path[:dotIndex];
+        if (left == "Array"):
+            print("Ignoring Array in prefab for now...");
+            return; # ignore for now
+
+        if (not(left in obj)):
+            obj[left] = {};
+        obj = obj[left];
+        right = path[dotIndex+1:];
+        path = right;
+    obj[path] = val;
+
+def applyPrefab(into, prefab, mods):
+
+    prefab = valOfFirstKey(prefab);
+    for k in prefab.keys():
+        into[k] = prefab[k];
+    
+    modTop = valOfFirstKey(mods)['m_Modification'];
+    modTransformParent = modTop['m_TransformParent'];
+    into['m_Father'] = modTransformParent;
+    modList = modTop['m_Modifications'];
+    for mod in modList:
+        modPath = mod['propertyPath'];
+        setPropertyByPath(into, modPath, mod['value']);
+    pass;
 
 def sceneThreeFromJsonScene(component_by_file_id, object_by_guid):
     by_types = {};
@@ -92,6 +172,25 @@ def sceneThreeFromJsonScene(component_by_file_id, object_by_guid):
         if (not(first_type in by_types)):
             by_types[first_type] = [];
         by_types[first_type].append(first_val);
+    
+    for (index,file_id) in enumerate(component_by_file_id):
+        with_type = component_by_file_id[file_id];
+        (typeName,obj) = typeNameAndObject(with_type);
+        if ('is_prefab' in obj):
+            internalId = str(obj['m_PrefabInternal']['fileID']);
+            internalObj = component_by_file_id[internalId];
+            externalGuid = obj['m_PrefabParentObject']['guid'];
+            externalFileId = obj['m_PrefabParentObject']['fileID'];
+            externalObj = object_by_guid[str(externalGuid)];
+            externalPath = externalObj['path'].replace(".meta","");
+            if (isUnityPathParseable(externalPath)):
+                externalScene = ensureJsonFromUnityPath(externalPath);
+                externalComp = externalScene[str(externalFileId)];
+                applyPrefab(obj, externalComp, internalObj);
+                #obj['prefab_base'] = externalComp;
+                #obj['prefab_inst'] = internalObj;
+            else:
+                print("Unsupported prefab type.");
     
     def getFileId(file_id):
         if (isinstance(file_id,dict) and 'fileID' in file_id):
@@ -233,27 +332,23 @@ def readAllJson(path):
 
 All_By_Guids = readAllJson(finalAllMetaFile)['by_guid'];
 
-def jsonPathFromUnityPath(unityPath):
-    cleanPath = unityPath.replace("/","_").replace(" ","_");
-    cleanPath = cleanPath.replace("UnityProject/VRBiofield/Assets/","");
-    jsonPath = GlobalJsonOutputPath + cleanPath + ".json";
-    return jsonPath;
+def ensureSceneFromUnity(unityPath):
+    scenePath = scenePathFromUnityPath(unityPath);
+    if (fileExists(scenePath)): return scenePath;
 
-def ensureJsonFromUnity(unityPath):
-    jsonPath = jsonPathFromUnityPath(unityPath);
-    if (fileExists(jsonPath)): return jsonPath;
-    obj = jsonObjFromUnityFile(unityPath);
-    obj = sceneThreeFromJsonScene(obj, None);
-    writeJsonToFile(obj, jsonPath);
-    return jsonPath;
+    jsonObj = ensureJsonFromUnityPath(unityPath);
+    obj = sceneThreeFromJsonScene(jsonObj, All_By_Guids);
+    writeJsonToFile(obj, scenePath);
+    return scenePath;
 
 def ensureFilesExporter():
     filesToProcess = [
         "UnityProject/VRBiofield/Assets/BiofieldCore/ModelPerson/Yogi/Yoga Pose.prefab",
-        "UnityProject/VRBiofield/Assets/BiofieldCore/ModelPerson/Hands/Hand System.prefab"
+        "UnityProject/VRBiofield/Assets/BiofieldCore/ModelPerson/Hands/Hand System.prefab",
+        #"UnityProject/VRBiofield/Assets/ChiVR_MainApp_Chakras.unity"
     ];
     for fileToExport in filesToProcess:
-        ensureJsonFromUnity(fileToExport);
+        ensureSceneFromUnity(fileToExport);
     print("Files updated.");
 
 ensureFilesExporter();
