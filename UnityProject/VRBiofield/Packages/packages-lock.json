@@ -1,5 +1,14 @@
 {
   "dependencies": {
+    "com.de-panther.webxr": {
+      "version": "0.22.0",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.xr.management": "3.2.13"
+      },
+      "url": "https://package.openupm.com"
+    },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
       "depth": 0,

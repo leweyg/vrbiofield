@@ -6,9 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
-  - enabled: 0
     path: Assets/Scenes/Scene_ForMeridians.unity
     guid: fee065d2194b5cc408498ec19dd12790
   - enabled: 0
@@ -17,3 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/ChiVR_MainApp_Chakras.unity
     guid: 4cd2dd81ee2128f40828f5dfe4de4fff
+  m_configObjects:
+    WebXR.Settings: {fileID: 11400000, guid: 01eb22564c09c499ba7f4e92aee03ee7, type: 2}
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 1d4d963eee7df4f0ab6110eb503d84e8,
+      type: 2}
