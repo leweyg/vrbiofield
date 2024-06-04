@@ -23,6 +23,23 @@ public class WebVRControllerButton
     }
 }
 
+internal static class XRUtil
+{
+    public static bool isPresent()
+    {
+        var xrDisplaySubsystems = new List<XRDisplaySubsystem>();
+        SubsystemManager.GetInstances<XRDisplaySubsystem>(xrDisplaySubsystems);
+        foreach (var xrDisplay in xrDisplaySubsystems)
+        {
+            if (xrDisplay.running)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+}
+
 public class WebVRController : MonoBehaviour
 {
     [Tooltip("Controller hand to use.")]
@@ -64,7 +81,7 @@ public class WebVRController : MonoBehaviour
             WebVRControllerInput input = inputMap.inputs[i];
             if (action == input.actionName)
             {
-                if (UnityEngine.XR.XRDevice.isPresent && !input.unityInputIsButton)
+                if (XRUtil.isPresent() && !input.unityInputIsButton)
                 {
                     return Input.GetAxis(input.unityInputName);
                 }
@@ -86,7 +103,7 @@ public class WebVRController : MonoBehaviour
 
     public bool GetButton(string action)
     {
-        if (UnityEngine.XR.XRDevice.isPresent)
+        if (XRUtil.isPresent())
         {
             foreach(WebVRControllerInput input in inputMap.inputs)
             {
@@ -128,7 +145,7 @@ public class WebVRController : MonoBehaviour
     public bool GetButtonDown(string action)
     {
         // Use Unity Input Manager when XR is enabled and WebVR is not being used (eg: standalone or from within editor).
-        if (UnityEngine.XR.XRDevice.isPresent)
+        if (XRUtil.isPresent())
         {
             foreach(WebVRControllerInput input in inputMap.inputs)
             {
@@ -148,7 +165,7 @@ public class WebVRController : MonoBehaviour
     public bool GetButtonUp(string action)
     {
         // Use Unity Input Manager when XR is enabled and WebVR is not being used (eg: standalone or from within editor).
-        if (UnityEngine.XR.XRDevice.isPresent)
+        if (XRUtil.isPresent())
         {
             foreach(WebVRControllerInput input in inputMap.inputs)
             {
@@ -265,7 +282,7 @@ public class WebVRController : MonoBehaviour
     void Update()
     {
         // Use Unity XR Input when enabled. When using WebVR, updates are performed onControllerUpdate.
-        if (XRDevice.isPresent)
+        if (XRUtil.isPresent())
         {
             SetVisible(true);
 

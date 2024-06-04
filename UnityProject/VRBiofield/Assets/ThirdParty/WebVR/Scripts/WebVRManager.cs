@@ -109,7 +109,7 @@ public class WebVRManager : MonoBehaviour
 
     private void SetTrackingSpaceType()
     {
-        if (XRDevice.isPresent)
+        if (XRUtil.isPresent())
         {
             XRDevice.SetTrackingSpaceType(WebVRManager.Instance.TrackingSpace);
             Debug.Log("Tracking Space: " + XRDevice.GetTrackingSpaceType());
