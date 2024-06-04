@@ -24,6 +24,11 @@ public class ChiVRtoFireBaseBridge : MonoBehaviour
     public string HomeId = "";
     public bool HomeIsReady = false;
 
+	#if USE_FIREBASE
+	#else
+	public bool FirebaseMacroDisabled = true;
+	#endif
+
     #if USE_FIREBASE
     private string mStatus = "";
     public string Status
