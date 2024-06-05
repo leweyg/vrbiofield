@@ -17,9 +17,11 @@ To your left you will see a second character, as you look (point your head/eyes)
 
 Demo page: https://leweyg.github.io/vrbiofield/webxr/BiofieldWebXR/index.html 
 
-Older WebGL Version - https://leweyg.github.io/vrbiofield/web3d/index.html
+Source code (Github): https://github.com/leweyg/vrbiofield 
 
-Windows/Mac/PC-VR Demos - https://github.com/leweyg/vrbiofield/releases
+Older WebGL Version: https://leweyg.github.io/vrbiofield/web3d/index.html
+
+Windows/Mac/PC-VR Demos: https://github.com/leweyg/vrbiofield/releases
 
 ## Software Credits
 
