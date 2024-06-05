@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Unity WebGL Player | ChiVR</title>
+    <title>Chakra Visualization - Biofield VR - lewcid.com</title>
     <meta name="description" content="">
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
@@ -15,17 +15,23 @@
         <canvas id="unity-canvas" style="width: 100%; height: 100%;"></canvas>
       </div>
       <div id="unity-loading-bar">
-        <div id="unity-logo"></div>
+        <div id="unity-logo" style="display: none;"></div>
         <div id="unity-progress-bar-empty">
           <div id="unity-progress-bar-full"></div>
         </div>
       </div>
       <div id="unity-footer">
-        <div id="unity-webgl-logo"></div>
+        <div id="unity-webgl-logo"  style="display: none;"></div>
         <button id="entervr" value="Enter VR" disabled>VR</button>
         <button id="enterar" value="Enter AR" disabled>AR</button>
-        <div id="unity-webxr-link">Using <a href="https://github.com/De-Panther/unity-webxr-export" target="_blank" title="WebXR Export">WebXR Export</a></div>
-        <div id="unity-build-title">ChiVR</div>
+        <div id="unity-webxr-link" class="biofield-text">
+          Chakra Visualization 
+          <span class="biofield-sub-text">
+            in <a href="https://github.com/leweyg/vrbiofield"  class="biofield-sub-text">VR Biofield</a> 
+            by <a href="https://lewcid.com/" class="biofield-sub-text">Lewey Geselowitz</a> 
+          </span>
+        </div>
+        <div id="unity-build-title" class="biofield-sub-text">View in </div>
       </div>
     </div>
     <script>
