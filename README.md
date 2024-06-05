@@ -10,7 +10,7 @@ For those curious to see what the "chi" looks like around your hands, or how the
 
 Down and to the your right you will find a virtual book, turning the pages will switch between mediation excersizes. 
 
-To your left you will see a second character, as you look (point your head/eyes) to different parts of the chakras of the body the energy will be activated there. To your far left you will find an abcus that can be used as a timer.
+To your left you will see a second character, as you look (point your head/eyes) to different parts of the chakras of the body the energy will be activated there. To your far left you will find an abacus that can be used as a timer.
 
 
 ## [Experience it in on the Web](https://leweyg.github.io/vrbiofield/webxr/BiofieldWebXR/index.html)
@@ -35,7 +35,7 @@ Unity WebXR Export - https://github.com/De-Panther/unity-webxr-export
 
 ## Development Screenshots
 
-I started by modelling the energy around my head as a vector field:
+I started by modelling the energy around my hand as a vector field:
 
 ![Initial Hand Chi Model](docs/articles/images/HandEnergy_progress_7.png)
 
