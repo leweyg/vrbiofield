@@ -37,6 +37,9 @@ public class BookButtonScript : MonoBehaviour {
 			this.IsHovering = isOver;
 		}
 		var isValidArrow = Book.CanChangePageInDirection (this.IsTurnForward);
+		this.MyRenderer.enabled = isValidArrow;
+		this.MyCollider.enabled = isValidArrow;
+		
 		var clr = isValidArrow ? Book.ButtonColorActive : Color.black;
 		clr = (this.IsHovering ? clr : Book.ButtonColorPassive);
 		if (this.cachedColor != clr) {
