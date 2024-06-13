@@ -32,7 +32,7 @@ public class PCControls : MonoBehaviour {
 		this.AllViews = new PCView[] {
 			this.ViewLeft, 
 			this.ViewCenter, 
-			this.ViewRight, 
+			//this.ViewRight, 
 			this.ViewFarRight,
 			this.ViewFarLeft,
 		};
